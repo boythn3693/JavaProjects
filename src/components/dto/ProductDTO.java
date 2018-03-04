@@ -5,150 +5,87 @@
  */
 package components.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author MitsuyoRai
  */
-public class ProductDTO {
-    private int productId;
+public class ProductDTO implements Serializable {
+    private long productId;
     private String code;
     private String productName;
     private String description;
     private int quantity;
-    private boolean status;
-    private short productType;
-    
-    public ProductDTO()
-    {
-        this.productId = 0;
-        this.code = null;
-        this.productName = null;
-        this.description = null;
-        this.quantity = 1;     
-        this.status = true; 
-        this.productType = 1;        
+
+    public ProductDTO() {
     }
-    
-    public ProductDTO(int _id, String _code, String _name, String _desc, int _quantity, boolean _status, short _type)
-    {
-        this.productId = _id;
-        this.code = _code;
-        this.productName = _name;
-        this.description = _desc;
-        this.quantity = _quantity;     
-        this.status = _status; 
-        this.productType = _type;        
+
+    public ProductDTO(long productId, String code, String productName, String description, int quantity, int status, int productType) {
+        this.productId = productId;
+        this.code = code;
+        this.productName = productName;
+        this.description = description;
+        this.quantity = quantity;
+        this.status = status;
+        this.productType = productType;
     }
-    
-    /**
-     * @return the productId
-     */
-    public int getProductID()
-    {
-        return this.productId;
+
+    public void setProductId(long productId) {
+        this.productId = productId;
     }
-    
-    /**
-     * @param _id the productId to set
-     */
-    public void setProductID(int _id)
-    {
-        this.productId = _id;
+
+    public void setCode(String code) {
+        this.code = code;
     }
-    
-    /**
-     * @return the code
-     */
-    public String getCode()
-    {
-        return this.code;
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
-    
-    /**
-     * @param _code the code to set
-     */
-    public void setProductID(String _code)
-    {
-        this.code = _code;
+
+    public void setDescription(String description) {
+        this.description = description;
     }
-    
-    /**
-     * @return the productName
-     */
-    public String getProductName()
-    {
-        return this.productName;
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
-    
-    /**
-     * @param _name the code to set
-     */
-    public void setProductName(String _name)
-    {
-        this.productName = _name;
+
+    public void setStatus(int status) {
+        this.status = status;
     }
-    
-    /**
-     * @return the description
-     */
-    public String getDescription()
-    {
-        return this.description;
+
+    public void setProductType(int productType) {
+        this.productType = productType;
     }
-    
-    /**
-     * @param _desc the code to set
-     */
-    public void setDescription(String _desc)
-    {
-        this.description = _desc;
+    private int status;
+    private int productType;
+
+    public long getProductId() {
+        return productId;
     }
-    
-    /**
-     * @return the quantity
-     */
-    public int getQuantity()
-    {
-        return this.quantity;
+
+    public String getCode() {
+        return code;
     }
-    
-    /**
-     * @param _quantity the code to set
-     */
-    public void setQuantity(int _quantity)
-    {
-        this.quantity = _quantity;
+
+    public String getProductName() {
+        return productName;
     }
-    
-    /**
-     * @return the status
-     */
-    public boolean getStatus()
-    {
-        return this.status;
+
+    public String getDescription() {
+        return description;
     }
-    
-    /**
-     * @param _status the code to set
-     */
-    public void setStatus(boolean _status)
-    {
-        this.status = _status;
+
+    public int getQuantity() {
+        return quantity;
     }
-    
-    /**
-     * @return the productType
-     */
-    public short getProductType()
-    {
-        return this.productType;
+
+    public int getStatus() {
+        return status;
     }
-    
-    /**
-     * @param _type the code to set
-     */
-    public void setStatus(short _type)
-    {
-        this.productType = _type;
+
+    public int getProductType() {
+        return productType;
     }
 }
