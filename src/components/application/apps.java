@@ -5,7 +5,6 @@
  */
 package components.application;
 
-import components.database.clsConnectDB;
 import components.interfaces.*;
 
 /**
@@ -14,7 +13,6 @@ import components.interfaces.*;
  */
 public class apps {
     public static frmMain frmMain = new frmMain();
-    public static clsConnectDB connection = new clsConnectDB ();
     /**
      * @param args the command line arguments
      */

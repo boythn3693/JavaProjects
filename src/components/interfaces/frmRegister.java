@@ -6,7 +6,8 @@
 package components.interfaces;
 
 import components.application.apps;
-import components.util.LoginHelpers;
+import components.dao.AccountDAO;
+import components.util.MD5Library;
 import components.util.StringHelpers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,13 +19,14 @@ import javax.swing.JOptionPane;
  * @author MitsuyoRai
  */
 public class frmRegister extends javax.swing.JFrame {
-
+    AccountDAO dao;
     /**
      * Creates new form frmRegister
      */
     public frmRegister() {
         initComponents();
         setInitForm();
+        dao = new AccountDAO();
     }
     
     private void setInitForm(){
@@ -214,8 +216,8 @@ public class frmRegister extends javax.swing.JFrame {
         if(strPassword.equals("")){
             StringHelpers.Message("Bạn Chưa Nhập: Mật Khẩu", "Lỗi đăng nhập", 2);
         } else {
-            LoginHelpers opt = new LoginHelpers();
-            if (opt.checkLogin(strUsername, strPassword, opt)) {
+            boolean rs = dao.checkLogin(strUsername, MD5Library.md5(strPassword));
+            if (rs) {
                 apps.frmMain.setVisible(true);
                 this.dispose();
             } else {
@@ -228,64 +230,64 @@ public class frmRegister extends javax.swing.JFrame {
     public static String name = "";
     
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
-        String MaNhanVien, TenDangNhap, Password, NhapLai, Quyen = "";
-
-        MaNhanVien = txtAccountId.getText().trim();
-        TenDangNhap = txtUsername.getText().trim();
-        Password = String.valueOf(txtPassword.getPassword()).trim();
-        NhapLai = String.valueOf(txtRetype.getPassword());
-        String sql = "select *from Quyen ";
-        ResultSet rs = apps.connection.ExcuteQueryGetTable(sql);
-        try {
-            while (rs.next()) {
-                if (rs.getString("TenQuyen").equals("New")) {
-                    Quyen = rs.getString("MaQuyen");
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println(ex.toString());
-        }
-
-        boolean kt = true;
-
-        if (MaNhanVien.equals("")) {
-            StringHelpers.Message("Tên đăng nhập phải từ 6-10 ký tự", "Thông báo lỗi", JOptionPane.ERROR_MESSAGE);
-        } else {
-            if (TenDangNhap.length() < 6 || TenDangNhap.length() > 10) {
-                StringHelpers.Message("Tên đăng nhập phải từ 6-10 ký tự", "Thông báo lỗi", JOptionPane.ERROR_MESSAGE);
-            } else if (Password.length() < 6 || Password.length() > 50) {
-                StringHelpers.Message("Mật khẩu phải nhập nhiều hơn 6 ký tự và ít hơn 50 ký tự", "Lỗi đăng ký", 2);
-            } else if (!StringHelpers.checkContainsLettersNumbers(Password)) {
-                StringHelpers.Message("Mật khẩu phải bao gồm chữ IN HOA, chữ thường và số", "Thông báo", 2);
-            } else if (!Password.equals(NhapLai)) {
-                StringHelpers.Message("nhập lại mật khẩu không khớp", "Thông báo", 2);
-            } else {
-
-                String cautruyvan2 = "select * from Users where MaNhanVien= '" + MaNhanVien + "'";
-                ResultSet rs2 = apps.connection.ExcuteQueryGetTable(cautruyvan2);
-                try {
-                    rs2.next();
-                    if (rs.getString("MaNhanVien").equals(MaNhanVien)) {
-                        kt = false;
-                        StringHelpers.Message("tài khoản  của nhân viên có mã: " + MaNhanVien + " đã  có trong sql yêu cầu tạo tk với tên đăng nhập khác!", "Thông báo", 2);
-                    }
-
-                } catch (SQLException ex) {
-                    System.out.println("không có trong sql !có thể tạo thêm");
-                    kt = true;
-                }
-                if (kt == true) {
-                    String ctv = "insert into Users values(" + MaNhanVien
-                    + " ,'" + TenDangNhap + "' , '" + Password + "' ," + Quyen
-                    + ", N' ')";
-                    System.out.println(sql);
-                    apps.connection.ExcuteQueryUpdateDB(ctv);
-                    System.out.println("Đã Thêm Thành Công");
-                } else {
-                    StringHelpers.Message("Không thể Thêm tài Khoản", "lỗi", 2);
-                }
-            }
-        }
+//        String MaNhanVien, TenDangNhap, Password, NhapLai, Quyen = "";
+//
+//        MaNhanVien = txtAccountId.getText().trim();
+//        TenDangNhap = txtUsername.getText().trim();
+//        Password = String.valueOf(txtPassword.getPassword()).trim();
+//        NhapLai = String.valueOf(txtRetype.getPassword());
+//        String sql = "select *from Quyen ";
+//        ResultSet rs = apps.connection.ExcuteQueryGetTable(sql);
+//        try {
+//            while (rs.next()) {
+//                if (rs.getString("TenQuyen").equals("New")) {
+//                    Quyen = rs.getString("MaQuyen");
+//                }
+//            }
+//        } catch (SQLException ex) {
+//            System.out.println(ex.toString());
+//        }
+//
+//        boolean kt = true;
+//
+//        if (MaNhanVien.equals("")) {
+//            StringHelpers.Message("Tên đăng nhập phải từ 6-10 ký tự", "Thông báo lỗi", JOptionPane.ERROR_MESSAGE);
+//        } else {
+//            if (TenDangNhap.length() < 6 || TenDangNhap.length() > 10) {
+//                StringHelpers.Message("Tên đăng nhập phải từ 6-10 ký tự", "Thông báo lỗi", JOptionPane.ERROR_MESSAGE);
+//            } else if (Password.length() < 6 || Password.length() > 50) {
+//                StringHelpers.Message("Mật khẩu phải nhập nhiều hơn 6 ký tự và ít hơn 50 ký tự", "Lỗi đăng ký", 2);
+//            } else if (!StringHelpers.checkContainsLettersNumbers(Password)) {
+//                StringHelpers.Message("Mật khẩu phải bao gồm chữ IN HOA, chữ thường và số", "Thông báo", 2);
+//            } else if (!Password.equals(NhapLai)) {
+//                StringHelpers.Message("nhập lại mật khẩu không khớp", "Thông báo", 2);
+//            } else {
+//
+//                String cautruyvan2 = "select * from Users where MaNhanVien= '" + MaNhanVien + "'";
+//                ResultSet rs2 = apps.connection.ExcuteQueryGetTable(cautruyvan2);
+//                try {
+//                    rs2.next();
+//                    if (rs.getString("MaNhanVien").equals(MaNhanVien)) {
+//                        kt = false;
+//                        StringHelpers.Message("tài khoản  của nhân viên có mã: " + MaNhanVien + " đã  có trong sql yêu cầu tạo tk với tên đăng nhập khác!", "Thông báo", 2);
+//                    }
+//
+//                } catch (SQLException ex) {
+//                    System.out.println("không có trong sql !có thể tạo thêm");
+//                    kt = true;
+//                }
+//                if (kt == true) {
+//                    String ctv = "insert into Users values(" + MaNhanVien
+//                    + " ,'" + TenDangNhap + "' , '" + Password + "' ," + Quyen
+//                    + ", N' ')";
+//                    System.out.println(sql);
+//                    apps.connection.ExcuteQueryUpdateDB(ctv);
+//                    System.out.println("Đã Thêm Thành Công");
+//                } else {
+//                    StringHelpers.Message("Không thể Thêm tài Khoản", "lỗi", 2);
+//                }
+//            }
+//        }
     }//GEN-LAST:event_btnRegisterActionPerformed
 
     /**

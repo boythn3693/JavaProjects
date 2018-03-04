@@ -6,7 +6,7 @@
 package components.interfaces;
 
 import components.application.apps;
-import components.util.LoginHelpers;
+import components.dao.AccountDAO;
 import components.util.MD5Library;
 import components.util.StringHelpers;
 import java.io.BufferedReader;
@@ -16,7 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.ResultSet;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;;
 
 /**
@@ -24,13 +24,14 @@ import javax.swing.ImageIcon;;
  * @author MitsuyoRai
  */
 public class frmLogin extends javax.swing.JFrame {
-
+    AccountDAO dao;
     /**
      * Creates new form frmLogin
      */
     public frmLogin() {
         initComponents();
         setInitForm();
+        dao = new AccountDAO();
     }
     
     private void setInitForm() {
@@ -234,9 +235,7 @@ public class frmLogin extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         String strUsername = txtUserName.getText().trim();
         String strPassword = String.valueOf(txtPassword.getPassword()).trim();
-
-        String sql = "select * from Account where Usename= '"+strUsername+"' and Password= '"+strPassword+"'";
-        ResultSet rs= apps.connection.ExcuteQueryGetTable(sql);
+        
         String luumk="",luutdn="";
         if(cbRememberMe.isSelected())
         {
@@ -262,11 +261,14 @@ public class frmLogin extends javax.swing.JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        LoginHelpers opt = new LoginHelpers();
-        if(opt.checkLogin(strUsername, MD5Library.md5(strPassword), opt)){
-            role = opt.role; name = opt.name; user = opt.user;
+        
+        ArrayList rs = dao.getLogin(strUsername, MD5Library.md5(strPassword));
+        if( rs != null ) {
+            role = Integer.parseInt(rs.get(4).toString()); 
+            name = rs.get(3) + " " + rs.get(2);
+            user = rs.get(1).toString();
             apps.frmMain.setVisible(true);
-            this.dispose();
+            this.dispose(); 
         } else {
             StringHelpers.Message("Bạn nhập sai tài khoản hoặc mật khẩu", "Lỗi đăng nhập", 2);
         }

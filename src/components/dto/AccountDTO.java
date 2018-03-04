@@ -10,7 +10,7 @@ package components.dto;
  * @author MitsuyoRai
  */
 public class AccountDTO {
-    private int accountId;
+    private long accountId;
     private String username;
     private String password;   
     private String firstname;   
@@ -18,173 +18,92 @@ public class AccountDTO {
     private String numphone;  
     private String email;  
     private boolean inactive;   
-    private short role;
-    
-    public AccountDTO(){
-        this.accountId = 0;
-        this.username = "admin";
-        this.password = "123456";
-        this.firstname = "Chí Đại";
-        this.lastname = "Lê";
-        this.numphone = "0968495645";
-        this.email = "mr.dailc@gmail.com";
-        this.inactive = true;
-        this.role = 1;
+    private int role;
+
+    public AccountDTO(long accountId, String username, String password, String firstname, String lastname, String numphone, String email, boolean inactive, int role) {
+        this.accountId = accountId;
+        this.username = username;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.numphone = numphone;
+        this.email = email;
+        this.inactive = inactive;
+        this.role = role;
     }
-    
-    public AccountDTO(int _id, String _username, String _pass, String _firstname, String _lastname, String _numphone, String _email, boolean _active, short _role){
-        this.accountId = _id;
-        this.username = _username;
-        this.password = _pass;
-        this.firstname = _firstname;
-        this.lastname = _lastname;
-        this.numphone = _numphone;
-        this.email = _email;
-        this.inactive = _active;
-        this.role = _role;
+
+    public AccountDTO() {
     }
-    
-    /**
-     * @return the accountId
-     */
-    public int getAccountID()
-    {
-        return this.accountId;
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
     }
-    
-    /**
-     * @param _id the accountId to set
-     */
-    public void setAccountID(int _id)
-    {
-        this.accountId = _id;
+
+    public void setUsername(String username) {
+        this.username = username;
     }
-    
-    /**
-     * @return the username
-     */
-    public String getUsername()
-    {
-        return this.username;
+
+    public void setPassword(String password) {
+        this.password = password;
     }
-    
-    /**
-     * @param _username the username to set
-     */
-    public void setUsername(String _username)
-    {
-        this.username = _username;
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
-    
-    /**
-     * @return the password
-     */
-    public String getPassword()
-    {
-        return this.password;
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
-    
-    /**
-     * @param _pass the password to set
-     */
-    public void setPassword(String _pass)
-    {
-        this.password = _pass;
+
+    public void setNumphone(String numphone) {
+        this.numphone = numphone;
     }
-    
-    /**
-     * @return the firstname
-     */
-    public String getFirstname()
-    {
-        return this.firstname;
+
+    public void setEmail(String email) {
+        this.email = email;
     }
-    
-    /**
-     * @param _firstname the firstname to set
-     */
-    public void setFirstname(String _firstname)
-    {
-        this.firstname = _firstname;
+
+    public void setInactive(boolean inactive) {
+        this.inactive = inactive;
     }
-    
-    /**
-     * @return the lastname
-     */
-    public String getLastname()
-    {
-        return this.lastname;
+
+    public void setRole(int role) {
+        this.role = role;
     }
-    
-    /**
-     * @param _lastname the lastname to set
-     */
-    public void setLastname(String _lastname)
-    {
-        this.lastname = _lastname;
+
+    public long getAccountId() {
+        return accountId;
     }
-    
-    /**
-     * @return the numphone
-     */
-    public String getNumphone()
-    {
-        return this.numphone;
+
+    public String getUsername() {
+        return username;
     }
-    
-    /**
-     * @param _numphone the numphone to set
-     */
-    public void setNumphone(String _numphone)
-    {
-        this.numphone = _numphone;
+
+    public String getPassword() {
+        return password;
     }
-    
-    /**
-     * @return the email
-     */
-    public String getEmail()
-    {
-        return this.email;
+
+    public String getFirstname() {
+        return firstname;
     }
-    
-    /**
-     * @param _email the email to set
-     */
-    public void setEmail(String _email)
-    {
-        this.email = _email;
+
+    public String getLastname() {
+        return lastname;
     }
-    
-    /**
-     * @return the inactive
-     */
-    public boolean getActive()
-    {
-        return this.inactive;
+
+    public String getNumphone() {
+        return numphone;
     }
-    
-    /**
-     * @param _active the inactive to set
-     */
-    public void setActive(boolean _active)
-    {
-        this.inactive = _active;
+
+    public String getEmail() {
+        return email;
     }
-    
-    /**
-     * @return the role
-     */
-    public short getRole()
-    {
-        return this.role;
+
+    public boolean isInactive() {
+        return inactive;
     }
-    
-    /**
-     * @param _role the role to set
-     */
-    public void setRole(short _role)
-    {
-        this.role = _role;
+
+    public int getRole() {
+        return role;
     }
 }
