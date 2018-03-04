@@ -5,11 +5,13 @@
  */
 package components.dto;
 
+import java.io.Serializable;
+
 /**
  *
  * @author MitsuyoRai
  */
-public class AccountDTO {
+public class AccountDTO implements Serializable {
     private long accountId;
     private String username;
     private String password;   
