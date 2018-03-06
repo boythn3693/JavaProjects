@@ -5,10 +5,20 @@
  */
 package components.interfaces;
 
+import components.dao.*;
+import components.dto.*;
+import components.model.displayvalueModel;
+import components.util.StringHelpers;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,17 +38,66 @@ public class frmMain extends javax.swing.JFrame {
     Date dt = cal.getTime();
     // Dinh dang lai hien thi thong tin ngay gio ra man hinh
     SimpleDateFormat fm = new SimpleDateFormat("dd-MM-yyyy");
+    
+    ProductDAO productDao;
     /**
      * Creates new form frmMain
      */
     public frmMain() {
         initComponents();
         setInitForm();
+        productDao = new ProductDAO();
     }
     
     private void setInitForm() {
         ImageIcon icon = new ImageIcon(getClass().getResource("../../images/warehouse.png"));
         this.setIconImage(icon.getImage());
+    }
+    
+//    public DefaultComboBoxModel getDataCBB(String table, String name, String id) {
+//        String cautruyvan = "select *from " + table;
+//        ResultSet rs = HUYPHPK00628_ASM_GD2.connection.ExcuteQueryGetTable(cautruyvan);
+//        DefaultComboBoxModel cbbmodel = new DefaultComboBoxModel();
+//        try {
+//            while (rs.next()) {
+//                displayvalueModel valueModel = new displayvalueModel(rs.getString(Ten), rs.getString(Ma));
+//                cbbmodel.addElement(valueModel);
+//            }
+//        } catch (SQLException ex) {
+//            System.out.println(ex.toString());
+//        }
+//        return cbbmodel;
+//    }
+    
+    public int GetCbbSelected(JComboBox cbb) {
+        Object[] obj = cbb.getSelectedObjects();
+        displayvalueModel item = (displayvalueModel) obj[0];
+        return Integer.parseInt(item.getDisplayvalue().toString());
+    }
+    
+    private void getDataProduct(int status) {
+        Object[] obj = new Object[]{"STT", "Mã Sản Phẩm", "Tên sản phẩm", "Mô tả", "Số lượng", "Trạng thái", "Loại sản phẩm"};
+        DefaultTableModel tableModel = new DefaultTableModel(obj, 0);
+        jTableSanPham.setModel(tableModel);
+        int c = 0;
+        try {
+            List<ProductDTO> listProduct = productDao.getDataProduct(status);
+            if( listProduct != null ) {
+                for( int i =0; i < listProduct.size(); i++ ){
+                    Object[] item = new Object[10];
+                    item[0] = c;
+                    item[1] = listProduct.get(i).getProductId();
+                    item[2] = listProduct.get(i).getProductName();
+                    item[3] = listProduct.get(i).getDescription();
+                    item[4] = listProduct.get(i).getQuantity();
+                    item[5] = listProduct.get(i).getStatus();
+                    item[6] = listProduct.get(i).getProductType();
+                    tableModel.addRow(item);
+                }           
+            }  
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
     }
 
     /**
@@ -53,20 +112,41 @@ public class frmMain extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jtabPanel = new javax.swing.JTabbedPane();
         jTabbedPaneCategory = new javax.swing.JTabbedPane();
-        jTabbedPaneListCategory = new javax.swing.JTabbedPane();
-        jTabbedPaneAddNewCategory = new javax.swing.JTabbedPane();
+        jPanelDanhSachDanhMuc = new javax.swing.JPanel();
         jTabbedPaneProduct = new javax.swing.JTabbedPane();
-        jTabbedPaneListProduct = new javax.swing.JTabbedPane();
-        jTabbedPaneAddNewProduct = new javax.swing.JTabbedPane();
+        jPanelDanhSachSanPham = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableSanPham = new javax.swing.JTable();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtCode = new javax.swing.JTextField();
+        txtProductName = new javax.swing.JTextField();
+        txtDescription = new javax.swing.JTextField();
+        txtQuantity = new javax.swing.JSpinner();
+        cboStatus = new javax.swing.JComboBox<>();
+        cboCategory = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        btnInsert = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         jTabbedPaneImport = new javax.swing.JTabbedPane();
         jTabbedPaneExport = new javax.swing.JTabbedPane();
         jTabbedPaneReport = new javax.swing.JTabbedPane();
         jTabbedPanePartner = new javax.swing.JTabbedPane();
         jTabbedAccount = new javax.swing.JTabbedPane();
+        jTabbedPaneExit = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Phần mềm Quản lý Kho");
-        setPreferredSize(new java.awt.Dimension(1347, 611));
+        setPreferredSize(new java.awt.Dimension(930, 590));
 
         jPanel1.setRequestFocusEnabled(false);
 
@@ -75,18 +155,226 @@ public class frmMain extends javax.swing.JFrame {
         jtabPanel.setInheritsPopupMenu(true);
 
         jTabbedPaneCategory.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTabbedPaneCategory.addTab("Xem Danh sách Danh mục", new javax.swing.ImageIcon(getClass().getResource("/images/if_list-alt_173045.png")), jTabbedPaneListCategory); // NOI18N
-        jTabbedPaneCategory.addTab("Thêm Danh mục", new javax.swing.ImageIcon(getClass().getResource("/images/if_sign-add_299068.png")), jTabbedPaneAddNewCategory); // NOI18N
+
+        jPanelDanhSachDanhMuc.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelDanhSachDanhMucComponentShown(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelDanhSachDanhMucLayout = new javax.swing.GroupLayout(jPanelDanhSachDanhMuc);
+        jPanelDanhSachDanhMuc.setLayout(jPanelDanhSachDanhMucLayout);
+        jPanelDanhSachDanhMucLayout.setHorizontalGroup(
+            jPanelDanhSachDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 740, Short.MAX_VALUE)
+        );
+        jPanelDanhSachDanhMucLayout.setVerticalGroup(
+            jPanelDanhSachDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 512, Short.MAX_VALUE)
+        );
+
+        jTabbedPaneCategory.addTab("Danh sách Danh mục", jPanelDanhSachDanhMuc);
 
         jtabPanel.addTab("Danh mục", new javax.swing.ImageIcon(getClass().getResource("/images/attribute_category_label.png")), jTabbedPaneCategory); // NOI18N
 
         jTabbedPaneProduct.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        jTabbedPaneListProduct.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTabbedPaneProduct.addTab("Xem Danh sách Sản phẩm", new javax.swing.ImageIcon(getClass().getResource("/images/if_list-alt_173045.png")), jTabbedPaneListProduct); // NOI18N
+        jPanelDanhSachSanPham.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelDanhSachSanPhamComponentShown(evt);
+            }
+        });
 
-        jTabbedPaneAddNewProduct.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTabbedPaneProduct.addTab("Thêm Sản phẩm", new javax.swing.ImageIcon(getClass().getResource("/images/if_sign-add_299068.png")), jTabbedPaneAddNewProduct); // NOI18N
+        jTableSanPham.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "STT", "Mã Sản phẩm", "Tên Sản phẩm", "Mô tả", "Số lượng", "Trạng thái", "Loại sản phẩm"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableSanPhamMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTableSanPham);
+
+        jLabel1.setText("Mã sản phẩm:");
+
+        jLabel2.setText("Tên Sản phẩm:");
+
+        jLabel3.setText("Mô tả:");
+
+        jLabel4.setText("Số lượng:");
+
+        jLabel5.setText("Trạng thái:");
+
+        jLabel6.setText("Loại sản phẩm:");
+
+        cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        cboCategory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnInsert.setText("Thêm");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
+
+        btnUpdate.setText("Chỉnh sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+            .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cboCategory, 0, 253, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(txtQuantity, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(cboStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, 253, Short.MAX_VALUE)
+                        .addComponent(txtCode, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtProductName)
+                        .addComponent(txtDescription)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(25, 25, 25)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(cboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboCategory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addContainerGap())
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel7.setText("Tìm kiếm");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(106, 106, 106)
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanelDanhSachSanPhamLayout = new javax.swing.GroupLayout(jPanelDanhSachSanPham);
+        jPanelDanhSachSanPham.setLayout(jPanelDanhSachSanPhamLayout);
+        jPanelDanhSachSanPhamLayout.setHorizontalGroup(
+            jPanelDanhSachSanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDanhSachSanPhamLayout.createSequentialGroup()
+                .addGroup(jPanelDanhSachSanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelDanhSachSanPhamLayout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanelDanhSachSanPhamLayout.setVerticalGroup(
+            jPanelDanhSachSanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDanhSachSanPhamLayout.createSequentialGroup()
+                .addGroup(jPanelDanhSachSanPhamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTabbedPaneProduct.addTab("Danh sách Sản phẩm", jPanelDanhSachSanPham);
 
         jtabPanel.addTab("Sản phẩm", new javax.swing.ImageIcon(getClass().getResource("/images/if_Product_Hunt_1298713.png")), jTabbedPaneProduct); // NOI18N
         jtabPanel.addTab("Nhập kho", new javax.swing.ImageIcon(getClass().getResource("/images/if_document-import_23211.png")), jTabbedPaneImport); // NOI18N
@@ -95,18 +383,22 @@ public class frmMain extends javax.swing.JFrame {
         jtabPanel.addTab("Đối tác", new javax.swing.ImageIcon(getClass().getResource("/images/if_partner_search_86337.png")), jTabbedPanePartner); // NOI18N
         jtabPanel.addTab("Tài khoản", new javax.swing.ImageIcon(getClass().getResource("/images/if_windows_users_7394.png")), jTabbedAccount); // NOI18N
 
+        jTabbedPaneExit.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPaneExitComponentShown(evt);
+            }
+        });
+        jtabPanel.addTab("Thoát", new javax.swing.ImageIcon(getClass().getResource("/images/thoat.png")), jTabbedPaneExit); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jtabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1347, Short.MAX_VALUE)
+            .addComponent(jtabPanel)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jtabPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 920, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jtabPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 548, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -122,6 +414,77 @@ public class frmMain extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTableSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSanPhamMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTableSanPhamMouseClicked
+
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        // TODO add your handling code here:
+        String Code, productName,Description;
+        int Quantity, Status, productType;
+        Code = txtCode.getText();
+        productName = txtProductName.getText();
+        Description = txtDescription.getText();
+        Quantity = Integer.parseInt(txtQuantity.getValue().toString());
+        Status = GetCbbSelected(cboStatus);
+        productType = GetCbbSelected(cboCategory);
+        
+        ProductDTO dto = new ProductDTO(1, Code, productName, Description, Quantity, Status, productType);
+
+        if( productDao.insert(dto) ) {
+            StringHelpers.Message("Sản phẩm đã được thêm vào csdl", "Thành công", 1);
+        } else {
+            StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
+        }
+        getDataProduct(1);
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnResetActionPerformed
+
+    private void jPanelDanhSachDanhMucComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelDanhSachDanhMucComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanelDanhSachDanhMucComponentShown
+
+    private void jPanelDanhSachSanPhamComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelDanhSachSanPhamComponentShown
+        // TODO add your handling code here:
+        DefaultComboBoxModel cbbmodel = new DefaultComboBoxModel();
+        displayvalueModel valueModel1 = new displayvalueModel("Hiển", 1);
+        cbbmodel.addElement(valueModel1);
+        displayvalueModel valueModel2 = new displayvalueModel("Ẩn", 2);
+        cbbmodel.addElement(valueModel2);
+        cboStatus.setModel(cbbmodel);
+        
+        
+        DefaultComboBoxModel cbbmodel2 = new DefaultComboBoxModel();
+        displayvalueModel valueModel3 = new displayvalueModel("Văn phòng phẩm", 1);
+        cbbmodel2.addElement(valueModel3);
+        displayvalueModel valueModel4 = new displayvalueModel("Đồ gia dụng", 2);
+        cbbmodel2.addElement(valueModel4);
+        displayvalueModel valueModel5 = new displayvalueModel("Đồ điện", 2);
+        cbbmodel2.addElement(valueModel5);
+        cboCategory.setModel(cbbmodel2);
+        
+        getDataProduct(1);
+        
+    }//GEN-LAST:event_jPanelDanhSachSanPhamComponentShown
+
+    private void jTabbedPaneExitComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPaneExitComponentShown
+        // TODO add your handling code here:
+        frmLogin frmLogin = new frmLogin();
+        frmLogin.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jTabbedPaneExitComponentShown
 
     /**
      * @param args the command line arguments
@@ -159,18 +522,39 @@ public class frmMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnInsert;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cboCategory;
+    private javax.swing.JComboBox<String> cboStatus;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanelDanhSachDanhMuc;
+    private javax.swing.JPanel jPanelDanhSachSanPham;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedAccount;
-    private javax.swing.JTabbedPane jTabbedPaneAddNewCategory;
-    private javax.swing.JTabbedPane jTabbedPaneAddNewProduct;
     private javax.swing.JTabbedPane jTabbedPaneCategory;
+    private javax.swing.JTabbedPane jTabbedPaneExit;
     private javax.swing.JTabbedPane jTabbedPaneExport;
     private javax.swing.JTabbedPane jTabbedPaneImport;
-    private javax.swing.JTabbedPane jTabbedPaneListCategory;
-    private javax.swing.JTabbedPane jTabbedPaneListProduct;
     private javax.swing.JTabbedPane jTabbedPanePartner;
     private javax.swing.JTabbedPane jTabbedPaneProduct;
     private javax.swing.JTabbedPane jTabbedPaneReport;
+    private javax.swing.JTable jTableSanPham;
     private javax.swing.JTabbedPane jtabPanel;
+    private javax.swing.JTextField txtCode;
+    private javax.swing.JTextField txtDescription;
+    private javax.swing.JTextField txtProductName;
+    private javax.swing.JSpinner txtQuantity;
     // End of variables declaration//GEN-END:variables
 }

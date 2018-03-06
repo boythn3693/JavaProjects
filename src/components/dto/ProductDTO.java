@@ -17,6 +17,8 @@ public class ProductDTO implements Serializable {
     private String productName;
     private String description;
     private int quantity;
+    private int status;
+    private int productType;
 
     public ProductDTO() {
     }
@@ -58,8 +60,6 @@ public class ProductDTO implements Serializable {
     public void setProductType(int productType) {
         this.productType = productType;
     }
-    private int status;
-    private int productType;
 
     public long getProductId() {
         return productId;
@@ -88,4 +88,5 @@ public class ProductDTO implements Serializable {
     public int getProductType() {
         return productType;
     }
+    
 }

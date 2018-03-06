@@ -24,6 +24,10 @@ public class QueryDB {
         return _instance;
     }
     
+    public List runQuery(String Query) {
+        return executeHQLQuery(Query);
+    }
+    
     public Boolean saveOrUpdate(Object obj){
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();

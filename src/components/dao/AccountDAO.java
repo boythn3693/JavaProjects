@@ -7,7 +7,6 @@ package components.dao;
 
 import components.dto.AccountDTO;
 import components.model.AccountModel;
-import components.model.QueryDB;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +19,6 @@ public class AccountDAO {
     public AccountDAO() {
         model = new AccountModel();
     }
-    
-    private static final String QUERY_CHECK_LOGIN = "from AccountDTO acc where Usename='%s' and Password='%s'";
     
     public boolean checkLogin(String _username, String _password)
     {
