@@ -28,27 +28,50 @@ public class QueryDB {
         return executeHQLQuery(Query);
     }
     
-    public Boolean saveOrUpdate(Object obj){
+    public Boolean save(Object obj){
+        Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.saveOrUpdate(obj);
+            session.save(obj);
             session.getTransaction().commit();
             return true;
         } catch (HibernateException he) {
+             System.out.println(he);
+            session.getTransaction().rollback();
             return false;
+        }  finally {
+            session.close();
+        }
+    }
+    
+    public Boolean update(Object obj){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            session.beginTransaction();
+            session.update(obj);
+            session.getTransaction().commit();
+            return true;
+        } catch (HibernateException he) {
+             System.out.println(he);
+            session.getTransaction().rollback();
+            return false;
+        }  finally {
+            session.close();
         }
     }
     
     public Boolean delete(Object obj){
+        Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            Session session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
             session.delete(obj);
             session.getTransaction().commit();
             return true;
         } catch (HibernateException he) {
+            System.out.println(he);
             return false;
+        } finally {
+            session.close();
         }
     }
 
@@ -61,6 +84,7 @@ public class QueryDB {
             session.getTransaction().commit();
             return resultList;
         } catch (HibernateException he) {
+             System.out.println(he);
             return null;
         }
     }

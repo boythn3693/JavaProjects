@@ -40,10 +40,10 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-mapping>
-    <class name="components.dto.ProductDTO" table="Product">
-        <id name="productId" type="long">
-            <column name="ProductId" />
-            <generator class="assigned" />
+    <class name="components.dto.Product" table="Product">
+        <id name="productId" type="long" column="ProductId">
+<!--            <column name="ProductId" />-->
+            <generator class="identity" />
         </id>
         <property name="code" type="string">
             <column name="Code" length="255" />

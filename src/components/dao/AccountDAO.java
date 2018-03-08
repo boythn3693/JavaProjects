@@ -5,7 +5,7 @@
  */
 package components.dao;
 
-import components.dto.AccountDTO;
+import components.dto.Account;
 import components.model.AccountModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class AccountDAO {
     
     public boolean checkLogin(String _username, String _password)
     {
-        List<AccountDTO> rs = model.getAccountByUsernamePassword(_username, _password);
+        List<Account> rs = model.getAccountByUsernamePassword(_username, _password);
         if( rs != null ) {
             return true;
         }        
@@ -32,7 +32,7 @@ public class AccountDAO {
     public ArrayList getLogin(String _username, String _password)
     {
         ArrayList list = new ArrayList();
-        List<AccountDTO> rs = model.getAccountByUsernamePassword(_username, _password);
+        List<Account> rs = model.getAccountByUsernamePassword(_username, _password);
         if( rs != null ) {
             list.add(rs.get(0).getAccountId());
             list.add(rs.get(0).getUsername());

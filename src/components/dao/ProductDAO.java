@@ -5,7 +5,7 @@
  */
 package components.dao;
 
-import components.dto.ProductDTO;
+import components.dto.Product;
 import components.model.ProductModel;
 import java.util.List;
 
@@ -23,9 +23,9 @@ public class ProductDAO {
         return model.insert(obj);
     }
     
-    public List<ProductDTO> getDataProduct(int status)
+    public List<Product> getDataProduct(int status)
     {
-        List<ProductDTO> rs = model.getListProduct(status);  
+        List<Product> rs = model.getListProduct(status);  
         if( rs == null )
         {
             return null;

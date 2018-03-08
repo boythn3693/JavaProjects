@@ -40,13 +40,13 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-mapping>
-    <class name="components.dto.AccountDTO" table="Account">
+    <class name="components.dto.Account" table="Account">
         <id name="accountId" type="long">
             <column name="AccountId" />
             <generator class="assigned" />
         </id>
         <property name="username" type="string">
-            <column name="Usename" length="255" />
+            <column name="Username" length="255" />
         </property>
         <property name="password" type="string">
             <column name="Password" length="255" />

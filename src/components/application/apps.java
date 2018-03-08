@@ -6,6 +6,7 @@
 package components.application;
 
 import components.interfaces.*;
+import components.util.MD5Library;
 
 /**
  *
@@ -21,5 +22,7 @@ public class apps {
         frmLogin frmLogin = new frmLogin();
         //frmLogin.show();
         frmLogin.setVisible(true);
+        
+        //e10adc3949ba59abbe56e057f20f883e
     }
 }

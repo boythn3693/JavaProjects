@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author MitsuyoRai
  */
-public class ProductDTO implements Serializable {
+public class Product implements Serializable {
     private long productId;
     private String code;
     private String productName;
@@ -20,10 +20,10 @@ public class ProductDTO implements Serializable {
     private int status;
     private int productType;
 
-    public ProductDTO() {
+    public Product() {
     }
 
-    public ProductDTO(long productId, String code, String productName, String description, int quantity, int status, int productType) {
+    public Product(long productId, String code, String productName, String description, int quantity, int status, int productType) {
         this.productId = productId;
         this.code = code;
         this.productName = productName;
@@ -88,5 +88,4 @@ public class ProductDTO implements Serializable {
     public int getProductType() {
         return productType;
     }
-    
 }

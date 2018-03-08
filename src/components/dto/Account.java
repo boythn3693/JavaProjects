@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author MitsuyoRai
  */
-public class AccountDTO implements Serializable {
+public class Account implements Serializable {
     private long accountId;
     private String username;
     private String password;   
@@ -22,7 +22,7 @@ public class AccountDTO implements Serializable {
     private boolean inactive;   
     private int role;
 
-    public AccountDTO(long accountId, String username, String password, String firstname, String lastname, String numphone, String email, boolean inactive, int role) {
+    public Account(long accountId, String username, String password, String firstname, String lastname, String numphone, String email, boolean inactive, int role) {
         this.accountId = accountId;
         this.username = username;
         this.password = password;
@@ -34,7 +34,7 @@ public class AccountDTO implements Serializable {
         this.role = role;
     }
 
-    public AccountDTO() {
+    public Account() {
     }
 
     public void setAccountId(long accountId) {

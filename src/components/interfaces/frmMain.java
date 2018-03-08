@@ -9,8 +9,6 @@ import components.dao.*;
 import components.dto.*;
 import components.model.displayvalueModel;
 import components.util.StringHelpers;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -81,11 +79,11 @@ public class frmMain extends javax.swing.JFrame {
         jTableSanPham.setModel(tableModel);
         int c = 0;
         try {
-            List<ProductDTO> listProduct = productDao.getDataProduct(status);
+            List<Product> listProduct = productDao.getDataProduct(status);
             if( listProduct != null ) {
                 for( int i =0; i < listProduct.size(); i++ ){
-                    Object[] item = new Object[10];
-                    item[0] = c;
+                    Object[] item = new Object[7];
+                    item[0] = ++c;
                     item[1] = listProduct.get(i).getProductId();
                     item[2] = listProduct.get(i).getProductName();
                     item[3] = listProduct.get(i).getDescription();
@@ -178,6 +176,11 @@ public class frmMain extends javax.swing.JFrame {
         jtabPanel.addTab("Danh mục", new javax.swing.ImageIcon(getClass().getResource("/images/attribute_category_label.png")), jTabbedPaneCategory); // NOI18N
 
         jTabbedPaneProduct.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTabbedPaneProduct.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPaneProductComponentShown(evt);
+            }
+        });
 
         jPanelDanhSachSanPham.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -187,7 +190,7 @@ public class frmMain extends javax.swing.JFrame {
 
         jTableSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null, null, null, null}
             },
             new String [] {
                 "STT", "Mã Sản phẩm", "Tên Sản phẩm", "Mô tả", "Số lượng", "Trạng thái", "Loại sản phẩm"
@@ -290,12 +293,11 @@ public class frmMain extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(cboCategory, 0, 253, Short.MAX_VALUE)
-                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtQuantity, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(cboStatus, javax.swing.GroupLayout.Alignment.LEADING, 0, 253, Short.MAX_VALUE)
-                        .addComponent(txtCode, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txtProductName)
-                        .addComponent(txtDescription)))
+                    .addComponent(txtQuantity)
+                    .addComponent(cboStatus, 0, 253, Short.MAX_VALUE)
+                    .addComponent(txtCode)
+                    .addComponent(txtProductName, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtDescription, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -430,7 +432,7 @@ public class frmMain extends javax.swing.JFrame {
         Status = GetCbbSelected(cboStatus);
         productType = GetCbbSelected(cboCategory);
         
-        ProductDTO dto = new ProductDTO(1, Code, productName, Description, Quantity, Status, productType);
+        Product dto = new Product(-1, Code, productName, Description, Quantity, Status, productType);
 
         if( productDao.insert(dto) ) {
             StringHelpers.Message("Sản phẩm đã được thêm vào csdl", "Thành công", 1);
@@ -475,7 +477,6 @@ public class frmMain extends javax.swing.JFrame {
         cbbmodel2.addElement(valueModel5);
         cboCategory.setModel(cbbmodel2);
         
-        getDataProduct(1);
         
     }//GEN-LAST:event_jPanelDanhSachSanPhamComponentShown
 
@@ -485,6 +486,11 @@ public class frmMain extends javax.swing.JFrame {
         frmLogin.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jTabbedPaneExitComponentShown
+
+    private void jTabbedPaneProductComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPaneProductComponentShown
+        // TODO add your handling code here:
+        getDataProduct(1);
+    }//GEN-LAST:event_jTabbedPaneProductComponentShown
 
     /**
      * @param args the command line arguments
