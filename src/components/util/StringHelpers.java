@@ -15,6 +15,14 @@ import javax.swing.JOptionPane;
  * @author MitsuyoRai
  */
 public class StringHelpers {
+    public static boolean isInteger( String input ){
+        try {
+           Integer.parseInt( input );
+           return true;
+        } catch( Exception e) {
+           return false;
+        }
+    }
     public static boolean checkContainsLettersNumbers(String str) {
         boolean rs = false;
         Pattern p = Pattern.compile("[a-zA-Z][0-9]");

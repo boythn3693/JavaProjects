@@ -23,6 +23,14 @@ public class ProductDAO {
         return model.insert(obj);
     }
     
+    public Boolean update(Object obj){
+        return model.update(obj);
+    }
+    
+    public Boolean delete(Object obj){
+        return model.delete(obj);
+    }
+    
     public List<Product> getDataProduct(int status)
     {
         List<Product> rs = model.getListProduct(status);  
