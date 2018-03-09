@@ -123,6 +123,26 @@ public class frmMain extends javax.swing.JFrame {
     }
     //------------------------------------------------------------------------------=-/
     
+    //--Code Nhập kho ---------------------------------------------------=-/
+    private void getDataReceipt() {
+        Object[] obj = new Object[]{"Mã phiếu", "Sản phẩm", "Số lượng"};
+        DefaultTableModel tableModel = new DefaultTableModel(obj, 0);
+        tblReceiptDetail.setModel(tableModel);
+        try {
+           
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+    }
+    
+    private void resetTableReceipt(){
+        txtCode.setText("");
+        txtProductName.setText("");
+        txtDescription.setText("");
+        txtQuantity.setValue(0);
+    }
+    //------------------------------------------------------------------------------=-/
+    
     //--Code Đồi tác---------------------------------------------------=-/
     private void getDataPartner() {
         Object[] obj = new Object[]{"ID", "STT", "Tên đối tác", "Mô tả", "Địa chỉ", "Số điện thoại", "Tên người đại diện"};
@@ -198,6 +218,22 @@ public class frmMain extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jTabbedPaneImport = new javax.swing.JTabbedPane();
+        jPanelDanhSachPhieuNhap = new javax.swing.JPanel();
+        plReceiptDetail = new javax.swing.JScrollPane();
+        tblReceiptDetail = new javax.swing.JTable();
+        jPanel9 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        txtReceiptId = new javax.swing.JTextField();
+        dtpDatetime = new javax.swing.JTextField();
+        cbbPartner = new javax.swing.JComboBox<>();
+        cbbStatus = new javax.swing.JComboBox<>();
+        jPanel10 = new javax.swing.JPanel();
+        btnInsert2 = new javax.swing.JButton();
+        btnDelete2 = new javax.swing.JButton();
+        btnReset2 = new javax.swing.JButton();
         jTabbedPaneExport = new javax.swing.JTabbedPane();
         jTabbedPaneReport = new javax.swing.JTabbedPane();
         jTabbedPanePartner = new javax.swing.JTabbedPane();
@@ -468,7 +504,166 @@ public class frmMain extends javax.swing.JFrame {
         jTabbedPaneProduct.addTab("Danh sách Sản phẩm", jPanelDanhSachSanPham);
 
         jtabPanel.addTab("Sản phẩm", new javax.swing.ImageIcon(getClass().getResource("/images/if_Product_Hunt_1298713.png")), jTabbedPaneProduct); // NOI18N
+
+        jTabbedPaneImport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jPanelDanhSachPhieuNhap.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelDanhSachPhieuNhapComponentShown(evt);
+            }
+        });
+
+        tblReceiptDetail.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "STT", "Mã Sản phẩm", "Tên Sản phẩm", "Mô tả", "Số lượng", "Trạng thái", "Loại sản phẩm"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tblReceiptDetail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblReceiptDetailMouseClicked(evt);
+            }
+        });
+        plReceiptDetail.setViewportView(tblReceiptDetail);
+
+        jLabel13.setText("Mã phiếu:");
+
+        jLabel15.setText("Đối tác:");
+
+        jLabel16.setText("Ngày lập phiếu: ");
+
+        jLabel18.setText("Trạng thái:");
+
+        txtReceiptId.setEditable(false);
+        txtReceiptId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtReceiptIdActionPerformed(evt);
+            }
+        });
+
+        cbbPartner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cty TNHH MTV Ánh Dương", "Cty CPTMDT TheGioiDiDong" }));
+
+        cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Done", "Hủy" }));
+
+        btnInsert2.setText("Lập phiếu nhập");
+        btnInsert2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsert2ActionPerformed(evt);
+            }
+        });
+
+        btnDelete2.setText("Hủy");
+        btnDelete2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelete2ActionPerformed(evt);
+            }
+        });
+
+        btnReset2.setText("Reset");
+        btnReset2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReset2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnInsert2, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+            .addComponent(btnDelete2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnReset2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnInsert2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDelete2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReset2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15)
+                    .addComponent(jLabel13)
+                    .addComponent(jLabel16)
+                    .addComponent(jLabel18))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbbPartner, 0, 253, Short.MAX_VALUE)
+                    .addComponent(txtReceiptId)
+                    .addComponent(dtpDatetime, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(txtReceiptId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel15)
+                    .addComponent(cbbPartner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(dtpDatetime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(cbbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(88, 88, 88))
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanelDanhSachPhieuNhapLayout = new javax.swing.GroupLayout(jPanelDanhSachPhieuNhap);
+        jPanelDanhSachPhieuNhap.setLayout(jPanelDanhSachPhieuNhapLayout);
+        jPanelDanhSachPhieuNhapLayout.setHorizontalGroup(
+            jPanelDanhSachPhieuNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDanhSachPhieuNhapLayout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 280, Short.MAX_VALUE))
+            .addComponent(plReceiptDetail)
+        );
+        jPanelDanhSachPhieuNhapLayout.setVerticalGroup(
+            jPanelDanhSachPhieuNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDanhSachPhieuNhapLayout.createSequentialGroup()
+                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(plReceiptDetail, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPaneImport.addTab("Nhập kho", jPanelDanhSachPhieuNhap);
+
         jtabPanel.addTab("Nhập kho", new javax.swing.ImageIcon(getClass().getResource("/images/if_document-import_23211.png")), jTabbedPaneImport); // NOI18N
+        jTabbedPaneImport.getAccessibleContext().setAccessibleName("Nhập Kho");
+
         jtabPanel.addTab("Xuất kho", new javax.swing.ImageIcon(getClass().getResource("/images/if_document-export_23210.png")), jTabbedPaneExport); // NOI18N
         jtabPanel.addTab("Báo cáo", new javax.swing.ImageIcon(getClass().getResource("/images/if_product-sales-report_49607.png")), jTabbedPaneReport); // NOI18N
 
@@ -689,7 +884,7 @@ public class frmMain extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jtabPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 590, Short.MAX_VALUE)
+            .addComponent(jtabPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -999,6 +1194,32 @@ public class frmMain extends javax.swing.JFrame {
         jTablePartner.getColumnModel().getColumn(0).setMaxWidth(0);
     }//GEN-LAST:event_jTabbedPanePartnerComponentShown
 
+    private void tblReceiptDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReceiptDetailMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblReceiptDetailMouseClicked
+
+    private void txtReceiptIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReceiptIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtReceiptIdActionPerformed
+
+    private void btnInsert2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsert2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInsert2ActionPerformed
+
+    private void btnDelete2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDelete2ActionPerformed
+
+    private void btnReset2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReset2ActionPerformed
+
+    private void jPanelDanhSachPhieuNhapComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelDanhSachPhieuNhapComponentShown
+        getDataReceipt();
+        jTableSanPham.getColumnModel().getColumn(0).setMinWidth(0);
+        jTableSanPham.getColumnModel().getColumn(0).setMaxWidth(0);
+    }//GEN-LAST:event_jPanelDanhSachPhieuNhapComponentShown
+
     /**
      * @param args the command line arguments
      */
@@ -1037,19 +1258,29 @@ public class frmMain extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDelete1;
+    private javax.swing.JButton btnDelete2;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnInsert1;
+    private javax.swing.JButton btnInsert2;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnReset1;
+    private javax.swing.JButton btnReset2;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdate1;
+    private javax.swing.JComboBox<String> cbbPartner;
+    private javax.swing.JComboBox<String> cbbStatus;
     private javax.swing.JComboBox<String> cboCategory;
     private javax.swing.JComboBox<String> cboStatus;
+    private javax.swing.JTextField dtpDatetime;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1059,14 +1290,17 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanelDanhSachDanhMuc;
     private javax.swing.JPanel jPanelDanhSachDoiTac;
+    private javax.swing.JPanel jPanelDanhSachPhieuNhap;
     private javax.swing.JPanel jPanelDanhSachSanPham;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1083,11 +1317,14 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JTable jTableSanPham;
     private javax.swing.JTextArea jTextAreaMoTa;
     private javax.swing.JTabbedPane jtabPanel;
+    private javax.swing.JScrollPane plReceiptDetail;
+    private javax.swing.JTable tblReceiptDetail;
     private javax.swing.JTextField txtCode;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JSpinner txtQuantity;
+    private javax.swing.JTextField txtReceiptId;
     private javax.swing.JTextField txtSoDienThoai;
     private javax.swing.JTextField txtTenDoiTac;
     private javax.swing.JTextField txtTenNDD;
