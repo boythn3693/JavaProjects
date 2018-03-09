@@ -47,5 +47,6 @@ Contributor(s):
     <property name="hibernate.connection.password">123456</property>
     <mapping resource="components/entity/Account.hbm.xml"/>
     <mapping resource="components/entity/Product.hbm.xml"/>
+    <mapping resource="components/entity/Partner.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

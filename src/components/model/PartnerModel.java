@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class PartnerModel {
     private static final String QUERY_PARTNER = "from Partner p";
-    public static final String QUERY_GET_ALL_PARTNER = "from Partner p where Status = %s";
+    public static final String QUERY_GET_ALL_PARTNER = "from Partner p";
     
     public List runQueryPartner() {
         return QueryDB.GetInstance().runQuery(String.format(QUERY_PARTNER));
@@ -27,8 +27,8 @@ public class PartnerModel {
         return QueryDB.GetInstance().delete(obj);
     }
     
-    public List<Partner> getListPartner(int status)
+    public List<Partner> getListPartner()
     {
-        return QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_ALL_PARTNER, status));
+        return QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_ALL_PARTNER));
     }
 }

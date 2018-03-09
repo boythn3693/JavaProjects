@@ -26,13 +26,9 @@ public class PartnerDAO {
         return model.delete(obj);
     }
     
-    public List<Partner> getDataPartner(int status)
+    public List<Partner> getDataPartner()
     {
-        List<Partner> rs = model.getListPartner(status);  
-        if( rs == null )
-        {
-            return null;
-        }
+        List<Partner> rs = model.getListPartner();  
         return rs;
     }
 }

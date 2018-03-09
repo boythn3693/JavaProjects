@@ -39,6 +39,7 @@ public class frmMain extends javax.swing.JFrame {
     SimpleDateFormat fm = new SimpleDateFormat("dd-MM-yyyy");
     
     ProductDAO productDao;
+    PartnerDAO partnerDao;
     /**
      * Creates new form frmMain
      */
@@ -46,6 +47,7 @@ public class frmMain extends javax.swing.JFrame {
         initComponents();
         setInitForm();
         productDao = new ProductDAO();
+        partnerDao = new PartnerDAO();
     }
     
     private void setInitForm() {
@@ -86,6 +88,7 @@ public class frmMain extends javax.swing.JFrame {
         }
     }
     
+    //--Code Sản phẩm---------------------------------------------------=-/
     private void getDataProduct(int status) {
         Object[] obj = new Object[]{"ID", "STT", "Mã Sản Phẩm", "Tên sản phẩm", "Mô tả", "Số lượng", "Trạng thái", "Loại sản phẩm"};
         DefaultTableModel tableModel = new DefaultTableModel(obj, 0);
@@ -118,6 +121,44 @@ public class frmMain extends javax.swing.JFrame {
         txtDescription.setText("");
         txtQuantity.setValue(0);
     }
+    //------------------------------------------------------------------------------=-/
+    
+    //--Code Đồi tác---------------------------------------------------=-/
+    private void getDataPartner() {
+        Object[] obj = new Object[]{"ID", "STT", "Tên đối tác", "Mô tả", "Địa chỉ", "Số điện thoại", "Tên người đại diện"};
+        DefaultTableModel tableModel = new DefaultTableModel(obj, 0);
+        jTablePartner.setModel(tableModel);
+        int c = 0;
+        try {
+            List<Partner> listPartner = partnerDao.getDataPartner();
+            if( listPartner != null ) {
+                for( int i =0; i < listPartner.size(); i++ ){
+                    Object[] item = new Object[7];
+                    item[0] = listPartner.get(i).getPartnerId();
+                    item[1] = ++c;
+                    item[2] = listPartner.get(i).getPartnerName();
+                    item[3] = listPartner.get(i).getDescription();
+                    item[4] = listPartner.get(i).getAddress();
+                    item[5] = listPartner.get(i).getNumPhone();
+                    item[6] = listPartner.get(i).getRepresentFullname();
+                    tableModel.addRow(item);
+                }           
+            }  
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
+    }
+    
+    private void resetTablePartner()
+    {
+        txtTenDoiTac.setText("");
+        txtTenNDD.setText("");
+        txtSoDienThoai.setText("");
+        txtDiaChi.setText("");
+        jTextAreaMoTa.setText("");
+        
+    }
+    //---------------------------------------------------------------------
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -162,24 +203,24 @@ public class frmMain extends javax.swing.JFrame {
         jTabbedPanePartner = new javax.swing.JTabbedPane();
         jPanelDanhSachDoiTac = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTableSanPham1 = new javax.swing.JTable();
+        jTablePartner = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txtCode1 = new javax.swing.JTextField();
-        txtProductName1 = new javax.swing.JTextField();
-        txtDescription1 = new javax.swing.JTextField();
+        txtTenDoiTac = new javax.swing.JTextField();
+        txtTenNDD = new javax.swing.JTextField();
+        txtSoDienThoai = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnInsert1 = new javax.swing.JButton();
         btnUpdate1 = new javax.swing.JButton();
         btnDelete1 = new javax.swing.JButton();
         btnReset1 = new javax.swing.JButton();
-        txtDescription2 = new javax.swing.JTextField();
+        txtDiaChi = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaMoTa = new javax.swing.JTextArea();
         jPanel7 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jTabbedAccount = new javax.swing.JTabbedPane();
@@ -432,6 +473,11 @@ public class frmMain extends javax.swing.JFrame {
         jtabPanel.addTab("Báo cáo", new javax.swing.ImageIcon(getClass().getResource("/images/if_product-sales-report_49607.png")), jTabbedPaneReport); // NOI18N
 
         jTabbedPanePartner.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTabbedPanePartner.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPanePartnerComponentShown(evt);
+            }
+        });
 
         jPanelDanhSachDoiTac.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -439,28 +485,28 @@ public class frmMain extends javax.swing.JFrame {
             }
         });
 
-        jTableSanPham1.setModel(new javax.swing.table.DefaultTableModel(
+        jTablePartner.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "STT", "Mã Sản phẩm", "Tên Sản phẩm", "Mô tả", "Số lượng", "Trạng thái", "Loại sản phẩm"
+                "ID", "STT", "Tên đối tác", "Mô tả", "Địa chỉ", "Số điện thoại", "Tên người đại diện"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jTableSanPham1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTablePartner.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableSanPham1MouseClicked(evt);
+                jTablePartnerMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(jTableSanPham1);
+        jScrollPane2.setViewportView(jTablePartner);
 
         jLabel8.setText("Tên đối tác:");
 
@@ -522,9 +568,9 @@ public class frmMain extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        jTextAreaMoTa.setColumns(20);
+        jTextAreaMoTa.setRows(5);
+        jScrollPane3.setViewportView(jTextAreaMoTa);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -540,10 +586,10 @@ public class frmMain extends javax.swing.JFrame {
                     .addComponent(jLabel12))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtCode1, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                    .addComponent(txtProductName1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtDescription1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(txtDescription2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtTenDoiTac, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                    .addComponent(txtTenNDD, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtSoDienThoai, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtDiaChi, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -554,19 +600,19 @@ public class frmMain extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
-                    .addComponent(txtCode1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTenDoiTac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(txtProductName1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTenNDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(txtDescription1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSoDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
-                    .addComponent(txtDescription2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -829,27 +875,129 @@ public class frmMain extends javax.swing.JFrame {
 
     private void btnReset1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset1ActionPerformed
         // TODO add your handling code here:
+        resetTablePartner();
     }//GEN-LAST:event_btnReset1ActionPerformed
 
     private void btnDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete1ActionPerformed
         // TODO add your handling code here:
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Bạn chắc chắn muốn xóa đối tác này?", "Warning", JOptionPane.YES_NO_OPTION);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            Partner dto = new Partner();
+            dto.setPartnerId(this._partnerId);
+            if( partnerDao.delete(dto) ) {
+                StringHelpers.Message("Đối tác đã được Xóa thành công", "Thành công", 1);
+            } else {
+                StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
+            }
+            getDataPartner();
+            resetTablePartner();
+        }
     }//GEN-LAST:event_btnDelete1ActionPerformed
 
     private void btnUpdate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdate1ActionPerformed
         // TODO add your handling code here:
+        String tenDoiTac, tenNguoiDaiDien, sdt, diachi, mota;
+        
+        if(txtTenDoiTac.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Tên Đói tác", "Thông báo", 2);
+            txtTenDoiTac.requestFocus();
+            return;
+        } else if(txtTenNDD.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Tên Người đại diện", "Thông báo", 2);
+            txtTenNDD.requestFocus();
+            return;
+        } else if(txtSoDienThoai.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Số điện thoại", "Thông báo", 2);
+            txtSoDienThoai.requestFocus();
+            return;
+        } else if(txtDiaChi.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Địa chỉ", "Thông báo", 2);
+            txtDiaChi.requestFocus();
+            return;
+        } 
+        //
+        
+        tenDoiTac = txtTenDoiTac.getText();
+        tenNguoiDaiDien = txtTenNDD.getText();
+        sdt = txtSoDienThoai.getText();
+        diachi = txtDiaChi.getText();
+        mota = jTextAreaMoTa.getText();
+        
+        Partner dto = new Partner(this._partnerId, tenDoiTac, mota, diachi, sdt, tenNguoiDaiDien );
+        if( partnerDao.update(dto) ) {
+            StringHelpers.Message("Đối tác đã được cập nhật", "Thành công", 1);
+        } else {
+            StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
+        }
+        getDataPartner();
+        resetTablePartner();
     }//GEN-LAST:event_btnUpdate1ActionPerformed
 
     private void btnInsert1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsert1ActionPerformed
         // TODO add your handling code here:
+        //Xử lý thêm
+        String tenDoiTac, tenNguoiDaiDien, sdt, diachi, mota;
+        
+        if(txtTenDoiTac.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Tên Đói tác", "Thông báo", 2);
+            txtTenDoiTac.requestFocus();
+            return;
+        } else if(txtTenNDD.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Tên Người đại diện", "Thông báo", 2);
+            txtTenNDD.requestFocus();
+            return;
+        } else if(txtSoDienThoai.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Số điện thoại", "Thông báo", 2);
+            txtSoDienThoai.requestFocus();
+            return;
+        } else if(txtDiaChi.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Địa chỉ", "Thông báo", 2);
+            txtDiaChi.requestFocus();
+            return;
+        } else if(jTextAreaMoTa.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Địa chỉ", "Thông báo", 2);
+            jTextAreaMoTa.requestFocus();
+            return;
+        }
+        
+        tenDoiTac = txtTenDoiTac.getText();
+        tenNguoiDaiDien = txtTenNDD.getText();
+        sdt = txtSoDienThoai.getText();
+        diachi = txtDiaChi.getText();
+        mota = jTextAreaMoTa.getText();
+        
+        Partner dto = new Partner(-1, tenDoiTac, mota, diachi, sdt, tenNguoiDaiDien );
+        if( partnerDao.insert(dto) ) {
+            StringHelpers.Message("Đối tác đã được thêm vào csdl", "Thành công", 1);
+        } else {
+            StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
+        }
+        getDataPartner();
+        resetTablePartner();
     }//GEN-LAST:event_btnInsert1ActionPerformed
 
-    private void jTableSanPham1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSanPham1MouseClicked
+    private int _partnerId;
+    private void jTablePartnerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTablePartnerMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTableSanPham1MouseClicked
+        int index = jTablePartner.getSelectedRow();
+        this._partnerId = Integer.valueOf(jTablePartner.getValueAt(index, 0).toString());
+        txtTenDoiTac.setText(jTablePartner.getValueAt(index, 2).toString());
+        txtTenNDD.setText(jTablePartner.getValueAt(index, 6).toString());
+        txtSoDienThoai.setText(jTablePartner.getValueAt(index, 5).toString());
+        txtDiaChi.setText(jTablePartner.getValueAt(index, 4).toString());
+        jTextAreaMoTa.setText(jTablePartner.getValueAt(index, 3).toString());
+    }//GEN-LAST:event_jTablePartnerMouseClicked
 
     private void txtCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCodeActionPerformed
+
+    private void jTabbedPanePartnerComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPanePartnerComponentShown
+        // TODO add your handling code here:
+        getDataPartner();
+        jTablePartner.getColumnModel().getColumn(0).setMinWidth(0);
+        jTablePartner.getColumnModel().getColumn(0).setMaxWidth(0);
+    }//GEN-LAST:event_jTabbedPanePartnerComponentShown
 
     /**
      * @param args the command line arguments
@@ -931,17 +1079,17 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPanePartner;
     private javax.swing.JTabbedPane jTabbedPaneProduct;
     private javax.swing.JTabbedPane jTabbedPaneReport;
+    private javax.swing.JTable jTablePartner;
     private javax.swing.JTable jTableSanPham;
-    private javax.swing.JTable jTableSanPham1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextAreaMoTa;
     private javax.swing.JTabbedPane jtabPanel;
     private javax.swing.JTextField txtCode;
-    private javax.swing.JTextField txtCode1;
     private javax.swing.JTextField txtDescription;
-    private javax.swing.JTextField txtDescription1;
-    private javax.swing.JTextField txtDescription2;
+    private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtProductName;
-    private javax.swing.JTextField txtProductName1;
     private javax.swing.JSpinner txtQuantity;
+    private javax.swing.JTextField txtSoDienThoai;
+    private javax.swing.JTextField txtTenDoiTac;
+    private javax.swing.JTextField txtTenNDD;
     // End of variables declaration//GEN-END:variables
 }
