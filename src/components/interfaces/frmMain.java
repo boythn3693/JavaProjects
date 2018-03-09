@@ -235,6 +235,22 @@ public class frmMain extends javax.swing.JFrame {
         btnDelete2 = new javax.swing.JButton();
         btnReset2 = new javax.swing.JButton();
         jTabbedPaneExport = new javax.swing.JTabbedPane();
+        jPanelDanhSachPhieuXuat = new javax.swing.JPanel();
+        plReceiptDetail1 = new javax.swing.JScrollPane();
+        tblReceiptDetail1 = new javax.swing.JTable();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        txtReceiptId1 = new javax.swing.JTextField();
+        dtpDatetime1 = new javax.swing.JTextField();
+        cbbPartner1 = new javax.swing.JComboBox<>();
+        cbbStatus1 = new javax.swing.JComboBox<>();
+        jPanel12 = new javax.swing.JPanel();
+        btnInsert3 = new javax.swing.JButton();
+        btnDelete3 = new javax.swing.JButton();
+        btnReset3 = new javax.swing.JButton();
         jTabbedPaneReport = new javax.swing.JTabbedPane();
         jTabbedPanePartner = new javax.swing.JTabbedPane();
         jPanelDanhSachDoiTac = new javax.swing.JPanel();
@@ -663,6 +679,162 @@ public class frmMain extends javax.swing.JFrame {
 
         jtabPanel.addTab("Nhập kho", new javax.swing.ImageIcon(getClass().getResource("/images/if_document-import_23211.png")), jTabbedPaneImport); // NOI18N
         jTabbedPaneImport.getAccessibleContext().setAccessibleName("Nhập Kho");
+
+        jTabbedPaneExport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
+        jPanelDanhSachPhieuXuat.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jPanelDanhSachPhieuXuatComponentShown(evt);
+            }
+        });
+
+        tblReceiptDetail1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "STT", "Mã Sản phẩm", "Tên Sản phẩm", "Mô tả", "Số lượng", "Trạng thái", "Loại sản phẩm"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tblReceiptDetail1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblReceiptDetail1MouseClicked(evt);
+            }
+        });
+        plReceiptDetail1.setViewportView(tblReceiptDetail1);
+
+        jLabel17.setText("Mã phiếu:");
+
+        jLabel19.setText("Đối tác:");
+
+        jLabel20.setText("Ngày lập phiếu: ");
+
+        jLabel21.setText("Trạng thái:");
+
+        txtReceiptId1.setEditable(false);
+        txtReceiptId1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtReceiptId1ActionPerformed(evt);
+            }
+        });
+
+        cbbPartner1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cty TNHH MTV Ánh Dương", "Cty CPTMDT TheGioiDiDong" }));
+
+        cbbStatus1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Done", "Hủy" }));
+
+        btnInsert3.setText("Lập phiếu xuất");
+        btnInsert3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsert3ActionPerformed(evt);
+            }
+        });
+
+        btnDelete3.setText("Hủy");
+        btnDelete3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDelete3ActionPerformed(evt);
+            }
+        });
+
+        btnReset3.setText("Reset");
+        btnReset3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReset3ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnInsert3, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+            .addComponent(btnDelete3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnReset3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnInsert3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDelete3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnReset3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel17)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel21))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbbStatus1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbbPartner1, 0, 253, Short.MAX_VALUE)
+                    .addComponent(txtReceiptId1)
+                    .addComponent(dtpDatetime1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel17)
+                    .addComponent(txtReceiptId1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(cbbPartner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel20)
+                    .addComponent(dtpDatetime1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(cbbStatus1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(88, 88, 88))
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanelDanhSachPhieuXuatLayout = new javax.swing.GroupLayout(jPanelDanhSachPhieuXuat);
+        jPanelDanhSachPhieuXuat.setLayout(jPanelDanhSachPhieuXuatLayout);
+        jPanelDanhSachPhieuXuatLayout.setHorizontalGroup(
+            jPanelDanhSachPhieuXuatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelDanhSachPhieuXuatLayout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 280, Short.MAX_VALUE))
+            .addComponent(plReceiptDetail1)
+        );
+        jPanelDanhSachPhieuXuatLayout.setVerticalGroup(
+            jPanelDanhSachPhieuXuatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDanhSachPhieuXuatLayout.createSequentialGroup()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(plReceiptDetail1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPaneExport.addTab("Nhập kho", jPanelDanhSachPhieuXuat);
 
         jtabPanel.addTab("Xuất kho", new javax.swing.ImageIcon(getClass().getResource("/images/if_document-export_23210.png")), jTabbedPaneExport); // NOI18N
         jtabPanel.addTab("Báo cáo", new javax.swing.ImageIcon(getClass().getResource("/images/if_product-sales-report_49607.png")), jTabbedPaneReport); // NOI18N
@@ -1220,6 +1392,30 @@ public class frmMain extends javax.swing.JFrame {
         jTableSanPham.getColumnModel().getColumn(0).setMaxWidth(0);
     }//GEN-LAST:event_jPanelDanhSachPhieuNhapComponentShown
 
+    private void tblReceiptDetail1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReceiptDetail1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblReceiptDetail1MouseClicked
+
+    private void txtReceiptId1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReceiptId1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtReceiptId1ActionPerformed
+
+    private void btnInsert3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsert3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInsert3ActionPerformed
+
+    private void btnDelete3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelete3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDelete3ActionPerformed
+
+    private void btnReset3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReset3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnReset3ActionPerformed
+
+    private void jPanelDanhSachPhieuXuatComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jPanelDanhSachPhieuXuatComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanelDanhSachPhieuXuatComponentShown
+
     /**
      * @param args the command line arguments
      */
@@ -1259,19 +1455,25 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDelete1;
     private javax.swing.JButton btnDelete2;
+    private javax.swing.JButton btnDelete3;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnInsert1;
     private javax.swing.JButton btnInsert2;
+    private javax.swing.JButton btnInsert3;
     private javax.swing.JButton btnReset;
     private javax.swing.JButton btnReset1;
     private javax.swing.JButton btnReset2;
+    private javax.swing.JButton btnReset3;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdate1;
     private javax.swing.JComboBox<String> cbbPartner;
+    private javax.swing.JComboBox<String> cbbPartner1;
     private javax.swing.JComboBox<String> cbbStatus;
+    private javax.swing.JComboBox<String> cbbStatus1;
     private javax.swing.JComboBox<String> cboCategory;
     private javax.swing.JComboBox<String> cboStatus;
     private javax.swing.JTextField dtpDatetime;
+    private javax.swing.JTextField dtpDatetime1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1280,8 +1482,12 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1291,6 +1497,8 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1301,6 +1509,7 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelDanhSachDanhMuc;
     private javax.swing.JPanel jPanelDanhSachDoiTac;
     private javax.swing.JPanel jPanelDanhSachPhieuNhap;
+    private javax.swing.JPanel jPanelDanhSachPhieuXuat;
     private javax.swing.JPanel jPanelDanhSachSanPham;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1318,13 +1527,16 @@ public class frmMain extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextAreaMoTa;
     private javax.swing.JTabbedPane jtabPanel;
     private javax.swing.JScrollPane plReceiptDetail;
+    private javax.swing.JScrollPane plReceiptDetail1;
     private javax.swing.JTable tblReceiptDetail;
+    private javax.swing.JTable tblReceiptDetail1;
     private javax.swing.JTextField txtCode;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtProductName;
     private javax.swing.JSpinner txtQuantity;
     private javax.swing.JTextField txtReceiptId;
+    private javax.swing.JTextField txtReceiptId1;
     private javax.swing.JTextField txtSoDienThoai;
     private javax.swing.JTextField txtTenDoiTac;
     private javax.swing.JTextField txtTenNDD;
