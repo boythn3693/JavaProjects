@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 10, 2018 10:38:30 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="components.entity.DeliveryBill" table="DeliveryBill" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
+        <id name="deliveryBillId" type="long">
+            <column name="DeliveryBillId" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="account" class="components.entity.Account" fetch="select">
+            <column name="AccountId" not-null="true" />
+        </many-to-one>
+        <many-to-one name="partner" class="components.entity.Partner" fetch="select">
+            <column name="PartnerId" not-null="true" />
+        </many-to-one>
+        <property name="datetime" type="timestamp">
+            <column name="Datetime" length="27" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -5,10 +5,10 @@
  */
 package components.interfaces;
 
-import components.application.apps;
-import components.dao.AccountDAO;
-import components.util.MD5Library;
-import components.util.StringHelpers;
+import components.applications.application;
+import components.services.AccountService;
+import components.utils.MD5Library;
+import components.utils.StringHelpers;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -24,18 +24,18 @@ import javax.swing.ImageIcon;;
  * @author MitsuyoRai
  */
 public class frmLogin extends javax.swing.JFrame {
-    AccountDAO dao;
+    AccountService bus;
     /**
      * Creates new form frmLogin
      */
     public frmLogin() {
         initComponents();
         setInitForm();
-        dao = new AccountDAO();
+        bus = new AccountService();
     }
     
     private void setInitForm() {
-        ImageIcon icon = new ImageIcon(getClass().getResource("../../images/login.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("../../public/images/login.png"));
         this.setIconImage(icon.getImage());
         this.setLocation(300, 200);
         File file = new File("luumk.txt");
@@ -262,12 +262,12 @@ public class frmLogin extends javax.swing.JFrame {
             e.printStackTrace();
         }
         
-        ArrayList rs = dao.getLogin(strUsername, MD5Library.md5(strPassword));
+        ArrayList rs = bus.getLogin(strUsername, MD5Library.md5(strPassword));
         if( rs != null ) {
             role = Integer.parseInt(rs.get(4).toString()); 
             name = rs.get(3) + " " + rs.get(2);
             user = rs.get(1).toString();
-            apps.frmMain.setVisible(true);
+            application.frmMain.setVisible(true);
             this.dispose(); 
         } else {
             StringHelpers.Message("Bạn nhập sai tài khoản hoặc mật khẩu", "Lỗi đăng nhập", 2);

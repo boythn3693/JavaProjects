@@ -5,32 +5,29 @@
  */
 package components.interfaces;
 
-import components.application.apps;
-import components.dao.AccountDAO;
-import components.util.MD5Library;
-import components.util.StringHelpers;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import components.applications.application;
+import components.services.AccountService;
+import components.utils.MD5Library;
+import components.utils.StringHelpers;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author MitsuyoRai
  */
 public class frmRegister extends javax.swing.JFrame {
-    AccountDAO dao;
+    AccountService bus;
     /**
      * Creates new form frmRegister
      */
     public frmRegister() {
         initComponents();
         setInitForm();
-        dao = new AccountDAO();
+        bus = new AccountService();
     }
     
     private void setInitForm(){
-        ImageIcon icon = new ImageIcon(getClass().getResource("../../images/add-user.png"));
+        ImageIcon icon = new ImageIcon(getClass().getResource("../../public/images/add-user.png"));
         this.setIconImage(icon.getImage());
         this.setLocation(300, 200);
     }
@@ -216,9 +213,9 @@ public class frmRegister extends javax.swing.JFrame {
         if(strPassword.equals("")){
             StringHelpers.Message("Bạn Chưa Nhập: Mật Khẩu", "Lỗi đăng nhập", 2);
         } else {
-            boolean rs = dao.checkLogin(strUsername, MD5Library.md5(strPassword));
+            boolean rs = bus.checkLogin(strUsername, MD5Library.md5(strPassword));
             if (rs) {
-                apps.frmMain.setVisible(true);
+                application.frmMain.setVisible(true);
                 this.dispose();
             } else {
                 StringHelpers.Message("Bạn nhập sai tài khoản hoặc mật khẩu", "Lỗi đăng nhập", 2);

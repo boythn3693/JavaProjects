@@ -1,67 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!--
-DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
-
-Copyright (c) 2008, 2016 Oracle and/or its affiliates. All rights reserved.
-
-Oracle and Java are registered trademarks of Oracle and/or its affiliates.
-Other names may be trademarks of their respective owners.
-
-The contents of this file are subject to the terms of either the GNU
-General Public License Version 2 only ("GPL") or the Common
-Development and Distribution License("CDDL") (collectively, the
-"License"). You may not use this file except in compliance with the
-License. You can obtain a copy of the License at
-http://www.netbeans.org/cddl-gplv2.html
-or nbbuild/licenses/CDDL-GPL-2-CP. See the License for the
-specific language governing permissions and limitations under the
-License.  When distributing the software, include this License Header
-Notice in each file and include the License file at
-nbbuild/licenses/CDDL-GPL-2-CP.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the GPL Version 2 section of the License file that
-accompanied this code. If applicable, add the following below the
-License Header, with the fields enclosed by brackets [] replaced by
-your own identifying information:
-"Portions Copyrighted [year] [name of copyright owner]"
-
-If you wish your version of this file to be governed by only the CDDL
-or only the GPL Version 2, indicate your decision by adding
-"[Contributor] elects to include this software in this distribution
-under the [CDDL or GPL Version 2] license." If you do not indicate a
-single choice of license, a recipient has the option to distribute
-your version of this file under either the CDDL, the GPL Version 2 or
-to extend the choice of license to its licensees as provided above.
-However, if you add GPL Version 2 code and therefore, elected the GPL
-Version 2 license, then the option applies only if the new code is
-made subject to such option by the copyright holder.
-
-Contributor(s):
--->
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 10, 2018 10:38:30 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="components.dto.Product" table="Product">
+    <class name="components.entity.Product" table="Product" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
         <id name="productId" type="long" column="ProductId">
-<!--            <column name="ProductId" />-->
+<!--            <column name="ProductId" />
+            <generator class="assigned" />-->
             <generator class="identity" />
         </id>
-        <property name="code" type="string">
-            <column name="Code" length="255" />
+        <property name="code" type="serializable">
+            <column name="Code" not-null="true" />
         </property>
-        <property name="productName" type="string">
-            <column name="ProductName" length="255" />
+        <property name="productName" type="serializable">
+            <column name="ProductName" not-null="true" />
         </property>
-        <property name="description" type="string">
-            <column name="Description" length="255" />
+        <property name="description" type="serializable">
+            <column name="Description" not-null="true" />
         </property>
         <property name="quantity" type="int">
-            <column name="Quantity"  />
+            <column name="Quantity" not-null="true" />
         </property>
         <property name="status" type="int">
-            <column name="Status" />
+            <column name="Status" not-null="true" />
         </property>
         <property name="productType" type="int">
-            <column name="ProductType" />
+            <column name="ProductType" not-null="true" />
         </property>
-  </class>
+        <set name="receiptDetails" table="ReceiptDetail" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ProductId" not-null="true" />
+            </key>
+            <one-to-many class="components.entity.ReceiptDetail" />
+        </set>
+        <set name="deliveryBillDetails" table="DeliveryBillDetail" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ProductId" not-null="true" />
+            </key>
+            <one-to-many class="components.entity.DeliveryBillDetail" />
+        </set>
+    </class>
 </hibernate-mapping>
