@@ -6,7 +6,7 @@
 package components.services;
 
 import components.entity.Partner;
-import components.models.PartnerModel;
+import components.dao.PartnerModel;
 import java.util.List;
 
 /**

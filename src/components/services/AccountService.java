@@ -6,8 +6,7 @@
 package components.services;
 
 import components.entity.Account;
-import components.models.AccountModel;
-import components.models.QueryDB;
+import components.dao.AccountModel;
 import java.util.ArrayList;
 import java.util.List;
 

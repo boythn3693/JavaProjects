@@ -6,7 +6,7 @@
 package components.interfaces;
 
 import components.entity.Product;
-import components.models.displayvalueModel;
+import components.dao.displayvalueModel;
 import components.services.ProductService;
 import components.utils.StringHelpers;
 import java.util.List;

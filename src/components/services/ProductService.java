@@ -6,7 +6,7 @@
 package components.services;
 
 import components.entity.Product;
-import components.models.ProductModel;
+import components.dao.ProductModel;
 import java.util.List;
 
 /**
