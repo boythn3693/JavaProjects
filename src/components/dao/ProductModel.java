@@ -13,11 +13,29 @@ import java.util.List;
  * @author MitsuyoRai
  */
 public class ProductModel {
-    private static final String QUERY_PRODUCT = "from Product p";
-    public static final String QUERY_GET_ALL_PRODUCT = "from Product p where Status = %s";
-    
     public List runQueryProduct() {
+        final String QUERY_PRODUCT = "from Product p";
         return QueryDB.GetInstance().runQuery(String.format(QUERY_PRODUCT));
+    }
+    
+    public Boolean hasCode(String code){
+        final String QUERY_HASCODE_PRODUCT = "FROM Product P WHERE P.code = '%s'";
+        List<Product> list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_HASCODE_PRODUCT, code));
+        if( list != null ) {
+            return true;
+        }
+        return false;
+    }
+    
+    public Boolean hasCode(String code, int id){
+        final String QUERY_HASCODE_PRODUCT = "FROM Product P WHERE P.code = '%s' AND P.productId <> %d";
+        List list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_HASCODE_PRODUCT, code, id));
+        
+        if( list != null ) {
+            return true;
+        }
+        
+        return false;
     }
     
     public Boolean insert(Object obj){
@@ -32,8 +50,41 @@ public class ProductModel {
         return QueryDB.GetInstance().delete(obj);
     }
     
-    public List<Product> getListProduct(int status)
+    public Long countTable(){
+        return QueryDB.GetInstance().countTable(Product.class);
+    }
+    
+    public List<Product> getListProduct(int status, int lastPageNumber, int pageSize)
     {
-        return QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_ALL_PRODUCT, status));
+        final String QUERY_GET_ALL_PRODUCT = "from Product where status = %d order by productId desc";
+        
+        List<Product> rs = QueryDB.GetInstance().executeHQLQueryPaging(Product.class, lastPageNumber, pageSize);//String.format(QUERY_GET_ALL_PRODUCT, status)
+        return rs;
+    }
+    
+    public List<Product> getDataProductFilter(String filter, boolean isCode, boolean isName, boolean isDescription, boolean isQuantity, boolean isStatus, boolean isProductType){
+        String where = "";
+        if( isCode ){
+            where += (where.equals("") == true) ? "where p.code like '%"+filter+"%' " : "or p.code like '%"+filter+"%' ";
+        }
+        if( isName ){
+            where += (where.equals("") == true) ? "where p.productName like '%"+filter+"%' " : "or p.productName like '%"+filter+"%' ";
+        }
+        if( isDescription ){
+            where += (where.equals("") == true) ? "where p.description like '%"+filter+"%' " : "or p.description like '%"+filter+"%' ";
+        }        
+        if( isQuantity ){
+            where += (where.equals("") == true) ? "where p.quantity = "+filter+" " : "or p.quantity = "+filter+" ";
+        }
+//        if( isStatus ){
+//            where += (where.equals("") == true) ? "where p.status  %"+filter+"%' " : "or p.status like '%"+filter+"%' ";
+//        }
+//        if( isProductType ){
+//            where += (where.equals("") == true) ? "where p.productType like '%"+filter+"%' " : "or p.productType like '%"+filter+"%' ";
+//        }
+        final String QUERY_GET_PRODUCT = "from Product p "+where;
+        
+        List<Product> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_PRODUCT);
+        return rs;
     }
 }

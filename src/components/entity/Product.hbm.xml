@@ -9,13 +9,13 @@
             <generator class="assigned" />-->
             <generator class="identity" />
         </id>
-        <property name="code" type="serializable">
+        <property name="code" type="string">
             <column name="Code" not-null="true" />
         </property>
-        <property name="productName" type="serializable">
+        <property name="productName" type="string">
             <column name="ProductName" not-null="true" />
         </property>
-        <property name="description" type="serializable">
+        <property name="description" type="string">
             <column name="Description" not-null="true" />
         </property>
         <property name="quantity" type="int">

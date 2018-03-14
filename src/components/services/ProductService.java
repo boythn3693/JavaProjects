@@ -21,6 +21,15 @@ public class ProductService
         model = new ProductModel();
     }
     
+    public Boolean hasCode(String code)
+    {
+        return model.hasCode(code);
+    }
+    
+    public Boolean hasCode(String code, int id){
+        return model.hasCode(code, id);
+    }
+    
     public Boolean insert(Object obj)
     {
         return model.insert(obj);
@@ -36,9 +45,18 @@ public class ProductService
         return model.delete(obj);
     }
     
-    public List<Product> getDataProduct(int status)
+    public Long countTable(){
+        return model.countTable();
+    }
+    
+    public List<Product> getDataProduct(int status, int lastPageNumber, int pageSize)
     {
-        List<Product> rs = model.getListProduct(status);  
+        List<Product> rs = model.getListProduct(status, lastPageNumber, pageSize);
+        return rs;
+    }
+    
+    public List<Product> getDataProductFilter(String filter, boolean isCode, boolean isName, boolean isDescription, boolean isQuantity, boolean isStatus, boolean isProductType){
+        List<Product> rs = model.getDataProductFilter( filter, isCode, isName, isDescription, isQuantity, isStatus, isProductType);
         return rs;
     }
 }

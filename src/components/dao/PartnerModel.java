@@ -34,6 +34,6 @@ public class PartnerModel {
     
     public List<Partner> getListPartner()
     {
-        return QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_ALL_PARTNER));
+        return QueryDB.GetInstance().executeHQLQuery(QUERY_GET_ALL_PARTNER);
     }
 }

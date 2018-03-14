@@ -48,7 +48,9 @@ public class frmPartner extends javax.swing.JPanel {
                     item[6] = listPartner.get(i).getRepresentFullname();
                     tableModel.addRow(item);
                 }           
-            }  
+            } 
+            jTablePartner.getColumnModel().getColumn(0).setMinWidth(0);
+            jTablePartner.getColumnModel().getColumn(0).setMaxWidth(0);
         } catch (Exception ex) {
             System.out.println(ex.toString());
         }
@@ -440,8 +442,6 @@ public class frmPartner extends javax.swing.JPanel {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
         getDataPartner();
-        jTablePartner.getColumnModel().getColumn(0).setMinWidth(0);
-        jTablePartner.getColumnModel().getColumn(0).setMaxWidth(0);
     }//GEN-LAST:event_formComponentShown
 
 
