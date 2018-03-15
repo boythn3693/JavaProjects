@@ -1,16 +1,15 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 10, 2018 10:38:30 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Mar 16, 2018 1:48:14 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.Partner" table="Partner" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
-        <id name="partnerId" type="long" column="PartnerId">
-<!--            <column name="PartnerId" />
-            <generator class="assigned" />-->
+        <id name="partnerId" type="long">
+            <column name="PartnerId" />
             <generator class="identity" />
         </id>
         <property name="partnerName" type="serializable">
-            <column name="PartnerName" />
+            <column name="PartnerName" not-null="true" />
         </property>
         <property name="description" type="serializable">
             <column name="Description" />
@@ -26,13 +25,13 @@
         </property>
         <set name="deliveryBills" table="DeliveryBill" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="PartnerId" not-null="true" />
+                <column name="PartnerId" />
             </key>
             <one-to-many class="components.entity.DeliveryBill" />
         </set>
         <set name="receipts" table="Receipt" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="PartnerId" not-null="true" />
+                <column name="PartnerId" />
             </key>
             <one-to-many class="components.entity.Receipt" />
         </set>

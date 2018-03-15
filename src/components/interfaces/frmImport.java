@@ -5,17 +5,29 @@
  */
 package components.interfaces;
 
+import components.entity.*;
+import components.providers.InvComboBoxRenderer;
+import components.models.ItemModel;
+import components.services.*;
+import java.util.*;
+import javax.swing.*;
+
 /**
  *
  * @author MitsuyoRai
  */
 public class frmImport extends javax.swing.JPanel {
 
+    private PartnerService _partnerService;
+    private ReceiptService _receiptService;
+
     /**
      * Creates new form frmImport
      */
     public frmImport() {
         initComponents();
+        initService();
+        initDataComponents();
     }
 
     /**
@@ -43,6 +55,8 @@ public class frmImport extends javax.swing.JPanel {
         btnInsert2 = new javax.swing.JButton();
         btnDelete2 = new javax.swing.JButton();
         btnReset2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblReceipDetail = new javax.swing.JTable();
 
         jPanelDanhSachPhieuNhap.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
@@ -55,14 +69,14 @@ public class frmImport extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã Phiếu", "Sản phẩm", "Số lượng"
+                "Mã Phiếu", "Đối tác", "Ngày lập phiếu", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -95,9 +109,8 @@ public class frmImport extends javax.swing.JPanel {
             }
         });
 
-        cbbPartner.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cty TNHH MTV Ánh Dương", "Cty CPTMDT TheGioiDiDong" }));
-
         cbbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Done", "Hủy" }));
+        cbbStatus.setEditor(null);
 
         btnInsert2.setText("Lập phiếu nhập");
         btnInsert2.addActionListener(new java.awt.event.ActionListener() {
@@ -153,8 +166,8 @@ public class frmImport extends javax.swing.JPanel {
                     .addComponent(jLabel18))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbbStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbbPartner, 0, 253, Short.MAX_VALUE)
+                    .addComponent(cbbStatus, 0, 253, Short.MAX_VALUE)
+                    .addComponent(cbbPartner, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtReceiptId)
                     .addComponent(dtpDatetime, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -185,21 +198,51 @@ public class frmImport extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        tblReceipDetail.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Mã phiếu", "Sản phẩm", "Số lượng"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblReceipDetail);
+
         javax.swing.GroupLayout jPanelDanhSachPhieuNhapLayout = new javax.swing.GroupLayout(jPanelDanhSachPhieuNhap);
         jPanelDanhSachPhieuNhap.setLayout(jPanelDanhSachPhieuNhapLayout);
         jPanelDanhSachPhieuNhapLayout.setHorizontalGroup(
             jPanelDanhSachPhieuNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDanhSachPhieuNhapLayout.createSequentialGroup()
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 253, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE))
             .addComponent(plReceiptDetail)
         );
         jPanelDanhSachPhieuNhapLayout.setVerticalGroup(
             jPanelDanhSachPhieuNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDanhSachPhieuNhapLayout.createSequentialGroup()
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanelDanhSachPhieuNhapLayout.createSequentialGroup()
+                .addGroup(jPanelDanhSachPhieuNhapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelDanhSachPhieuNhapLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(plReceiptDetail, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
+                .addComponent(plReceiptDetail, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -207,21 +250,20 @@ public class frmImport extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 740, Short.MAX_VALUE)
+            .addGap(0, 960, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanelDanhSachPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGap(0, 10, Short.MAX_VALUE)
+                    .addComponent(jPanelDanhSachPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGap(0, 601, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelDanhSachPhieuNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -266,8 +308,46 @@ public class frmImport extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel jPanelDanhSachPhieuNhap;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane plReceiptDetail;
+    private javax.swing.JTable tblReceipDetail;
     private javax.swing.JTable tblReceiptDetail;
     private javax.swing.JTextField txtReceiptId;
     // End of variables declaration//GEN-END:variables
+
+    private void initDataComponents() {
+        DefaultComboBoxModel partnerModel = (DefaultComboBoxModel) cbbPartner.getModel();
+        partnerModel.removeAllElements();
+        List<Partner> partners = _partnerService.getDataPartner();
+        partners.forEach((Partner partner) -> {
+            partnerModel.addElement(new ItemModel(partner.getPartnerId(), (String) partner.getPartnerName()));
+        });
+        cbbPartner.setModel(partnerModel);
+        cbbPartner.setRenderer(new InvComboBoxRenderer());
+
+        DefaultComboBoxModel statusModel = (DefaultComboBoxModel) cbbStatus.getModel();
+        statusModel.removeAllElements();
+        statusModel.addElement(new ItemModel(1, "Đã nhập"));
+        statusModel.addElement(new ItemModel(2, "Đã hủy"));
+
+        cbbStatus.setModel(statusModel);
+        cbbStatus.setRenderer(new InvComboBoxRenderer());
+
+        Receipt receipt = _receiptService.getNew();
+        BindData(receipt);
+    }
+
+    private void initService() {
+        _partnerService = new PartnerService();
+        _receiptService = new ReceiptService();
+    }
+
+    private void BindData(Receipt receipt) {
+        txtReceiptId.setText(Long.toString(receipt.getReceiptId()));
+        if (receipt.getPartner()!= null)
+            cbbPartner.setSelectedItem(new ItemModel(receipt.getPartner().getPartnerId(), (String) receipt.getPartner().getPartnerName()));
+        if (receipt.getDatetime() != null)
+        dtpDatetime.setText(receipt.getDatetime().toString());
+        //cbbStatus.setSelectedItem(new ItemModel(receipt.get));
+    }
 }

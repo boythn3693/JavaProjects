@@ -1,22 +1,21 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 10, 2018 10:38:30 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Mar 16, 2018 1:48:14 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.Product" table="Product" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
-        <id name="productId" type="long" column="ProductId">
-<!--            <column name="ProductId" />
-            <generator class="assigned" />-->
+        <id name="productId" type="long">
+            <column name="ProductId" />
             <generator class="identity" />
         </id>
-        <property name="code" type="string">
+        <property name="code" type="serializable">
             <column name="Code" not-null="true" />
         </property>
-        <property name="productName" type="string">
+        <property name="productName" type="serializable">
             <column name="ProductName" not-null="true" />
         </property>
-        <property name="description" type="string">
-            <column name="Description" not-null="true" />
+        <property name="description" type="serializable">
+            <column name="Description" />
         </property>
         <property name="quantity" type="int">
             <column name="Quantity" not-null="true" />
@@ -27,15 +26,18 @@
         <property name="productType" type="int">
             <column name="ProductType" not-null="true" />
         </property>
+        <property name="categoryId" type="java.lang.Long">
+            <column name="CategoryId" />
+        </property>
         <set name="receiptDetails" table="ReceiptDetail" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="ProductId" not-null="true" />
+                <column name="ProductId" />
             </key>
             <one-to-many class="components.entity.ReceiptDetail" />
         </set>
         <set name="deliveryBillDetails" table="DeliveryBillDetail" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="ProductId" not-null="true" />
+                <column name="ProductId" />
             </key>
             <one-to-many class="components.entity.DeliveryBillDetail" />
         </set>

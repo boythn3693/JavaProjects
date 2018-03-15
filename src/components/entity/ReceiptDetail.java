@@ -1,5 +1,5 @@
 package components.entity;
-// Generated Mar 10, 2018 10:38:29 AM by Hibernate Tools 4.3.1
+// Generated Mar 16, 2018 1:48:13 AM by Hibernate Tools 4.3.1
 
 
 
@@ -17,6 +17,11 @@ public class ReceiptDetail  implements java.io.Serializable {
     public ReceiptDetail() {
     }
 
+	
+    public ReceiptDetail(long receiptDetailId, int quantity) {
+        this.receiptDetailId = receiptDetailId;
+        this.quantity = quantity;
+    }
     public ReceiptDetail(long receiptDetailId, Product product, Receipt receipt, int quantity) {
        this.receiptDetailId = receiptDetailId;
        this.product = product;

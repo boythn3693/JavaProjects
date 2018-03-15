@@ -1,30 +1,30 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 10, 2018 10:38:30 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Mar 16, 2018 1:48:14 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.Account" table="Account" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
         <id name="accountId" type="long">
             <column name="AccountId" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <property name="username" type="string">
-            <column name="Username" not-null="true" />
+        <property name="usename" type="string">
+            <column name="Usename" not-null="true" />
         </property>
         <property name="password" type="string">
             <column name="Password" not-null="true" />
         </property>
-        <property name="firstName" type="string">
-            <column name="FirstName" not-null="true" />
+        <property name="firstName" type="serializable">
+            <column name="FirstName" />
         </property>
-        <property name="lastName" type="string">
-            <column name="LastName" not-null="true" />
+        <property name="lastName" type="serializable">
+            <column name="LastName" />
         </property>
         <property name="numPhone" type="string">
-            <column name="NumPhone" length="30" not-null="true" />
+            <column name="NumPhone" length="30" />
         </property>
         <property name="email" type="string">
-            <column name="Email" not-null="true" />
+            <column name="Email" />
         </property>
         <property name="inActive" type="boolean">
             <column name="InActive" not-null="true" />
@@ -32,15 +32,21 @@
         <property name="role" type="int">
             <column name="Role" not-null="true" />
         </property>
+        <set name="deliveryBills" table="DeliveryBill" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="AccountId" />
+            </key>
+            <one-to-many class="components.entity.DeliveryBill" />
+        </set>
         <set name="receipts" table="Receipt" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="AccountId" not-null="true" />
+                <column name="AccountId" />
             </key>
             <one-to-many class="components.entity.Receipt" />
         </set>
-        <set name="deliveryBills" table="DeliveryBill" inverse="true" lazy="true" fetch="select">
+        <set name="deliveryBills_1" table="DeliveryBill" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="AccountId" not-null="true" />
+                <column name="AccountId" />
             </key>
             <one-to-many class="components.entity.DeliveryBill" />
         </set>

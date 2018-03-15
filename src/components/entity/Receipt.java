@@ -1,5 +1,5 @@
 package components.entity;
-// Generated Mar 10, 2018 10:38:29 AM by Hibernate Tools 4.3.1
+// Generated Mar 16, 2018 1:48:13 AM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -16,23 +16,24 @@ public class Receipt  implements java.io.Serializable {
      private Account account;
      private Partner partner;
      private Date datetime;
-     private Set receiptDetails = new HashSet(0);
+     private int status;
+     private Set<ReceiptDetail> receiptDetails = new HashSet<ReceiptDetail>(0);
 
     public Receipt() {
     }
 
 	
-    public Receipt(long receiptId, Account account, Partner partner, Date datetime) {
+    public Receipt(long receiptId, Date datetime, int status) {
         this.receiptId = receiptId;
-        this.account = account;
-        this.partner = partner;
         this.datetime = datetime;
+        this.status = status;
     }
-    public Receipt(long receiptId, Account account, Partner partner, Date datetime, Set receiptDetails) {
+    public Receipt(long receiptId, Account account, Partner partner, Date datetime, int status, Set<ReceiptDetail> receiptDetails) {
        this.receiptId = receiptId;
        this.account = account;
        this.partner = partner;
        this.datetime = datetime;
+       this.status = status;
        this.receiptDetails = receiptDetails;
     }
    
@@ -64,11 +65,18 @@ public class Receipt  implements java.io.Serializable {
     public void setDatetime(Date datetime) {
         this.datetime = datetime;
     }
-    public Set getReceiptDetails() {
+    public int getStatus() {
+        return this.status;
+    }
+    
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    public Set<ReceiptDetail> getReceiptDetails() {
         return this.receiptDetails;
     }
     
-    public void setReceiptDetails(Set receiptDetails) {
+    public void setReceiptDetails(Set<ReceiptDetail> receiptDetails) {
         this.receiptDetails = receiptDetails;
     }
 

@@ -9,6 +9,7 @@ import components.entity.Product;
 import components.dao.displayvalueModel;
 import components.services.ProductService;
 import components.utils.StringHelpers;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,12 +24,14 @@ import javax.swing.table.TableModel;
  * @author MitsuyoRai
  */
 public class frmProduct extends javax.swing.JPanel {
+
     private int _productId = -1;
     int pageSize = 5;
     long count;
     int totalPage, page = 1;
     DefaultTableModel tableModel;
     ProductService productService;
+
     /**
      * Creates new form frmProduct
      */
@@ -36,19 +39,19 @@ public class frmProduct extends javax.swing.JPanel {
         initComponents();
         productService = new ProductService();
         onLoad();
-    }  
-    
-    private void onLoad(){
-        count = productService.countTable();
-        totalPage = (int)(Math.ceil(count/pageSize));
     }
-    
+
+    private void onLoad() {
+        count = productService.countTable();
+        totalPage = (int) (Math.ceil(count / pageSize));
+    }
+
     private int GetCbbSelected(JComboBox cbb) {
         Object[] obj = cbb.getSelectedObjects();
         displayvalueModel item = (displayvalueModel) obj[0];
         return Integer.parseInt(item.getDisplayvalue().toString());
     }
-    
+
     private void setSelectedCombobox(String cbbselected, JComboBox cbb) {
         for (int i = 0; i < cbb.getItemCount(); i++) {
             Object obj = cbb.getItemAt(i);
@@ -60,20 +63,20 @@ public class frmProduct extends javax.swing.JPanel {
             }
         }
     }
-    
+
     //--Code Sản phẩm---------------------------------------------------=-/
-    private void getHeaderTable()
-    {
+    private void getHeaderTable() {
         Object[] obj = new Object[]{"ID", "STT", "Mã Sản Phẩm", "Tên sản phẩm", "Mô tả", "Số lượng", "Status", "Trạng thái", "ProductType", "Loại sản phẩm"};
         tableModel = new DefaultTableModel(obj, 0);
         jTableSanPham.setModel(tableModel);
     }
+
     private void getDataProduct(int status) {
         ArrayList _status = new ArrayList();
         _status.add(0, "None");
         _status.add(1, "Hiện");
         _status.add(2, "Ẩn");
-        
+
         ArrayList _productType = new ArrayList();
         _productType.add(0, "None");
         _productType.add(1, "Văn phòng phẩm");
@@ -83,7 +86,7 @@ public class frmProduct extends javax.swing.JPanel {
         try {
             List<Product> listProduct = productService.getDataProduct(status, page, pageSize);
             Iterator iter = listProduct.iterator();
-            while ( iter.hasNext() ) {
+            while (iter.hasNext()) {
                 Product product = (Product) iter.next();
                 Object[] item = new Object[10];
                 item[0] = product.getProductId();
@@ -96,8 +99,8 @@ public class frmProduct extends javax.swing.JPanel {
                 item[7] = _status.get(product.getStatus());
                 item[8] = product.getProductType();
                 item[9] = _productType.get(product.getProductType());
-                tableModel.addRow(item);          
-            } 
+                tableModel.addRow(item);
+            }
             //Ẩn ID
             jTableSanPham.getColumnModel().getColumn(0).setMinWidth(0);
             jTableSanPham.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -111,26 +114,24 @@ public class frmProduct extends javax.swing.JPanel {
             System.out.println("123");
             System.out.println(ex.toString());
         }
-        lblSoTrang.setText(page+ "/"+totalPage);
-        lblPage.setText(""+page);
+        lblSoTrang.setText(page + "/" + totalPage);
+        lblPage.setText("" + page);
     }
-    
-    private void resetInputProduct(){
+
+    private void resetInputProduct() {
         txtCode.setText("");
         txtProductName.setText("");
         txtDescription.setText("");
         txtQuantity.setValue(0);
     }
-    
-    private void getDataProductType()
-    {
-        DefaultComboBoxModel cbbmodel = new DefaultComboBoxModel();      
+
+    private void getDataProductType() {
+        DefaultComboBoxModel cbbmodel = new DefaultComboBoxModel();
         displayvalueModel valueModel1 = new displayvalueModel("Hiển", 1);
         cbbmodel.addElement(valueModel1);
         displayvalueModel valueModel2 = new displayvalueModel("Ẩn", 2);
         cbbmodel.addElement(valueModel2);
         cboStatus.setModel(cbbmodel);
-        
 
         DefaultComboBoxModel cbbmodel2 = new DefaultComboBoxModel();
         displayvalueModel valueModel3 = new displayvalueModel("Văn phòng phẩm", 1);
@@ -562,30 +563,30 @@ public class frmProduct extends javax.swing.JPanel {
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
-        String Code, productName,Description;
+        String Code, productName, Description;
         int Quantity, Status, productType;
 
-        if(txtCode.getText().equals("")) {
+        if (txtCode.getText().equals("")) {
             StringHelpers.Message("Vui lòng nhập Mã sản phẩm", "Thông báo", 2);
             txtCode.requestFocus();
             return;
-        } else if(!productService.hasCode(txtCode.getText().toString())){
+        } else if (!productService.hasCode(txtCode.getText().toString())) {
             StringHelpers.Message("Mã sản phẩm đã tồn tại", "Thông báo", 2);
             txtCode.requestFocus();
             return;
-        } else if(txtProductName.getText().equals("")) {
+        } else if (txtProductName.getText().equals("")) {
             StringHelpers.Message("Vui lòng nhập Tên Sản phẩm", "Thông báo", 2);
             txtProductName.requestFocus();
             return;
-        } else if(txtDescription.getText().equals("")) {
+        } else if (txtDescription.getText().equals("")) {
             StringHelpers.Message("Vui lòng nhập mô tả", "Thông báo", 2);
             txtDescription.requestFocus();
             return;
-        } else if(!StringHelpers.isInteger(txtQuantity.getValue().toString())) {
+        } else if (!StringHelpers.isInteger(txtQuantity.getValue().toString())) {
             StringHelpers.Message("Số lượng phải là số nguyên", "Thông báo", 2);
             txtQuantity.requestFocus();
             return;
-        } else if( Integer.parseInt(txtQuantity.getValue().toString()) <= 0 ) {
+        } else if (Integer.parseInt(txtQuantity.getValue().toString()) <= 0) {
             StringHelpers.Message("Số lượng phải là số nguyên > 0", "Thông báo", 2);
             txtQuantity.requestFocus();
             return;
@@ -600,13 +601,13 @@ public class frmProduct extends javax.swing.JPanel {
 
         Product dto = new Product(-1, Code, productName, Description, Quantity, Status, productType);
 
-        if( productService.insert(dto) ) {
+        if (productService.insert(dto)) {
             StringHelpers.Message("Sản phẩm đã được thêm vào csdl", "Thành công", 1);
         } else {
             StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
         }
         onLoad();
-        
+
         getHeaderTable();
         getDataProduct(1);
         resetInputProduct();
@@ -614,30 +615,30 @@ public class frmProduct extends javax.swing.JPanel {
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        String Code, productName,Description;
+        String Code, productName, Description;
         int Quantity, Status, productType;
 
-        if(txtCode.getText().equals("")) {
+        if (txtCode.getText().equals("")) {
             StringHelpers.Message("Vui lòng nhập Mã sản phẩm", "Thông báo", 2);
             txtCode.requestFocus();
             return;
-        } else if(!productService.hasCode(txtCode.getText().toString(), this._productId)){
+        } else if (!productService.hasCode(txtCode.getText().toString(), this._productId)) {
             StringHelpers.Message("Mã sản phẩm đã tồn tại", "Thông báo", 2);
             txtCode.requestFocus();
             return;
-        } else if(txtProductName.getText().equals("")) {
+        } else if (txtProductName.getText().equals("")) {
             StringHelpers.Message("Vui lòng nhập Tên Sản phẩm", "Thông báo", 2);
             txtProductName.requestFocus();
             return;
-        } else if(txtDescription.getText().equals("")) {
+        } else if (txtDescription.getText().equals("")) {
             StringHelpers.Message("Vui lòng nhập mô tả", "Thông báo", 2);
             txtDescription.requestFocus();
             return;
-        } else if(!StringHelpers.isInteger(txtQuantity.getValue().toString())) {
+        } else if (!StringHelpers.isInteger(txtQuantity.getValue().toString())) {
             StringHelpers.Message("Số lượng phải là số nguyên", "Thông báo", 2);
             txtQuantity.requestFocus();
             return;
-        } else if( Integer.parseInt(txtQuantity.getValue().toString()) <= 0 ) {
+        } else if (Integer.parseInt(txtQuantity.getValue().toString()) <= 0) {
             StringHelpers.Message("Số lượng phải là số nguyên > 0", "Thông báo", 2);
             txtQuantity.requestFocus();
             return;
@@ -652,13 +653,13 @@ public class frmProduct extends javax.swing.JPanel {
 
         Product dto = new Product(this._productId, Code, productName, Description, Quantity, Status, productType);
 
-        if( productService.update(dto) ) {
+        if (productService.update(dto)) {
             StringHelpers.Message("Sản phẩm đã được cập nhật thành công", "Thành công", 1);
         } else {
             StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
         }
         onLoad();
-        
+
         getHeaderTable();
         getDataProduct(1);
         resetInputProduct();
@@ -666,18 +667,18 @@ public class frmProduct extends javax.swing.JPanel {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        int dialogResult = JOptionPane.showConfirmDialog (null, "Bạn chắc chắn muốn xóa sản phẩm này?", "Warning", JOptionPane.YES_NO_OPTION);
-        if(dialogResult == JOptionPane.YES_OPTION){
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn chắc chắn muốn xóa sản phẩm này?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
             Product dto = new Product();
             dto.setProductId(this._productId);
-            if( productService.delete(dto) ) {
+            if (productService.delete(dto)) {
                 StringHelpers.Message("Sản phẩm đã được Xóa thành công", "Thành công", 1);
             } else {
                 StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
             }
-            
+
             onLoad();
-            
+
             getHeaderTable();
             getDataProduct(1);
             resetInputProduct();
@@ -699,7 +700,7 @@ public class frmProduct extends javax.swing.JPanel {
 
     private void jButtonPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPreActionPerformed
         // TODO add your handling code here:
-        if(page > 1){
+        if (page > 1) {
             page--;
             getHeaderTable();
             getDataProduct(1);
@@ -708,8 +709,8 @@ public class frmProduct extends javax.swing.JPanel {
 
     private void jButtonPreAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPreAllActionPerformed
         // TODO add your handling code here:
-        if(page > 1){
-            page=1;
+        if (page > 1) {
+            page = 1;
             getHeaderTable();
             getDataProduct(1);
         }
@@ -717,7 +718,7 @@ public class frmProduct extends javax.swing.JPanel {
 
     private void jButtonNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextActionPerformed
         // TODO add your handling code here:
-        if(page < totalPage){
+        if (page < totalPage) {
             page++;
             getHeaderTable();
             getDataProduct(1);
@@ -726,7 +727,7 @@ public class frmProduct extends javax.swing.JPanel {
 
     private void jButtonNextAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNextAllActionPerformed
         // TODO add your handling code here:
-        if(page < totalPage){
+        if (page < totalPage) {
             page = totalPage;
             getHeaderTable();
             getDataProduct(1);
@@ -735,41 +736,41 @@ public class frmProduct extends javax.swing.JPanel {
 
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
-        Boolean isCode = false, 
-                isName = false, 
-                isDescription = false, 
-                isQuantity = false, 
-                isStatus = false, 
+        Boolean isCode = false,
+                isName = false,
+                isDescription = false,
+                isQuantity = false,
+                isStatus = false,
                 isProductType = false;
-        if( cbCode.isSelected() ){
+        if (cbCode.isSelected()) {
             isCode = true;
         }
-        if( cbProductName.isSelected() ){
+        if (cbProductName.isSelected()) {
             isName = true;
         }
-        if( cbDescription.isSelected() ){
+        if (cbDescription.isSelected()) {
             isDescription = true;
-        }        
-        if( cbQuantity.isSelected() ){
+        }
+        if (cbQuantity.isSelected()) {
             isQuantity = true;
         }
-        if( cbStatus.isSelected() ){
+        if (cbStatus.isSelected()) {
             isStatus = true;
         }
-        if( cbProductType.isSelected() ){
+        if (cbProductType.isSelected()) {
             isProductType = true;
         }
         String filter = txtSearchField.getText();
-        
-        if( filter.equals("") == true ) {
+
+        if (filter.equals("") == true) {
             StringHelpers.Message("Vui lòng nhập từ khóa", "Thông báo", 2);
             return;
-        } 
+        }
         ArrayList _status = new ArrayList();
         _status.add(0, "None");
         _status.add(1, "Hiện");
         _status.add(2, "Ẩn");
-        
+
         ArrayList _productType = new ArrayList();
         _productType.add(0, "None");
         _productType.add(1, "Văn phòng phẩm");
@@ -780,7 +781,7 @@ public class frmProduct extends javax.swing.JPanel {
         try {
             List<Product> listProduct = productService.getDataProductFilter(filter, isCode, isName, isDescription, isQuantity, isStatus, isProductType);
             Iterator iter = listProduct.iterator();
-            while ( iter.hasNext() ) {
+            while (iter.hasNext()) {
                 Product product = (Product) iter.next();
                 Object[] item = new Object[10];
                 item[0] = product.getProductId();
@@ -793,8 +794,8 @@ public class frmProduct extends javax.swing.JPanel {
                 item[7] = _status.get(product.getStatus());
                 item[8] = product.getProductType();
                 item[9] = _productType.get(product.getProductType());
-                tableModel.addRow(item);          
-            } 
+                tableModel.addRow(item);
+            }
             //Ẩn ID
             jTableSanPham.getColumnModel().getColumn(0).setMinWidth(0);
             jTableSanPham.getColumnModel().getColumn(0).setMaxWidth(0);
@@ -808,8 +809,8 @@ public class frmProduct extends javax.swing.JPanel {
             System.out.println("123");
             System.out.println(ex.toString());
         }
-        lblSoTrang.setText(page+ "/"+totalPage);
-        lblPage.setText(""+page);
+        lblSoTrang.setText(page + "/" + totalPage);
+        lblPage.setText("" + page);
     }//GEN-LAST:event_btnFilterActionPerformed
 
 
