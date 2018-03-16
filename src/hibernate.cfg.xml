@@ -44,7 +44,11 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
     <property name="hibernate.connection.url">jdbc:sqlserver://localhost\DICKHOINGUYEN:1433;databaseName=InventoryDb</property>
     <property name="hibernate.connection.username">sa</property>
+<<<<<<< HEAD
     <property name="hibernate.connection.password">@Abcd1234</property>
+=======
+    <property name="hibernate.connection.password">123456</property>
+>>>>>>> parent of 118e10f... update code product filter & paging
     <property name="show_sql">true</property>
     <property name="hibernate.connection.CharSet">utf8</property>
     <property name="hibernate.connection.characterEncoding">utf8</property>

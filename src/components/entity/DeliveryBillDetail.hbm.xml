@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 16, 2018 2:40:43 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Mar 16, 2018 1:48:14 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.DeliveryBillDetail" table="DeliveryBillDetail" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
         <id name="deliveryBillDetailId" type="long">
             <column name="DeliveryBillDetailId" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="deliveryBill" class="components.entity.DeliveryBill" fetch="select">
             <column name="DeliveryBillId" />

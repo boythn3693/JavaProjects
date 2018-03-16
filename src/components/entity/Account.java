@@ -13,32 +13,32 @@ public class Account  implements java.io.Serializable {
 
 
      private long accountId;
-     private String username;
+     private String usename;
      private String password;
-     private String firstName;
-     private String lastName;
+     private Serializable firstName;
+     private Serializable lastName;
      private String numPhone;
      private String email;
      private boolean inActive;
      private int role;
-     private Set deliveryBills = new HashSet(0);
-     private Set receipts = new HashSet(0);
-     private Set deliveryBills_1 = new HashSet(0);
+     private Set<DeliveryBill> deliveryBills = new HashSet<DeliveryBill>(0);
+     private Set<Receipt> receipts = new HashSet<Receipt>(0);
+     private Set<DeliveryBill> deliveryBills_1 = new HashSet<DeliveryBill>(0);
 
     public Account() {
     }
 
 	
-    public Account(long accountId, String username, String password, boolean inActive, int role) {
+    public Account(long accountId, String usename, String password, boolean inActive, int role) {
         this.accountId = accountId;
-        this.username = username;
+        this.usename = usename;
         this.password = password;
         this.inActive = inActive;
         this.role = role;
     }
-    public Account(long accountId, String username, String password, String firstName, String lastName, String numPhone, String email, boolean inActive, int role, Set deliveryBills, Set receipts, Set deliveryBills_1) {
+    public Account(long accountId, String usename, String password, Serializable firstName, Serializable lastName, String numPhone, String email, boolean inActive, int role, Set<DeliveryBill> deliveryBills, Set<Receipt> receipts, Set<DeliveryBill> deliveryBills_1) {
        this.accountId = accountId;
-       this.username = username;
+       this.usename = usename;
        this.password = password;
        this.firstName = firstName;
        this.lastName = lastName;
@@ -58,12 +58,12 @@ public class Account  implements java.io.Serializable {
     public void setAccountId(long accountId) {
         this.accountId = accountId;
     }
-    public String getUsername() {
-        return this.username;
+    public String getUsename() {
+        return this.usename;
     }
     
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsename(String usename) {
+        this.usename = usename;
     }
     public String getPassword() {
         return this.password;
@@ -76,14 +76,14 @@ public class Account  implements java.io.Serializable {
         return this.firstName;
     }
     
-    public void setFirstName(String firstName) {
+    public void setFirstName(Serializable firstName) {
         this.firstName = firstName;
     }
     public Serializable getLastName() {
         return this.lastName;
     }
     
-    public void setLastName(String lastName) {
+    public void setLastName(Serializable lastName) {
         this.lastName = lastName;
     }
     public String getNumPhone() {
@@ -114,25 +114,25 @@ public class Account  implements java.io.Serializable {
     public void setRole(int role) {
         this.role = role;
     }
-    public Set getDeliveryBills() {
+    public Set<DeliveryBill> getDeliveryBills() {
         return this.deliveryBills;
     }
     
-    public void setDeliveryBills(Set deliveryBills) {
+    public void setDeliveryBills(Set<DeliveryBill> deliveryBills) {
         this.deliveryBills = deliveryBills;
     }
-    public Set getReceipts() {
+    public Set<Receipt> getReceipts() {
         return this.receipts;
     }
     
-    public void setReceipts(Set receipts) {
+    public void setReceipts(Set<Receipt> receipts) {
         this.receipts = receipts;
     }
-    public Set getDeliveryBills_1() {
+    public Set<DeliveryBill> getDeliveryBills_1() {
         return this.deliveryBills_1;
     }
     
-    public void setDeliveryBills_1(Set deliveryBills_1) {
+    public void setDeliveryBills_1(Set<DeliveryBill> deliveryBills_1) {
         this.deliveryBills_1 = deliveryBills_1;
     }
 

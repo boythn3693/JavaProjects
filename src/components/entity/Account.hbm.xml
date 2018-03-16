@@ -1,23 +1,23 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 16, 2018 2:40:43 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated Mar 16, 2018 1:48:14 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.Account" table="Account" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
         <id name="accountId" type="long">
             <column name="AccountId" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
-        <property name="username" type="string">
-            <column name="Username" not-null="true" />
+        <property name="usename" type="string">
+            <column name="Usename" not-null="true" />
         </property>
         <property name="password" type="string">
             <column name="Password" not-null="true" />
         </property>
-        <property name="firstName" type="string">
+        <property name="firstName" type="serializable">
             <column name="FirstName" />
         </property>
-        <property name="lastName" type="string">
+        <property name="lastName" type="serializable">
             <column name="LastName" />
         </property>
         <property name="numPhone" type="string">

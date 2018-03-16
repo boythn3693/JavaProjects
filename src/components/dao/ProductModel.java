@@ -6,7 +6,6 @@
 package components.dao;
 
 import components.entity.Product;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,55 +51,15 @@ public class ProductModel {
     }
     
     public Long countTable(){
-        return QueryDB.GetInstance().countTable("select count (*) from Product");
+        return QueryDB.GetInstance().countTable(Product.class);
     }
     
-    public Long countTableFilter(String filter, boolean isCode, boolean isName, boolean isDescription, boolean isQuantity, boolean isStatus, boolean isProductType){
-        String where = "";
-        if( isCode ){
-            where += (where.equals("") == true) ? "where p.code like '%"+filter+"%' " : "or p.code like '%"+filter+"%' ";
-        }
-        if( isName ){
-            where += (where.equals("") == true) ? "where p.productName like '%"+filter+"%' " : "or p.productName like '%"+filter+"%' ";
-        }
-        if( isDescription ){
-            where += (where.equals("") == true) ? "where p.description like '%"+filter+"%' " : "or p.description like '%"+filter+"%' ";
-        }        
-        if( isQuantity ){
-            where += (where.equals("") == true) ? "where p.quantity = "+filter+" " : "or p.quantity = "+filter+" ";
-        }
-//        if( isStatus ){
-//            where += (where.equals("") == true) ? "where p.status  %"+filter+"%' " : "or p.status like '%"+filter+"%' ";
-//        }
-//        if( isProductType ){
-//            where += (where.equals("") == true) ? "where p.productType like '%"+filter+"%' " : "or p.productType like '%"+filter+"%' ";
-//        }
-        final String QUERY_COUNT_PRODUCT = "select count (*) from Product p "+where;
-        return QueryDB.GetInstance().countTable(QUERY_COUNT_PRODUCT);
-    }
-    
-//    public List<Product> getListProduct(int status, int lastPageNumber, int pageSize)
-//    {
-//        final String QUERY_GET_ALL_PRODUCT = "from Product where status = %d order by productId desc";
-//        
-//        List<Product> rs = QueryDB.GetInstance().executeHQLQueryPaging(String.format(QUERY_GET_ALL_PRODUCT, status), lastPageNumber, pageSize);//String.format(QUERY_GET_ALL_PRODUCT, status)
-//        return rs;
-//    }
-    
-    public List<Product> getListProduct(int status)
+    public List<Product> getListProduct(int status, int lastPageNumber, int pageSize)
     {
         final String QUERY_GET_ALL_PRODUCT = "from Product where status = %d order by productId desc";
         
-        List<Product> rs = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_ALL_PRODUCT, status));//String.format(QUERY_GET_ALL_PRODUCT, status)
+        List<Product> rs = QueryDB.GetInstance().executeHQLQueryPaging(Product.class, lastPageNumber, pageSize);//String.format(QUERY_GET_ALL_PRODUCT, status)
         return rs;
-    }
-    
-    public List<Product> getListByPagination(List<Product> list, int start, int end){
-        List<Product> result = new ArrayList<Product>();
-        for(int i = start; i < end; i++) {
-            result.add(list.get(i));
-        }
-        return result;
     }
     
     public List<Product> getDataProductFilter(String filter, boolean isCode, boolean isName, boolean isDescription, boolean isQuantity, boolean isStatus, boolean isProductType){

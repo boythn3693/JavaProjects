@@ -3,7 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/HocTap/HCDH/HK4/LTUDJV/Projects/JavaProjects/src/components/applications/application.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/entity/Partner.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/interfaces/frmMain.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/entity/Receipt.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/hibernate.cfg.xml</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/dao/QueryDB.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/entity/Partner.hbm.xml</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/interfaces/frmImport.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/dao/PartnerModel.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/dao/ReceiptDAO.java</file>
         </group>
     </open-files>
 </project-private>

@@ -40,6 +40,7 @@ public class PartnerModel {
     
     public List<Partner> getListPartner()
     {
+<<<<<<< HEAD
         return QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_ALL_PARTNER));
 >>>>>>> 118e10f8e8765c542e76106a83158309760c2386
     }
@@ -51,5 +52,8 @@ public class PartnerModel {
             return list.get(list.size() - 1);
         }
         return null;
+=======
+        return QueryDB.GetInstance().executeHQLQuery(QUERY_GET_ALL_PARTNER);
+>>>>>>> parent of 118e10f... update code product filter & paging
     }
 }
