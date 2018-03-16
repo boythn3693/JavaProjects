@@ -28,16 +28,16 @@ public class ReceiptDAO {
         }
         return new Receipt();
     }
-    
+
     public Receipt getNew() {
-         Receipt receipt =new Receipt();
-         receipt.setReceiptId(-1);
-         receipt.setDatetime(new Date(0));
+        Receipt receipt = new Receipt();
+        receipt.setReceiptId(-1);
+        receipt.setDatetime(new Date());
         insert(receipt);
-        final String QUERY_GET_NEW_RECEIPT = "FROM Receipt R WHERE R.Status = 0";
+        final String QUERY_GET_NEW_RECEIPT = "select r from Receipt r inner join r.partner WHERE r.status = 0";
         List<Receipt> list = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_NEW_RECEIPT);
         if (list != null && list.size() > 0) {
-            return list.get(0);
+            return list.get(list.size() - 1);
         }
         return new Receipt();
     }
@@ -59,7 +59,7 @@ public class ReceiptDAO {
     }
 
     public List<Receipt> getAll() {
-        final String QUERY_GET_ALL_RECEIPT = "from Receipt where status = %d order by productId desc";
+        final String QUERY_GET_ALL_RECEIPT = "select r from Receipt r inner join r.partner WHERE r.status > 0";
 
         List<Receipt> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_ALL_RECEIPT);
         return rs;

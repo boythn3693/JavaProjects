@@ -14,29 +14,31 @@ import java.util.List;
  * @author MitsuyoRai
  */
 public class PartnerService {
+
     PartnerModel model;
+
     public PartnerService() {
         model = new PartnerModel();
     }
-    
-    public Boolean insert(Object obj)
-    {
+
+    public Boolean insert(Object obj) {
         return model.insert(obj);
     }
-    
-    public Boolean update(Object obj)
-    {
+
+    public Boolean update(Object obj) {
         return model.update(obj);
     }
-    
-    public Boolean delete(Object obj)
-    {
+
+    public Boolean delete(Object obj) {
         return model.delete(obj);
     }
-    
-    public List<Partner> getDataPartner()
-    {
-        List<Partner> rs = model.getListPartner();  
+
+    public List<Partner> getDataPartner() {
+        List<Partner> rs = model.getListPartner();
         return rs;
+    }
+
+    public Partner getById(long id) {
+        return model.getById(id);
     }
 }

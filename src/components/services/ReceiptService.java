@@ -7,20 +7,33 @@ package components.services;
 
 import components.dao.*;
 import components.entity.Receipt;
+import java.util.List;
 
 /**
  *
  * @author vankh
  */
 public class ReceiptService {
+
     ReceiptDAO _dao;
-    public ReceiptService() 
-    {
+
+    public ReceiptService() {
         _dao = new ReceiptDAO();
     }
-    
-    public Receipt getNew()
-    {
+
+    public Receipt getNew() {
         return _dao.getNew();
+    }
+
+    public Boolean update(Object obj) {
+        return _dao.update(obj);
+    }
+
+    public Boolean delete(Object obj) {
+        return _dao.delete(obj);
+    }
+
+    public List<Receipt> getAll() {
+        return _dao.getAll();
     }
 }
