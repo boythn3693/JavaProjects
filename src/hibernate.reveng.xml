@@ -41,11 +41,12 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="InventoryDb" match-schema="dbo"/>
-  <table-filter match-name="DeliveryBillDetail"/>
-  <table-filter match-name="DeliveryBill"/>
-  <table-filter match-name="Product"/>
-  <table-filter match-name="Receipt"/>
   <table-filter match-name="Account"/>
+  <table-filter match-name="DeliveryBillDetail"/>
+  <table-filter match-name="Product"/>
   <table-filter match-name="Partner"/>
+  <table-filter match-name="Receipt"/>
   <table-filter match-name="ReceiptDetail"/>
+  <table-filter match-name="DeliveryBill"/>
+  <table-filter match-name="Category"/>
 </hibernate-reverse-engineering>

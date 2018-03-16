@@ -13,7 +13,7 @@ import java.util.List;
  * @author MitsuyoRai
  */
 public class AccountModel {
-    public final String QUERY_CHECK_LOGIN = "from Account a where Username='%s' and Password='%s'";
+    public final String QUERY_CHECK_LOGIN = "from Account a where username='%s' and password='%s'";
     
     public List<Account> getAccountByUsernamePassword(String _username, String _password)
     {

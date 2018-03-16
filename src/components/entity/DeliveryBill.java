@@ -1,5 +1,5 @@
 package components.entity;
-// Generated Mar 16, 2018 1:48:13 AM by Hibernate Tools 4.3.1
+// Generated Mar 16, 2018 2:40:42 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -17,7 +17,7 @@ public class DeliveryBill  implements java.io.Serializable {
      private Partner partner;
      private Date datetime;
      private int status;
-     private Set<DeliveryBillDetail> deliveryBillDetails = new HashSet<DeliveryBillDetail>(0);
+     private Set deliveryBillDetails = new HashSet(0);
 
     public DeliveryBill() {
     }
@@ -28,7 +28,7 @@ public class DeliveryBill  implements java.io.Serializable {
         this.datetime = datetime;
         this.status = status;
     }
-    public DeliveryBill(long deliveryBillId, Account account, Partner partner, Date datetime, int status, Set<DeliveryBillDetail> deliveryBillDetails) {
+    public DeliveryBill(long deliveryBillId, Account account, Partner partner, Date datetime, int status, Set deliveryBillDetails) {
        this.deliveryBillId = deliveryBillId;
        this.account = account;
        this.partner = partner;
@@ -72,11 +72,11 @@ public class DeliveryBill  implements java.io.Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
-    public Set<DeliveryBillDetail> getDeliveryBillDetails() {
+    public Set getDeliveryBillDetails() {
         return this.deliveryBillDetails;
     }
     
-    public void setDeliveryBillDetails(Set<DeliveryBillDetail> deliveryBillDetails) {
+    public void setDeliveryBillDetails(Set deliveryBillDetails) {
         this.deliveryBillDetails = deliveryBillDetails;
     }
 

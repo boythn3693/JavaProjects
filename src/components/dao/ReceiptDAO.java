@@ -55,7 +55,7 @@ public class ReceiptDAO {
     }
 
     public Long countTable() {
-        return QueryDB.GetInstance().countTable(Receipt.class);
+        return QueryDB.GetInstance().countTable("Receipt");
     }
 
     public List<Receipt> getAll() {

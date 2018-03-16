@@ -33,9 +33,10 @@ public class AccountService {
     {
         ArrayList list = new ArrayList();
         List<Account> rs = model.getAccountByUsernamePassword(_username, _password);
+        System.out.print(rs.get(0).getFirstName());
         if( rs != null ) {
             list.add(rs.get(0).getAccountId());
-            list.add(rs.get(0).getUsename());
+            list.add(rs.get(0).getUsername());
             list.add(rs.get(0).getFirstName());
             list.add(rs.get(0).getLastName());
             list.add(rs.get(0).getRole());            

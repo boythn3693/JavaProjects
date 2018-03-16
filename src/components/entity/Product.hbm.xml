@@ -1,20 +1,24 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 16, 2018 1:48:14 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Mar 16, 2018 2:40:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.Product" table="Product" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
         <id name="productId" type="long">
-            <column name="ProductId" />
+            <!--            <column name="ProductId" />
+            <generator class="assigned" />-->
             <generator class="identity" />
         </id>
-        <property name="code" type="serializable">
+        <many-to-one name="category" class="components.entity.Category" fetch="select">
+            <column name="CategoryId" />
+        </many-to-one>
+        <property name="code" type="string">
             <column name="Code" not-null="true" />
         </property>
-        <property name="productName" type="serializable">
+        <property name="productName" type="string">
             <column name="ProductName" not-null="true" />
         </property>
-        <property name="description" type="serializable">
+        <property name="description" type="string">
             <column name="Description" />
         </property>
         <property name="quantity" type="int">
@@ -25,9 +29,6 @@
         </property>
         <property name="productType" type="int">
             <column name="ProductType" not-null="true" />
-        </property>
-        <property name="categoryId" type="java.lang.Long">
-            <column name="CategoryId" />
         </property>
         <set name="receiptDetails" table="ReceiptDetail" inverse="true" lazy="true" fetch="select">
             <key>

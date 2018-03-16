@@ -1,5 +1,5 @@
 package components.entity;
-// Generated Mar 16, 2018 1:48:13 AM by Hibernate Tools 4.3.1
+// Generated Mar 16, 2018 2:40:42 PM by Hibernate Tools 4.3.1
 
 
 import java.io.Serializable;
@@ -18,8 +18,8 @@ public class Partner  implements java.io.Serializable {
      private Serializable address;
      private Serializable numPhone;
      private Serializable representFullname;
-     private Set<DeliveryBill> deliveryBills = new HashSet<DeliveryBill>(0);
-     private Set<Receipt> receipts = new HashSet<Receipt>(0);
+     private Set deliveryBills = new HashSet(0);
+     private Set receipts = new HashSet(0);
 
     public Partner() {
     }
@@ -29,7 +29,7 @@ public class Partner  implements java.io.Serializable {
         this.partnerId = partnerId;
         this.partnerName = partnerName;
     }
-    public Partner(long partnerId, Serializable partnerName, Serializable description, Serializable address, Serializable numPhone, Serializable representFullname, Set<DeliveryBill> deliveryBills, Set<Receipt> receipts) {
+    public Partner(long partnerId, Serializable partnerName, Serializable description, Serializable address, Serializable numPhone, Serializable representFullname, Set deliveryBills, Set receipts) {
        this.partnerId = partnerId;
        this.partnerName = partnerName;
        this.description = description;
@@ -82,18 +82,18 @@ public class Partner  implements java.io.Serializable {
     public void setRepresentFullname(Serializable representFullname) {
         this.representFullname = representFullname;
     }
-    public Set<DeliveryBill> getDeliveryBills() {
+    public Set getDeliveryBills() {
         return this.deliveryBills;
     }
     
-    public void setDeliveryBills(Set<DeliveryBill> deliveryBills) {
+    public void setDeliveryBills(Set deliveryBills) {
         this.deliveryBills = deliveryBills;
     }
-    public Set<Receipt> getReceipts() {
+    public Set getReceipts() {
         return this.receipts;
     }
     
-    public void setReceipts(Set<Receipt> receipts) {
+    public void setReceipts(Set receipts) {
         this.receipts = receipts;
     }
 
