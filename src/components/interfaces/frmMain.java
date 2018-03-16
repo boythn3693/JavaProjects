@@ -91,23 +91,18 @@ public class frmMain extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jtabPanel = new javax.swing.JTabbedPane();
         jTabbedPaneCategory = new javax.swing.JTabbedPane();
-        frmCategory1 = new components.interfaces.frmCategory();
         jTabbedPaneProduct = new javax.swing.JTabbedPane();
-        frmProduct = new components.interfaces.frmProduct();
         jTabbedPaneImport = new javax.swing.JTabbedPane();
-        frmImport = new components.interfaces.frmImport();
         jTabbedPaneExport = new javax.swing.JTabbedPane();
-        frmExport = new components.interfaces.frmExport();
         jTabbedPaneReport = new javax.swing.JTabbedPane();
-        frmReport1 = new components.interfaces.frmReport();
         jTabbedPanePartner = new javax.swing.JTabbedPane();
-        frmPartner = new components.interfaces.frmPartner();
         jTabbedAccount = new javax.swing.JTabbedPane();
-        frmAccount1 = new components.interfaces.frmAccount();
         jTabbedPaneExit = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Phần mềm Quản lý Kho");
+        setMinimumSize(new java.awt.Dimension(905, 700));
+        setPreferredSize(new java.awt.Dimension(905, 700));
 
         jPanel1.setRequestFocusEnabled(false);
 
@@ -116,75 +111,60 @@ public class frmMain extends javax.swing.JFrame {
         jtabPanel.setInheritsPopupMenu(true);
 
         jTabbedPaneCategory.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
-        javax.swing.GroupLayout frmCategory1Layout = new javax.swing.GroupLayout(frmCategory1);
-        frmCategory1.setLayout(frmCategory1Layout);
-        frmCategory1Layout.setHorizontalGroup(
-            frmCategory1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 740, Short.MAX_VALUE)
-        );
-        frmCategory1Layout.setVerticalGroup(
-            frmCategory1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
-        );
-
-        jTabbedPaneCategory.addTab("Quản lý Danh mục", frmCategory1);
-
+        jTabbedPaneCategory.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPaneCategoryComponentShown(evt);
+            }
+        });
         jtabPanel.addTab("Danh mục", new javax.swing.ImageIcon(getClass().getResource("/public/images/attribute_category_label.png")), jTabbedPaneCategory); // NOI18N
 
         jTabbedPaneProduct.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTabbedPaneProduct.addTab("Danh sách sản phẩm", frmProduct);
-
+        jTabbedPaneProduct.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPaneProductComponentShown(evt);
+            }
+        });
         jtabPanel.addTab("Sản phẩm", new javax.swing.ImageIcon(getClass().getResource("/public/images/if_Product_Hunt_1298713.png")), jTabbedPaneProduct); // NOI18N
 
         jTabbedPaneImport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTabbedPaneImport.addTab("Quản lý Nhập kho", frmImport);
-
+        jTabbedPaneImport.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPaneImportComponentShown(evt);
+            }
+        });
         jtabPanel.addTab("Nhập kho", new javax.swing.ImageIcon(getClass().getResource("/public/images/if_document-import_23211.png")), jTabbedPaneImport); // NOI18N
         jTabbedPaneImport.getAccessibleContext().setAccessibleName("Nhập Kho");
 
         jTabbedPaneExport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTabbedPaneExport.addTab("Quản lý Xuất kho", frmExport);
-
+        jTabbedPaneExport.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPaneExportComponentShown(evt);
+            }
+        });
         jtabPanel.addTab("Xuất kho", new javax.swing.ImageIcon(getClass().getResource("/public/images/if_document-export_23210.png")), jTabbedPaneExport); // NOI18N
 
         jTabbedPaneReport.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
-        javax.swing.GroupLayout frmReport1Layout = new javax.swing.GroupLayout(frmReport1);
-        frmReport1.setLayout(frmReport1Layout);
-        frmReport1Layout.setHorizontalGroup(
-            frmReport1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 740, Short.MAX_VALUE)
-        );
-        frmReport1Layout.setVerticalGroup(
-            frmReport1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
-        );
-
-        jTabbedPaneReport.addTab("Báo cáo", frmReport1);
-
+        jTabbedPaneReport.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPaneReportComponentShown(evt);
+            }
+        });
         jtabPanel.addTab("Báo cáo", new javax.swing.ImageIcon(getClass().getResource("/public/images/if_product-sales-report_49607.png")), jTabbedPaneReport); // NOI18N
 
         jTabbedPanePartner.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTabbedPanePartner.addTab("Đối tác", frmPartner);
-
+        jTabbedPanePartner.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedPanePartnerComponentShown(evt);
+            }
+        });
         jtabPanel.addTab("Đối tác", new javax.swing.ImageIcon(getClass().getResource("/public/images/if_partner_search_86337.png")), jTabbedPanePartner); // NOI18N
 
         jTabbedAccount.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
-        javax.swing.GroupLayout frmAccount1Layout = new javax.swing.GroupLayout(frmAccount1);
-        frmAccount1.setLayout(frmAccount1Layout);
-        frmAccount1Layout.setHorizontalGroup(
-            frmAccount1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 740, Short.MAX_VALUE)
-        );
-        frmAccount1Layout.setVerticalGroup(
-            frmAccount1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
-        );
-
-        jTabbedAccount.addTab("Quản lý Tài khoản", frmAccount1);
-
+        jTabbedAccount.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jTabbedAccountComponentShown(evt);
+            }
+        });
         jtabPanel.addTab("Tài khoản", new javax.swing.ImageIcon(getClass().getResource("/public/images/if_windows_users_7394.png")), jTabbedAccount); // NOI18N
 
         jTabbedPaneExit.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -219,6 +199,69 @@ public class frmMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
     private int _productId=0;
+    private void jTabbedPaneCategoryComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPaneCategoryComponentShown
+        // TODO add your handling code here:
+        if(!jTabbedPaneCategory.hasFocus()) {
+            jTabbedPaneCategory.removeAll();
+            frmCategory frm = new frmCategory();
+            jTabbedPaneCategory.addTab("Quản lý Danh mục", frm);
+        }
+    }//GEN-LAST:event_jTabbedPaneCategoryComponentShown
+
+    private void jTabbedPaneProductComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPaneProductComponentShown
+        // TODO add your handling code here:
+        if(!jTabbedPaneProduct.hasFocus()) {
+            jTabbedPaneProduct.removeAll();
+            frmProduct frm = new frmProduct();
+            jTabbedPaneProduct.addTab("Quản lý sản phẩm", frm);
+        }
+    }//GEN-LAST:event_jTabbedPaneProductComponentShown
+
+    private void jTabbedPaneImportComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPaneImportComponentShown
+        // TODO add your handling code here:
+        if(!jTabbedPaneImport.hasFocus()) {
+            jTabbedPaneImport.removeAll();
+            frmImport frm = new frmImport();
+            jTabbedPaneImport.addTab("Quản lý Nhập kho", frm);
+        }
+    }//GEN-LAST:event_jTabbedPaneImportComponentShown
+
+    private void jTabbedPaneExportComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPaneExportComponentShown
+        // TODO add your handling code here:
+        if(!jTabbedPaneExport.hasFocus()) {
+            jTabbedPaneExport.removeAll();
+            frmExport frm = new frmExport();
+            jTabbedPaneExport.addTab("Quản lý Xuất kho", frm);
+        }
+    }//GEN-LAST:event_jTabbedPaneExportComponentShown
+
+    private void jTabbedPaneReportComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPaneReportComponentShown
+        // TODO add your handling code here:
+        if(!jTabbedPaneReport.hasFocus()) {
+            jTabbedPaneReport.removeAll();
+            frmReport frm = new frmReport();
+            jTabbedPaneReport.addTab("Lập báo cáo", frm);
+        }
+    }//GEN-LAST:event_jTabbedPaneReportComponentShown
+
+    private void jTabbedPanePartnerComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPanePartnerComponentShown
+        // TODO add your handling code here:
+        if(!jTabbedPanePartner.hasFocus()) {
+            jTabbedPanePartner.removeAll();
+            frmPartner frm = new frmPartner();
+            jTabbedPanePartner.addTab("Quản lý đối tác", frm);
+        }
+    }//GEN-LAST:event_jTabbedPanePartnerComponentShown
+
+    private void jTabbedAccountComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedAccountComponentShown
+        // TODO add your handling code here:
+        if(!jTabbedAccount.hasFocus()) {
+            jTabbedAccount.removeAll();
+            frmAccount frm = new frmAccount();
+            jTabbedAccount.addTab("Quản lý Tài khoản", frm);
+        }
+    }//GEN-LAST:event_jTabbedAccountComponentShown
+
     private void jTabbedPaneExitComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPaneExitComponentShown
         // TODO add your handling code here:
         frmLogin frmLogin = new frmLogin();
@@ -262,13 +305,6 @@ public class frmMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private components.interfaces.frmAccount frmAccount1;
-    private components.interfaces.frmCategory frmCategory1;
-    private components.interfaces.frmExport frmExport;
-    private components.interfaces.frmImport frmImport;
-    private components.interfaces.frmPartner frmPartner;
-    private components.interfaces.frmProduct frmProduct;
-    private components.interfaces.frmReport frmReport1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTabbedPane jTabbedAccount;
     private javax.swing.JTabbedPane jTabbedPaneCategory;

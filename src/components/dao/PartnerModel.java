@@ -32,9 +32,16 @@ public class PartnerModel {
     public Boolean delete(Object obj) {
         return QueryDB.GetInstance().delete(obj);
     }
+<<<<<<< HEAD
 
     public List<Partner> getListPartner() {
         return QueryDB.GetInstance().executeHQLQuery(QUERY_GET_ALL_PARTNER);
+=======
+    
+    public List<Partner> getListPartner()
+    {
+        return QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_ALL_PARTNER));
+>>>>>>> 118e10f8e8765c542e76106a83158309760c2386
     }
 
     public Partner getById(long id) {

@@ -7,6 +7,7 @@ package components.services;
 
 import components.entity.Product;
 import components.dao.ProductModel;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,10 +50,23 @@ public class ProductService
         return model.countTable();
     }
     
-    public List<Product> getDataProduct(int status, int lastPageNumber, int pageSize)
+//    public List<Product> getDataProduct(int status, int lastPageNumber, int pageSize)
+//    {
+//        List<Product> rs = model.getListProduct(status, lastPageNumber, pageSize);
+//        return rs;
+//    }
+    
+    public Long countTableFilter(String filter, boolean isCode, boolean isName, boolean isDescription, boolean isQuantity, boolean isStatus, boolean isProductType){
+        return model.countTableFilter(filter, isCode, isName, isDescription, isQuantity, isStatus, isProductType);
+    }
+    
+    public List<Product> getDataProduct(int status)
     {
-        List<Product> rs = model.getListProduct(status, lastPageNumber, pageSize);
-        return rs;
+        return model.getListProduct(status);
+    }
+    
+    public List<Product> getListByPagination(List<Product> list, int start, int end){
+        return model.getListByPagination(list, start, end);
     }
     
     public List<Product> getDataProductFilter(String filter, boolean isCode, boolean isName, boolean isDescription, boolean isQuantity, boolean isStatus, boolean isProductType){
