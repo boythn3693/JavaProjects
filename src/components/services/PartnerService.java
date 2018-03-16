@@ -14,27 +14,46 @@ import java.util.List;
  * @author MitsuyoRai
  */
 public class PartnerService {
-
     PartnerModel model;
-
     public PartnerService() {
         model = new PartnerModel();
     }
-
-    public Boolean insert(Object obj) {
+    
+    public Boolean insert(Object obj)
+    {
         return model.insert(obj);
     }
-
-    public Boolean update(Object obj) {
+    
+    public Boolean update(Object obj)
+    {
         return model.update(obj);
     }
-
-    public Boolean delete(Object obj) {
+    
+    public Boolean delete(Object obj)
+    {
         return model.delete(obj);
     }
-
-    public List<Partner> getDataPartner() {
+    
+    public List<Partner> getDataPartner()
+    {
         List<Partner> rs = model.getListPartner();
+        return rs;
+    }
+    
+    public Long countTable(){
+        return model.countTable();
+    }
+    
+    public Long countTableFilter(String filter, boolean isName, boolean isDescription, boolean isAddress, boolean isPhone,  boolean isNDD){
+        return model.countTableFilter(filter, isName, isDescription, isAddress, isPhone, isNDD);
+    }
+    
+    public List<Partner> getListByPagination(List<Partner> list, int start, int end){
+        return model.getListByPagination(list, start, end);
+    }
+    
+    public List<Partner> getDataPartnerFilter(String filter, boolean isName, boolean isDescription, boolean isAddress, boolean isPhone,  boolean isNDD){
+        List<Partner> rs = model.getListPartnerFilter( filter, isName, isDescription, isAddress, isPhone, isNDD);
         return rs;
     }
 

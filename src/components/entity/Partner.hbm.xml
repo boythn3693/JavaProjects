@@ -1,26 +1,27 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Mar 16, 2018 1:48:14 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated Mar 16, 2018 2:40:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.Partner" table="Partner" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
-        <id name="partnerId" type="long">
-            <column name="PartnerId" />
+        <id name="partnerId" type="long" column="PartnerId">
+           <!-- <column name="PartnerId" />
+            <generator class="assigned" />-->
             <generator class="identity" />
         </id>
-        <property name="partnerName" type="serializable">
+        <property name="partnerName" type="string">
             <column name="PartnerName" not-null="true" />
         </property>
-        <property name="description" type="serializable">
+        <property name="description" type="string">
             <column name="Description" />
         </property>
-        <property name="address" type="serializable">
+        <property name="address" type="string">
             <column name="Address" />
         </property>
-        <property name="numPhone" type="serializable">
+        <property name="numPhone" type="string">
             <column name="NumPhone" />
         </property>
-        <property name="representFullname" type="serializable">
+        <property name="representFullname" type="string">
             <column name="RepresentFullname" />
         </property>
         <set name="deliveryBills" table="DeliveryBill" inverse="true" lazy="true" fetch="select">

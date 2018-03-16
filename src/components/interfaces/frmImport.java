@@ -412,7 +412,7 @@ public class frmImport extends javax.swing.JPanel {
             Partner partner = receipt.getPartner();
             if (partner != null) {
                 key = partner.getPartnerId();
-                value = partner.getPartnerName();
+                value = (String)partner.getPartnerName();
             }
             cbbPartner.setSelectedItem(new ItemModel(key, value));
         }

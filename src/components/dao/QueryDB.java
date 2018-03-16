@@ -8,12 +8,9 @@ package components.dao;
 import components.entity.Product;
 import components.utils.HibernateUtil;
 import java.util.List;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -79,23 +76,12 @@ public class QueryDB {
         }
     }
     
-    public Long countTable(Class c){//(String table){
+    public Long countTable(String hql){//(Class c){
         Session session = HibernateUtil.getSessionFactory().openSession();
-//        try {
-//            session.beginTransaction();
-//            Query q = session.createQuery("select count (*) from "+table);
-//            long count = (Long)q.uniqueResult();
-//            return count;
-//        } catch (HibernateException he) {
-//            System.out.println(he);
-//            return (long)0;
-//        } finally {
-//            session.close();
-//        }
         try {
-            Criteria criteriaCount = session.createCriteria(c);
-            criteriaCount.setProjection(Projections.rowCount());
-            Long count = (Long) criteriaCount.uniqueResult();
+            session.beginTransaction();
+            Query q = session.createQuery(hql);
+            long count = (Long)q.uniqueResult();
             return count;
         } catch (HibernateException he) {
             System.out.println(he);
@@ -103,6 +89,17 @@ public class QueryDB {
         } finally {
             session.close();
         }
+//        try {
+//            Criteria criteriaCount = session.createCriteria(c);
+//            criteriaCount.setProjection(Projections.rowCount());
+//            Long count = (Long) criteriaCount.uniqueResult();
+//            return count;
+//        } catch (HibernateException he) {
+//            System.out.println(he);
+//            return (long)0;
+//        } finally {
+//            session.close();
+//        }
     }
 
     public List executeHQLQuery(String hql) {
@@ -121,15 +118,15 @@ public class QueryDB {
         }
     }
     
-    public List executeHQLQueryPaging(Class c, int lastPageNumber, int pageSize){
+    public List executeHQLQueryPaging(String hql, int lastPageNumber, int pageSize){
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             session.beginTransaction();
-            Criteria criteria = session.createCriteria(c);
-            //Query q = session.createSQLQuery(sql);
-            criteria.setFirstResult((lastPageNumber-1)*pageSize);//
-            criteria.setMaxResults(pageSize);//
-            List<Product> resultList = criteria.list();
+            //Criteria criteria = session.createCriteria(c);
+            Query q = session.createQuery(hql);
+            q.setFirstResult((lastPageNumber-1)*pageSize);//
+            q.setMaxResults(pageSize);//
+            List<Product> resultList = q.list();
             session.getTransaction().commit();
             return resultList;
         } catch (HibernateException he) {

@@ -21,6 +21,7 @@ public class application {
         frmLogin frmLogin = new frmLogin();
         //frmLogin.show();
         frmLogin.setVisible(true);
+        //frmMain.setVisible(true);
         
         //e10adc3949ba59abbe56e057f20f883e
     }

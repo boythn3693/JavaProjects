@@ -30,9 +30,6 @@
         <property name="productType" type="int">
             <column name="ProductType" not-null="true" />
         </property>
-        <property name="categoryId" type="java.lang.Long">
-            <column name="CategoryId" />
-        </property>
         <set name="receiptDetails" table="ReceiptDetail" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="ProductId" />

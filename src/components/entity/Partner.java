@@ -13,11 +13,11 @@ public class Partner  implements java.io.Serializable {
 
 
      private long partnerId;
-     private Serializable partnerName;
-     private Serializable description;
-     private Serializable address;
-     private Serializable numPhone;
-     private Serializable representFullname;
+     private String partnerName;
+     private String description;
+     private String address;
+     private String numPhone;
+     private String representFullname;
      private Set deliveryBills = new HashSet(0);
      private Set receipts = new HashSet(0);
 
@@ -25,11 +25,11 @@ public class Partner  implements java.io.Serializable {
     }
 
 	
-    public Partner(long partnerId, Serializable partnerName) {
+    public Partner(long partnerId, String partnerName) {
         this.partnerId = partnerId;
         this.partnerName = partnerName;
     }
-    public Partner(long partnerId, Serializable partnerName, Serializable description, Serializable address, Serializable numPhone, Serializable representFullname, Set deliveryBills, Set receipts) {
+    public Partner(long partnerId, String partnerName, String description, String address, String numPhone, String representFullname, Set deliveryBills, Set receipts) {
        this.partnerId = partnerId;
        this.partnerName = partnerName;
        this.description = description;
@@ -51,35 +51,35 @@ public class Partner  implements java.io.Serializable {
         return this.partnerName;
     }
     
-    public void setPartnerName(Serializable partnerName) {
+    public void setPartnerName(String partnerName) {
         this.partnerName = partnerName;
     }
     public Serializable getDescription() {
         return this.description;
     }
     
-    public void setDescription(Serializable description) {
+    public void setDescription(String description) {
         this.description = description;
     }
     public Serializable getAddress() {
         return this.address;
     }
     
-    public void setAddress(Serializable address) {
+    public void setAddress(String address) {
         this.address = address;
     }
     public Serializable getNumPhone() {
         return this.numPhone;
     }
     
-    public void setNumPhone(Serializable numPhone) {
+    public void setNumPhone(String numPhone) {
         this.numPhone = numPhone;
     }
     public Serializable getRepresentFullname() {
         return this.representFullname;
     }
     
-    public void setRepresentFullname(Serializable representFullname) {
+    public void setRepresentFullname(String representFullname) {
         this.representFullname = representFullname;
     }
     public Set getDeliveryBills() {
