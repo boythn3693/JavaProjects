@@ -47,35 +47,35 @@ public class Partner  implements java.io.Serializable {
     public void setPartnerId(long partnerId) {
         this.partnerId = partnerId;
     }
-    public Serializable getPartnerName() {
+    public String getPartnerName() {
         return this.partnerName;
     }
     
     public void setPartnerName(String partnerName) {
         this.partnerName = partnerName;
     }
-    public Serializable getDescription() {
+    public String getDescription() {
         return this.description;
     }
     
     public void setDescription(String description) {
         this.description = description;
     }
-    public Serializable getAddress() {
+    public String getAddress() {
         return this.address;
     }
     
     public void setAddress(String address) {
         this.address = address;
     }
-    public Serializable getNumPhone() {
+    public String getNumPhone() {
         return this.numPhone;
     }
     
     public void setNumPhone(String numPhone) {
         this.numPhone = numPhone;
     }
-    public Serializable getRepresentFullname() {
+    public String getRepresentFullname() {
         return this.representFullname;
     }
     

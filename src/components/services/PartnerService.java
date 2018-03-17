@@ -36,7 +36,7 @@ public class PartnerService {
     
     public List<Partner> getDataPartner()
     {
-        List<Partner> rs = model.getListPartner();
+        List<Partner> rs = model.getListPartner();  
         return rs;
     }
     
@@ -56,8 +56,7 @@ public class PartnerService {
         List<Partner> rs = model.getListPartnerFilter( filter, isName, isDescription, isAddress, isPhone, isNDD);
         return rs;
     }
-
-    public Partner getById(long id) {
-        return model.getById(id);
-    }
+      public Partner getById(long id) {
+      return model.getById(id);
+  }
 }

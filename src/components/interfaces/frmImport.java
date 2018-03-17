@@ -270,6 +270,10 @@ public class frmImport extends javax.swing.JPanel {
 
     private void tblReceiptMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblReceiptMouseClicked
         // TODO add your handling code here:
+        int index = tblReceipt.getSelectedRow();
+        long id = Long.valueOf(tblReceipt.getValueAt(index, 0).toString());
+        Receipt receipt = _receiptService.getById(id);
+        BindData(receipt);
     }//GEN-LAST:event_tblReceiptMouseClicked
 
     private void txtReceiptIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReceiptIdActionPerformed
@@ -377,13 +381,16 @@ public class frmImport extends javax.swing.JPanel {
 
         _receipts = _receiptService.getAll();
         DefaultTableModel tblModel = (DefaultTableModel) tblReceipt.getModel();
+        while (tblModel.getRowCount() > 0) {
+            tblModel.removeRow(0);
+        }
         _receipts.forEach(new Consumer<Receipt>() {
             @Override
             public void accept(Receipt receipt) {
-                String partnerName = "";
+                String partnerName = "Doi tac 1";
                 Partner partner = receipt.getPartner();
                 if (partner != null) {
-                    partnerName = partner.getPartnerName().toString();
+                    //partnerName = partner.getPartnerName();
                 }
                 Object[] objs = new Object[]{
                     receipt.getReceiptId(),
@@ -396,7 +403,7 @@ public class frmImport extends javax.swing.JPanel {
             }
         });
 
-        tblReceipDetail.setModel(tblModel);
+        tblReceipt.setModel(tblModel);
     }
 
     private void initService() {
@@ -406,20 +413,22 @@ public class frmImport extends javax.swing.JPanel {
 
     private void BindData(Receipt receipt) {
         txtReceiptId.setText(Long.toString(receipt.getReceiptId()));
+        
+        if (receipt.getDatetime() != null) {
+            dtpDatetime.setText(df.format(receipt.getDatetime()));
+        }
+        cbbStatus.setSelectedIndex(receipt.getStatus());
+        
         if (receipt.getPartner() != null) {
             long key = 0;
             String value = "";
             Partner partner = receipt.getPartner();
             if (partner != null) {
                 key = partner.getPartnerId();
-                value = (String)partner.getPartnerName();
+                value = partner.getPartnerName();
             }
             cbbPartner.setSelectedItem(new ItemModel(key, value));
         }
-        if (receipt.getDatetime() != null) {
-            dtpDatetime.setText(df.format(receipt.getDatetime()));
-        }
-        cbbStatus.setSelectedItem(this.StatusItems.get(receipt.getStatus()));
     }
 
     private Receipt GetReceipt() throws ParseException {

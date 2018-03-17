@@ -14,86 +14,87 @@ import java.util.List;
  * @author MitsuyoRai
  */
 public class PartnerModel {
+
     private static final String QUERY_PARTNER = "from Partner p";
-    public static final String QUERY_GET_ALL_PARTNER = "from Partner p";
-    
+    public static final String QUERY_GET_ALL_PARTNER = "from Partner p order by p.partnerId desc";
+
     public List runQueryPartner() {
         return QueryDB.GetInstance().runQuery(String.format(QUERY_PARTNER));
     }
-    
-    public Boolean insert(Object obj){
+
+    public Boolean insert(Object obj) {
         return QueryDB.GetInstance().save(obj);
     }
-    
-    public Boolean update(Object obj){
+
+    public Boolean update(Object obj) {
         return QueryDB.GetInstance().update(obj);
     }
-    
-    public Boolean delete(Object obj){
+
+    public Boolean delete(Object obj) {
         return QueryDB.GetInstance().delete(obj);
     }
-    
-    public List<Partner> getListPartner()
-    {
+
+    public List<Partner> getListPartner() {
         return QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_ALL_PARTNER));
     }
-    
-    public Long countTable(){
+
+    public Long countTable() {
         return QueryDB.GetInstance().countTable("select count (*) from Partner");
     }
-    
-    public Long countTableFilter(String filter, boolean isName, boolean isDescription, boolean isAddress, boolean isPhone,  boolean isNDD){
+
+    public Long countTableFilter(String filter, boolean isName, boolean isDescription, boolean isAddress, boolean isPhone, boolean isNDD) {
         String where = "";
-        if( isName ){
-            where += (where.equals("") == true) ? "where p.partnerName like N'%"+filter+"%' " : "or p.partnerName like N'%"+filter+"%' ";
+        if (isName) {
+            where += (where.equals("") == true) ? "where p.partnerName like N'%" + filter + "%' " : "or p.partnerName like N'%" + filter + "%' ";
         }
-        if( isDescription ){
-            where += (where.equals("") == true) ? "where p.description like N'%"+filter+"%' " : "or p.description like N'%"+filter+"%' ";
+        if (isDescription) {
+            where += (where.equals("") == true) ? "where p.description like N'%" + filter + "%' " : "or p.description like N'%" + filter + "%' ";
         }
-        if( isAddress ){
-            where += (where.equals("") == true) ? "where p.address like '%"+filter+"%' " : "or p.address like '%"+filter+"%' ";
-        }        
-        if( isPhone ){
-            where += (where.equals("") == true) ? "where p.numPhone like "+filter+" " : "or p.numPhone like "+filter+" ";
+        if (isAddress) {
+            where += (where.equals("") == true) ? "where p.address like '%" + filter + "%' " : "or p.address like '%" + filter + "%' ";
         }
-        if( isNDD ){
-            where += (where.equals("") == true) ? "where p.representFullname  %"+filter+"%' " : "or p.representFullname like '%"+filter+"%' ";
-       }
-        final String QUERY_GET_PARTNER = "from count (*) Partner p "+where;
-        
+        if (isPhone) {
+            where += (where.equals("") == true) ? "where p.numPhone like " + filter + " " : "or p.numPhone like " + filter + " ";
+        }
+        if (isNDD) {
+            where += (where.equals("") == true) ? "where p.representFullname  %" + filter + "%' " : "or p.representFullname like '%" + filter + "%' ";
+        }
+        final String QUERY_GET_PARTNER = "from count (*) Partner p " + where;
+
         return QueryDB.GetInstance().countTable(QUERY_GET_PARTNER);
     }
-    
-    public List<Partner> getListByPagination(List<Partner> list, int start, int end){
+
+    public List<Partner> getListByPagination(List<Partner> list, int start, int end) {
         List<Partner> result = new ArrayList<Partner>();
-        for(int i = start; i < end; i++) {
+        for (int i = start; i < end; i++) {
             result.add(list.get(i));
         }
         return result;
     }
-    
-    public List<Partner> getListPartnerFilter(String filter, boolean isName, boolean isDescription, boolean isAddress, boolean isPhone,  boolean isNDD){
+
+    public List<Partner> getListPartnerFilter(String filter, boolean isName, boolean isDescription, boolean isAddress, boolean isPhone, boolean isNDD) {
         String where = "";
-        if( isName ){
-            where += (where.equals("") == true) ? "where p.partnerName like '%"+filter+"%' " : "or p.partnerName like '%"+filter+"%' ";
+        if (isName) {
+            where += (where.equals("") == true) ? "where p.partnerName like '%" + filter + "%' " : "or p.partnerName like '%" + filter + "%' ";
         }
-        if( isDescription ){
-            where += (where.equals("") == true) ? "where p.description like '%"+filter+"%' " : "or p.description like '%"+filter+"%' ";
+        if (isDescription) {
+            where += (where.equals("") == true) ? "where p.description like '%" + filter + "%' " : "or p.description like '%" + filter + "%' ";
         }
-        if( isAddress ){
-            where += (where.equals("") == true) ? "where p.address like '%"+filter+"%' " : "or p.address like '%"+filter+"%' ";
-        }        
-        if( isPhone ){
-            where += (where.equals("") == true) ? "where p.numPhone like "+filter+" " : "or p.numPhone like "+filter+" ";
+        if (isAddress) {
+            where += (where.equals("") == true) ? "where p.address like '%" + filter + "%' " : "or p.address like '%" + filter + "%' ";
         }
-        if( isNDD ){
-            where += (where.equals("") == true) ? "where p.representFullname  %"+filter+"%' " : "or p.representFullname like '%"+filter+"%' ";
-       }
-        final String QUERY_GET_PARTNER = "from Partner p "+where;
-        
+        if (isPhone) {
+            where += (where.equals("") == true) ? "where p.numPhone like " + filter + " " : "or p.numPhone like " + filter + " ";
+        }
+        if (isNDD) {
+            where += (where.equals("") == true) ? "where p.representFullname  %" + filter + "%' " : "or p.representFullname like '%" + filter + "%' ";
+        }
+        final String QUERY_GET_PARTNER = "from Partner p " + where;
+
         List<Partner> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_PARTNER);
         return rs;
     }
+
     public Partner getById(long id) {
         final String QUERY_GET_BY_ID = "FROM Partner p WHERE p.partnerId = '%s'";
         List<Partner> list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_BY_ID, id));

@@ -4,7 +4,7 @@
 <!-- Generated Mar 16, 2018 2:40:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.Product" table="Product" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
-        <id name="productId" type="long">
+        <id name="productId" type="long" column="ProductId">
             <!--            <column name="ProductId" />
             <generator class="assigned" />-->
             <generator class="identity" />

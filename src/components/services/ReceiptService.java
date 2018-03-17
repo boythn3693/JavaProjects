@@ -36,4 +36,8 @@ public class ReceiptService {
     public List<Receipt> getAll() {
         return _dao.getAll();
     }
+
+    public Receipt getById(long id) {
+        return _dao.getById(id);
+    }
 }
