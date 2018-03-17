@@ -42,43 +42,6 @@ public class frmMain extends javax.swing.JFrame {
         this.setIconImage(icon.getImage());
     }
     
-//    public DefaultComboBoxModel getDataCBB(String table, String name, String id) {
-//        String cautruyvan = "select *from " + table;
-//        ResultSet rs = HUYPHPK00628_ASM_GD2.connection.ExcuteQueryGetTable(cautruyvan);
-//        DefaultComboBoxModel cbbmodel = new DefaultComboBoxModel();
-//        try {
-//            while (rs.next()) {
-//                displayvalueModel valueModel = new displayvalueModel(rs.getString(Ten), rs.getString(Ma));
-//                cbbmodel.addElement(valueModel);
-//            }
-//        } catch (SQLException ex) {
-//            System.out.println(ex.toString());
-//        }
-//        return cbbmodel;
-//    }
-    
-    //--Code Nhập kho ---------------------------------------------------=-/
-//    private void getDataReceipt() {
-//        Object[] obj = new Object[]{"Mã phiếu", "Sản phẩm", "Số lượng"};
-//        DefaultTableModel tableModel = new DefaultTableModel(obj, 0);
-//        tblReceiptDetail.setModel(tableModel);
-//        try {
-//           
-//        } catch (Exception ex) {
-//            System.out.println(ex.toString());
-//        }
-//    }
-//    
-//    private void resetTableReceipt(){
-//        txtCode.setText("");
-//        txtProductName.setText("");
-//        txtDescription.setText("");
-//        txtQuantity.setValue(0);
-//    }
-    //------------------------------------------------------------------------------=-/
-    
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -101,8 +64,8 @@ public class frmMain extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Phần mềm Quản lý Kho");
-        setMinimumSize(new java.awt.Dimension(905, 700));
-        setPreferredSize(new java.awt.Dimension(905, 700));
+        setMinimumSize(new java.awt.Dimension(1200, 700));
+        setPreferredSize(new java.awt.Dimension(1200, 700));
 
         jPanel1.setRequestFocusEnabled(false);
 
@@ -239,8 +202,17 @@ public class frmMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(!jTabbedPaneReport.hasFocus()) {
             jTabbedPaneReport.removeAll();
-            frmReport frm = new frmReport();
-            jTabbedPaneReport.addTab("Lập báo cáo", frm);
+            frmTabExportExcelProduct excelProduct = new frmTabExportExcelProduct();
+            jTabbedPaneReport.addTab("Báo cáo - Thống kê Sản phẩm", excelProduct);
+            
+            frmTabExportExcelPartner excelPartner = new frmTabExportExcelPartner();
+            jTabbedPaneReport.addTab("Báo cáo - Thống kê Đối tác", excelPartner);
+            
+            frmTabExportExcelImport excelImport = new frmTabExportExcelImport();
+            jTabbedPaneReport.addTab("Báo cáo - Thống kê Nhập kho", excelImport);
+            
+            frmTabExportExcelPartner excelExport = new frmTabExportExcelPartner();
+            jTabbedPaneReport.addTab("Báo cáo - Thống kê Xuất kho", excelExport);
         }
     }//GEN-LAST:event_jTabbedPaneReportComponentShown
 
