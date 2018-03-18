@@ -5,7 +5,7 @@
  */
 package components.providers;
 
-import components.models.ItemModel;
+import components.models.ItemComboBoxModel;
 import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
@@ -25,14 +25,14 @@ public class InvComboBoxRenderer extends BasicComboBoxRenderer {
                 isSelected, cellHasFocus);
 
         if (value != null) {
-            ItemModel item = (ItemModel) value;
-            setText(item.getValue());
+            ItemComboBoxModel item = (ItemComboBoxModel) value;
+            setText(item.getDisplay());
         } else {
             setText("");
         }
 
         //if (index == -1) {
-        //    ItemModel item = (ItemModel) value;
+        //    ItemComboBoxModel item = (ItemComboBoxModel) value;
         //    setText("" + item.getId());
         //}
         return this;

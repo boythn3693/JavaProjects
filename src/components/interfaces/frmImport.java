@@ -7,7 +7,7 @@ package components.interfaces;
 
 import components.entity.*;
 import components.providers.InvComboBoxRenderer;
-import components.models.ItemModel;
+import components.models.ItemComboBoxModel;
 import components.services.*;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -29,7 +29,7 @@ public class frmImport extends javax.swing.JPanel {
      * Creates new form frmImport
      */
     public frmImport() {
-        this.StatusItems = Arrays.asList(new ItemModel(0, "Đang lập phiếu"), new ItemModel(1, "Đã nhập"), new ItemModel(2, "Đã hủy"));
+        this.StatusItems = Arrays.asList(new ItemComboBoxModel(0, "Đang lập phiếu"), new ItemComboBoxModel(1, "Đã nhập"), new ItemComboBoxModel(2, "Đã hủy"));
         initComponents();
         initService();
         initDataComponents();
@@ -362,16 +362,16 @@ public class frmImport extends javax.swing.JPanel {
         partnerModel.removeAllElements();
         List<Partner> partners = _partnerService.getDataPartner();
         partners.forEach((Partner partner) -> {
-            partnerModel.addElement(new ItemModel(partner.getPartnerId(), (String) partner.getPartnerName()));
+            partnerModel.addElement(new ItemComboBoxModel(partner.getPartnerId(), (String) partner.getPartnerName()));
         });
         cbbPartner.setModel(partnerModel);
         cbbPartner.setRenderer(new InvComboBoxRenderer());
 
         DefaultComboBoxModel statusModel = (DefaultComboBoxModel) cbbStatus.getModel();
         statusModel.removeAllElements();
-        statusModel.addElement(new ItemModel(0, "Đang lập phiếu"));
-        statusModel.addElement(new ItemModel(1, "Đã nhập"));
-        statusModel.addElement(new ItemModel(2, "Đã hủy"));
+        statusModel.addElement(new ItemComboBoxModel(0, "Đang lập phiếu"));
+        statusModel.addElement(new ItemComboBoxModel(1, "Đã nhập"));
+        statusModel.addElement(new ItemComboBoxModel(2, "Đã hủy"));
 
         cbbStatus.setModel(statusModel);
         cbbStatus.setRenderer(new InvComboBoxRenderer());
@@ -396,7 +396,7 @@ public class frmImport extends javax.swing.JPanel {
                     receipt.getReceiptId(),
                     partnerName,//receipt.getPartner().getPartnerName(),
                     df.format(receipt.getDatetime()),
-                    StatusItems.get(receipt.getStatus()).getValue()
+                    StatusItems.get(receipt.getStatus()).getDisplay()
                 };
                 tblModel.addRow(objs);
                 //new Object[]{receipt.getReceiptId(), receipt.getPartner().getPartnerName(), receipt.getDatetime(), receipt.getStatus()});
@@ -427,7 +427,7 @@ public class frmImport extends javax.swing.JPanel {
                 key = partner.getPartnerId();
                 value = partner.getPartnerName();
             }
-            cbbPartner.setSelectedItem(new ItemModel(key, value));
+            cbbPartner.setSelectedItem(new ItemComboBoxModel(key, value));
         }
     }
 
@@ -437,7 +437,7 @@ public class frmImport extends javax.swing.JPanel {
         receipt.setDatetime(df.parse(dtpDatetime.getText()));
         receipt.setStatus(cbbStatus.getSelectedIndex());
 
-        long partnerId = ((ItemModel) cbbPartner.getSelectedItem()).getId();
+        long partnerId = ((ItemComboBoxModel) cbbPartner.getSelectedItem()).getValue();
         Partner partner = _partnerService.getById(partnerId);
         receipt.setPartner(partner);
 
@@ -446,7 +446,7 @@ public class frmImport extends javax.swing.JPanel {
 
     private DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     private List<Receipt> _receipts;
-    private List<ItemModel> StatusItems;
+    private List<ItemComboBoxModel> StatusItems;
     private PartnerService _partnerService;
     private ReceiptService _receiptService;
 }

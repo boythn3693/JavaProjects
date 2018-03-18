@@ -1,9 +1,0 @@
-diff a/src/hibernate.cfg.xml b/src/hibernate.cfg.xml	(rejected hunks)
-@@ -45,6 +45,7 @@
- -    <property name="hibernate.connection.url">jdbc:sqlserver://localhost\MITSUYORAI-PC\SQLEXPRESS:1433;databaseName=InventoryDb</property>
- +    <property name="hibernate.connection.url">jdbc:sqlserver://localhost\DICKHOINGUYEN:1433;databaseName=InventoryDb</property>
-      <property name="hibernate.connection.username">sa</property>
-++<<<<<<< HEAD
- +    <property name="hibernate.connection.password">@Abcd1234</property>
- +=======
-      <property name="hibernate.connection.password">123456</property>
