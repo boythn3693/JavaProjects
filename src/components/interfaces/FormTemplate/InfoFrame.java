@@ -320,7 +320,6 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         if (SaveForm(model) == true) {
             JOptionPane.showMessageDialog(this, "Lập phiếu thành công");
             this.setVisible(false);
-            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Lập phiếu thất bại");
         }

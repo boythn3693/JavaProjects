@@ -17,6 +17,25 @@ public class FormModel {
     private long PartnerId;
     private Date DateTime;
     private int Status;
+    private String PartnerName;
+
+    /**
+     * Get the value of PartnerName
+     *
+     * @return the value of PartnerName
+     */
+    public String getPartnerName() {
+        return PartnerName;
+    }
+
+    /**
+     * Set the value of PartnerName
+     *
+     * @param PartnerName new value of PartnerName
+     */
+    public void setPartnerName(String PartnerName) {
+        this.PartnerName = PartnerName;
+    }
 
     /**
      * Get the value of Status
