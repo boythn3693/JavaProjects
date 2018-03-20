@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package components.interfaces.FormTemplate;
+package components.interfaces.Template;
 
 import components.models.*;
+import components.services.*;
 import java.text.*;
 import java.util.*;
 import javax.swing.JOptionPane;
@@ -167,13 +168,16 @@ public abstract class ListFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_tblFormMouseClicked
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
-        int index = tblForm.getSelectedRow();
-        long id = Long.valueOf(tblForm.getValueAt(index, 0).toString());
-        if (CancelForm(id) == true) {
-            JOptionPane.showMessageDialog(this, "Hủy phiếu thành công");
-        } else {
-            JOptionPane.showMessageDialog(this, "Hủy phiếu thất bại");
+        try {
+            int index = tblForm.getSelectedRow();
+            long id = Long.valueOf(tblForm.getValueAt(index, 0).toString());
+            if (CancelForm(id) == true) {
+                JOptionPane.showMessageDialog(this, "Hủy phiếu thành công");
+            } else {
+                JOptionPane.showMessageDialog(this, "Hủy phiếu thất bại");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa chọn phiếu cần hủy");
         }
     }//GEN-LAST:event_btnCancelActionPerformed
 
@@ -199,6 +203,8 @@ public abstract class ListFrame extends javax.swing.JPanel {
     protected InfoFrame _infoFrame;
     private List<ItemComboBoxModel> _statusItems;
     protected DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+    protected ReceiptService _receiptService;
+    protected DeliveryBillService _deliveryBillService;
 
     protected abstract List<ItemFormDetailModel> getDetailByFormId(long id);
 
@@ -209,13 +215,16 @@ public abstract class ListFrame extends javax.swing.JPanel {
     protected abstract InfoFrame GetInfoForm();
 
     private void initDataComponets() {
+        _receiptService = new ReceiptService();
+        _deliveryBillService = new DeliveryBillService();
+
         _statusItems = Arrays.asList(new ItemComboBoxModel(0, "Đang lập phiếu"),
                 new ItemComboBoxModel(1, "Đã nhập"),
                 new ItemComboBoxModel(2, "Đã hủy"));
         tblFormDetail.getColumnExt(1).setVisible(false);
 
         setFormList(getForms());
-        _infoFrame = GetInfoForm();
+        //_infoFrame = GetInfoForm();
     }
 
     protected boolean setFormList(List<FormModel> list) {
@@ -226,15 +235,22 @@ public abstract class ListFrame extends javax.swing.JPanel {
             }
 
             for (int i = 0; i < list.size(); i++) {
+                String partnerName = "";
+                if (list.get(i).getPartner() != null) {
+                    partnerName = list.get(i).getPartner().getPartnerName();
+                }
+
                 Object[] objs = new Object[]{
                     list.get(i).getFormId(),
-                    list.get(i).getPartnerName(),
+                    partnerName,
                     df.format(list.get(i).getDateTime()),
                     _statusItems.get(list.get(i).getStatus()).getDisplay()};
                 model.addRow(objs);
             }
             return true;
         } catch (Exception e) {
+            System.out.println("components.interfaces.Template.ListFrame.setFormList()");
+            System.out.println(e.getMessage());
             return false;
         }
     }
@@ -247,10 +263,16 @@ public abstract class ListFrame extends javax.swing.JPanel {
             }
 
             for (int i = 0; i < list.size(); i++) {
+                long ProductId = 0;
+                String ProductName = "";
+                if (list.get(i).getProduct() != null) {
+                    ProductId = list.get(i).getProduct().getProductId();
+                    ProductName = list.get(i).getProduct().getProductName();
+                }
                 Object[] objs = new Object[]{
                     list.get(i).getFormId(),
-                    list.get(i).getProductId(),
-                    list.get(i).getProductName(),
+                    ProductId,
+                    ProductName,
                     list.get(i).getQuantity()};
                 model.addRow(objs);
             }

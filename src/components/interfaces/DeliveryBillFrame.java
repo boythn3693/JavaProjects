@@ -5,8 +5,8 @@
  */
 package components.interfaces;
 
-import components.interfaces.FormTemplate.InfoFrame;
-import components.interfaces.FormTemplate.ListFrame;
+import components.interfaces.Template.InfoFrame;
+import components.interfaces.Template.ListFrame;
 import components.models.FormModel;
 import components.models.ItemFormDetailModel;
 import java.util.List;

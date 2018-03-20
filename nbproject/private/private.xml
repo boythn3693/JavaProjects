@@ -3,12 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Project/git/JavaProjects/src/components/interfaces/InfoDeliveryBillFrame.java</file>
-            <file>file:/D:/Project/git/JavaProjects/src/components/interfaces/FormTemplate/InfoFrame.java</file>
-            <file>file:/D:/Project/git/JavaProjects/src/components/models/FormModel.java</file>
-            <file>file:/D:/Project/git/JavaProjects/src/components/interfaces/frmProduct.java</file>
-            <file>file:/D:/Project/git/JavaProjects/src/components/providers/InvComboBox.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/interfaces/ReceiptFrame.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/interfaces/Template/InfoFrame.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/dao/QueryDB.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/interfaces/Template/ListFrame.java</file>
             <file>file:/D:/Project/git/JavaProjects/src/components/interfaces/InfoReceiptFrame.java</file>
+            <file>file:/D:/Project/git/JavaProjects/src/components/dao/ReceiptDAO.java</file>
         </group>
     </open-files>
 </project-private>

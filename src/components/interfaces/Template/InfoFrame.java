@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package components.interfaces.FormTemplate;
+package components.interfaces.Template;
 
-import components.dao.*;
 import components.entity.*;
 import components.models.*;
+import components.services.*;
 import java.util.*;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,6 +23,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
      */
     public InfoFrame() {
         initComponents();
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         initDataComponents();
     }
 
@@ -65,6 +66,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Mã phiếu:");
 
+        txtFormId.setEditable(false);
         txtFormId.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtFormId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtFormId.setText("10012");
@@ -74,7 +76,6 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel3.setText("Đối tác:");
 
-        cbbPartners.setEditable(true);
         cbbPartners.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -84,6 +85,8 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Status:");
+
+        cbbStatus.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -99,7 +102,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(dtpDateTime, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cbbPartners, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 161, Short.MAX_VALUE)
+                    .addComponent(cbbPartners, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                     .addComponent(txtFormId)
                     .addComponent(cbbStatus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -170,7 +173,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(numQty, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)))
+                        .addComponent(numQty)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -237,22 +240,22 @@ public abstract class InfoFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnUpdatePro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(btnDelPro, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnSave)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnCancel))
-                            .addComponent(jScrollPane2))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -271,7 +274,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
                                 .addComponent(btnUpdatePro)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnDelPro)
-                                .addGap(0, 32, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -286,17 +289,18 @@ public abstract class InfoFrame extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         int rs = JOptionPane.showConfirmDialog(this, "Warning", "Bạn có chắc muốn hủy phiếu lập", JOptionPane.YES_NO_OPTION);
         if (rs == JOptionPane.YES_OPTION) {
-
-            DeleteForm(Long.parseLong(txtFormId.getText()));
+            deleteForm(Long.parseLong(txtFormId.getText()));
+            this.setVisible(false);
+            this.dispose();
         }
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnDelProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDelProActionPerformed
         ItemFormDetailModel model = new ItemFormDetailModel();
         model.setFormId(Long.parseLong(txtFormId.getText()));
-        model.setProductId(cbbProducts.getSelectedValue());
+        model.setProduct(_commonService.getProductById(cbbProducts.getSelectedValue()));
         model.setQuantity((int) numQty.getValue());
-        if (DeleteProduct(model) == true) {
+        if (deleteProduct(model) == true) {
             JOptionPane.showMessageDialog(this, "Cập nhật thành công");
         } else {
             JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
@@ -306,9 +310,9 @@ public abstract class InfoFrame extends javax.swing.JFrame {
     private void btnUpdateProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateProActionPerformed
         ItemFormDetailModel model = new ItemFormDetailModel();
         model.setFormId(Long.parseLong(txtFormId.getText()));
-        model.setProductId(cbbProducts.getSelectedValue());
+        model.setProduct(_commonService.getProductById(cbbProducts.getSelectedValue()));
         model.setQuantity((int) numQty.getValue());
-        if (UpdateOrAddProduct(model) == true) {
+        if (updateOrAddProduct(model) == true) {
             JOptionPane.showMessageDialog(this, "Xóa thành công");
         } else {
             JOptionPane.showMessageDialog(this, "Xóa thất bại");
@@ -317,9 +321,10 @@ public abstract class InfoFrame extends javax.swing.JFrame {
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         FormModel model = getInfoForm();
-        if (SaveForm(model) == true) {
+        if (saveForm(model) == true) {
             JOptionPane.showMessageDialog(this, "Lập phiếu thành công");
             this.setVisible(false);
+            this.dispose();
         } else {
             JOptionPane.showMessageDialog(this, "Lập phiếu thất bại");
         }
@@ -350,8 +355,11 @@ public abstract class InfoFrame extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initDataComponents() {
-        _productService = new ProductModel();
-        _partnerService = new PartnerModel();
+        _productService = new ProductService();
+        _partnerService = new PartnerService();
+        _commonService = new CommonService();
+        _receiptService = new ReceiptService();
+        _deliveryBillService = new DeliveryBillService();
 
         _statusItems = Arrays.asList(new ItemComboBoxModel(0, "Đang lập phiếu"),
                 new ItemComboBoxModel(1, "Đã nhập"),
@@ -363,26 +371,29 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         dtpDateTime.setDate(new Date());
         cbbStatus.setSelectedByValue(0);
 
-        List<Product> pros = _productService.getListProduct(0);
+        List<Product> pros = _productService.getDataProduct(1);
         cbbProducts.removeAll();
         for (int i = 0; i < pros.size(); i++) {
             cbbProducts.addElement(new ItemComboBoxModel(pros.get(i).getProductId(), (String) pros.get(i).getProductName()));
         }
 
-        List<Partner> partners = _partnerService.getListPartner();
+        List<Partner> partners = _partnerService.getDataPartner();
         cbbPartners.removeAll();
         for (int i = 0; i < partners.size(); i++) {
             cbbPartners.addElement(new ItemComboBoxModel(partners.get(i).getPartnerId(), (String) partners.get(i).getPartnerName()));
         }
-        
+
         tblDetails.getColumnExt(1).setVisible(false);
+        setInfoForm(getNewForm());
     }
 
     public void setInfoForm(FormModel model) {
         if (model != null) {
             txtFormId.setText(Long.toString(model.getFormId()));
             dtpDateTime.setDate(model.getDateTime());
-            cbbPartners.setSelectedByValue(model.getPartnerId());
+            if (model.getPartner() != null) {
+                cbbPartners.setSelectedByValue(model.getPartner().getPartnerId());
+            }
             cbbStatus.setSelectedByValue(model.getStatus());
         }
     }
@@ -391,7 +402,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         FormModel model = new FormModel();
         try {
             model.setFormId(Long.parseLong(txtFormId.getText()));
-            model.setPartnerId(cbbPartners.getSelectedValue());
+            model.setPartner(_partnerService.getById(cbbPartners.getSelectedValue()));
             model.setStatus((int) cbbStatus.getSelectedValue());
             model.setDateTime(dtpDateTime.getDate());
             return model;
@@ -411,25 +422,36 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         }
 
         for (int i = 0; i < details.size(); i++) {
+            long ProductId = 0;
+            String ProductName = "";
+            if (details.get(i).getProduct() != null) {
+                ProductId = details.get(i).getProduct().getProductId();
+                ProductName = details.get(i).getProduct().getProductName();
+            }
             Object[] objs = new Object[]{
                 details.get(i).getFormId(),
-                details.get(i).getProductId(),
-                details.get(i).getProductName(),
+                ProductId,
+                ProductName,
                 details.get(i).getQuantity(),};
             model.addRow(objs);
         }
     }
 
-    protected abstract boolean UpdateOrAddProduct(ItemFormDetailModel model);
+    protected abstract boolean updateOrAddProduct(ItemFormDetailModel model);
 
-    protected abstract boolean DeleteProduct(ItemFormDetailModel model);
+    protected abstract boolean deleteProduct(ItemFormDetailModel model);
 
-    protected abstract boolean SaveForm(FormModel model);
+    protected abstract boolean saveForm(FormModel model);
 
-    protected abstract void DeleteForm(long formid);
+    protected abstract void deleteForm(long formid);
+
+    protected abstract FormModel getNewForm();
 
     private List<ItemComboBoxModel> _statusItems;
-    private ProductModel _productService;
-    private PartnerModel _partnerService;
+    private ProductService _productService;
+    private PartnerService _partnerService;
+    private CommonService _commonService;
+    protected ReceiptService _receiptService;
+    protected DeliveryBillService _deliveryBillService;
 
 }

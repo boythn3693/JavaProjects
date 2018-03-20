@@ -5,11 +5,11 @@
  */
 package components.interfaces;
 
-import components.interfaces.FormTemplate.InfoFrame;
-import components.interfaces.FormTemplate.ListFrame;
-import components.models.FormModel;
-import components.models.ItemFormDetailModel;
-import java.util.List;
+import components.entity.*;
+import components.interfaces.Template.*;
+import components.models.*;
+import components.services.*;
+import java.util.*;
 
 /**
  *
@@ -17,24 +17,58 @@ import java.util.List;
  */
 public class ReceiptFrame extends ListFrame {
 
+    public ReceiptFrame() {
+        super();
+    }
+
     @Override
     protected List<ItemFormDetailModel> getDetailByFormId(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<ReceiptDetail> lst = _receiptService.getDetailsById(id);
+        List<ItemFormDetailModel> rs = Arrays.asList();
+        for (int i = 0; i < lst.size(); i++) {
+            ItemFormDetailModel item = new ItemFormDetailModel();
+            item.setFormId(id);
+            item.setQuantity(lst.get(i).getQuantity());
+            if (lst.get(i).getProduct() != null) {
+                item.setProduct(lst.get(i).getProduct());
+            }
+            rs.add(item);
+        }
+        return rs;
     }
 
     @Override
     protected List<FormModel> getForms() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            List<Receipt> lst = _receiptService.getAll();
+            List<FormModel> rs = new ArrayList();
+            for (int i = 0; i < lst.size(); i++) {
+                FormModel item = new FormModel();
+                item.setDateTime(lst.get(i).getDatetime());
+                item.setFormId(lst.get(i).getReceiptId());
+                item.setStatus(lst.get(i).getStatus());
+                if (lst.get(i).getPartner() != null) {
+                    item.setPartner(lst.get(i).getPartner());
+                }
+                rs.add(item);
+            }
+            return rs;
+
+        } catch (Exception e) {
+            System.out.println("--------------------components.interfaces.ReceiptFrame.getForms()");
+            System.out.println(e.getMessage());
+            return new ArrayList();
+        }
     }
 
     @Override
     protected boolean CancelForm(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return _receiptService.delete(id);
     }
 
     @Override
     protected InfoFrame GetInfoForm() {
         return new InfoReceiptFrame();
     }
-    
+
 }

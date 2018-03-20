@@ -3,41 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package components.interfaces;
+package components.dao;
 
-import components.interfaces.Template.InfoFrame;
-import components.models.FormModel;
-import components.models.ItemFormDetailModel;
+import components.entity.Receipt;
+import java.util.List;
 
 /**
  *
  * @author vankh
  */
-public class InfoDeliveryBillFrame extends InfoFrame {
+public class DeliveryBillDAO {
 
-    @Override
-    protected boolean updateOrAddProduct(ItemFormDetailModel model) {
+    public List<Receipt> getAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    protected boolean deleteProduct(ItemFormDetailModel model) {
+    public Receipt getById(long id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    protected boolean saveForm(FormModel model) {
+    public Boolean delete(Object obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    protected void deleteForm(long formid) {
+    public Boolean update(Object obj) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    protected FormModel getNewForm() {
+    public Receipt getNew() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }

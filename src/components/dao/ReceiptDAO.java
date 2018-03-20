@@ -15,18 +15,38 @@ import java.util.List;
  */
 public class ReceiptDAO {
 
-    public List runQueryReceipt() {
-        final String QUERY_PRODUCT = "from Receipt R";
-        return QueryDB.GetInstance().runQuery(String.format(QUERY_PRODUCT));
-    }
+    final String QUERY_GET_RECEIPT_BY_ID
+            = "SELECT r "
+            + "FROM Receipt r "
+            + "WHERE r.receiptId = '%s'";
+    final String QUERY_GET_ALL_RECEIPT
+            = "SELECT r "
+            + "FROM Receipt r "
+            + "JOIN r.partner p "
+            + "WHERE r.status > 0";
+    final String QUERY_GET_NEW_RECEIPT
+            = "SELECT r "
+            + "FROM Receipt r "
+            //+ "JOIN r.partner p "
+            + "WHERE r.status = 0";
+    final String QUERY_GET_RECEIPT_DETAI_BY_ID
+            = "SELECT rd "
+            + "FROM ReceiptDetail rd "
+            + "JOIN rd.receipt r "
+            + "WHERE r.receiptId = '%s'";
+    final String QUERY_GET_RECEIPT_DETAI_BY_PRODUCT_ID
+            = "SELECT rd "
+            + "FROM ReceiptDetail rd "
+            + "JOIN rd.receipt r "
+            + "JOIN rd.product p "
+            + "WHERE r.receiptId = '%s' AND p.productId = '%s'";
 
-    public Receipt getById(String id) {
-        final String QUERY_GET_RECEIPT_BY_ID = "FROM Receipt R WHERE R.receiptId = '%s'";
+    public Receipt getById(long id) {
         List<Receipt> list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_RECEIPT_BY_ID, id));
         if (list != null && list.size() > 0) {
             return list.get(0);
         }
-        return new Receipt();
+        return null;
     }
 
     public Receipt getNew() {
@@ -34,7 +54,6 @@ public class ReceiptDAO {
         receipt.setReceiptId(-1);
         receipt.setDatetime(new Date());
         insert(receipt);
-        final String QUERY_GET_NEW_RECEIPT = "from Receipt r WHERE r.status = 0";
         List<Receipt> list = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_NEW_RECEIPT);
         if (list != null && list.size() > 0) {
             return list.get(list.size() - 1);
@@ -50,8 +69,13 @@ public class ReceiptDAO {
         return QueryDB.GetInstance().update(obj);
     }
 
-    public Boolean delete(Object obj) {
-        return QueryDB.GetInstance().delete(obj);
+    public Boolean delete(long id) {
+        Receipt obj = getById(id);
+        if (obj != null) {
+            return QueryDB.GetInstance().delete(obj);
+        } else {
+            return false;
+        }
     }
 
     public Long countTable() {
@@ -59,19 +83,36 @@ public class ReceiptDAO {
     }
 
     public List<Receipt> getAll() {
-        final String QUERY_GET_ALL_RECEIPT = "from Receipt r WHERE r.status > 0";
 
         List<Receipt> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_ALL_RECEIPT);
         return rs;
     }
 
-    public Receipt getById(long id) {
-        final String QUERY_GET_ALL_RECEIPT = "from Receipt r WHERE r.status > 0 AND r.receiptId = ";
+    public List<ReceiptDetail> getDetailsById(long id) {
+        return QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_RECEIPT_DETAI_BY_ID, id));
+    }
 
-        List<Receipt> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_ALL_RECEIPT + id);
-        if (rs != null && rs.size() > 0) {
-            return rs.get(0);
+    public ReceiptDetail getDetailByProductId(long receiptId, long productId) {
+        List<ReceiptDetail> list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_RECEIPT_DETAI_BY_ID, receiptId, productId));
+        if (list != null && list.size() > 0) {
+            return list.get(0);
         }
-        return new Receipt();
+        return null;
+    }
+
+    public boolean deleteDetailByProductId(long receiptId, long productId) {
+        List<ReceiptDetail> list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_RECEIPT_DETAI_BY_ID, receiptId, productId));
+        if (list != null && list.size() > 0) {
+            return QueryDB.GetInstance().delete(list.get(0));
+        }
+        return false;
+    }
+
+    public boolean updateDetail(ReceiptDetail obj) {
+        return QueryDB.GetInstance().update(obj);
+    }
+
+    public boolean insertDetail(ReceiptDetail obj) {
+        return QueryDB.GetInstance().save(obj);
     }
 }

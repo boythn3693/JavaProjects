@@ -5,6 +5,8 @@
  */
 package components.models;
 
+import components.entity.Product;
+
 /**
  *
  * @author vankh
@@ -13,28 +15,26 @@ public class ItemFormDetailModel {
 
     private long FormId;
 
-    private long ProductId;
-    
-    private String ProductName;
-
     private int Quantity;
 
+    private Product Product;
+
     /**
-     * Get the value of ProductName
+     * Get the value of Product
      *
-     * @return the value of ProductName
+     * @return the value of Product
      */
-    public String getProductName() {
-        return ProductName;
+    public Product getProduct() {
+        return Product;
     }
 
     /**
-     * Set the value of ProductName
+     * Set the value of Product
      *
-     * @param ProductName new value of ProductName
+     * @param Product new value of Product
      */
-    public void setProductName(String ProductName) {
-        this.ProductName = ProductName;
+    public void setProduct(Product Product) {
+        this.Product = Product;
     }
 
     /**
@@ -53,24 +53,6 @@ public class ItemFormDetailModel {
      */
     public void setQuantity(int Quantity) {
         this.Quantity = Quantity;
-    }
-
-    /**
-     * Get the value of ProductId
-     *
-     * @return the value of ProductId
-     */
-    public long getProductId() {
-        return ProductId;
-    }
-
-    /**
-     * Set the value of ProductId
-     *
-     * @param ProductId new value of ProductId
-     */
-    public void setProductId(long ProductId) {
-        this.ProductId = ProductId;
     }
 
     /**

@@ -5,6 +5,7 @@
  */
 package components.models;
 
+import components.entity.Partner;
 import java.util.Date;
 
 /**
@@ -12,29 +13,29 @@ import java.util.Date;
  * @author vankh
  */
 public class FormModel {
-    
+
     private long FormId;
-    private long PartnerId;
     private Date DateTime;
     private int Status;
-    private String PartnerName;
+
+    private Partner Partner;
 
     /**
-     * Get the value of PartnerName
+     * Get the value of Partner
      *
-     * @return the value of PartnerName
+     * @return the value of Partner
      */
-    public String getPartnerName() {
-        return PartnerName;
+    public Partner getPartner() {
+        return Partner;
     }
 
     /**
-     * Set the value of PartnerName
+     * Set the value of Partner
      *
-     * @param PartnerName new value of PartnerName
+     * @param Partner new value of Partner
      */
-    public void setPartnerName(String PartnerName) {
-        this.PartnerName = PartnerName;
+    public void setPartner(Partner Partner) {
+        this.Partner = Partner;
     }
 
     /**
@@ -55,7 +56,6 @@ public class FormModel {
         this.Status = Status;
     }
 
-
     /**
      * Get the value of DateTime
      *
@@ -73,26 +73,6 @@ public class FormModel {
     public void setDateTime(Date DateTime) {
         this.DateTime = DateTime;
     }
-
-
-    /**
-     * Get the value of PartnerId
-     *
-     * @return the value of PartnerId
-     */
-    public long getPartnerId() {
-        return PartnerId;
-    }
-
-    /**
-     * Set the value of PartnerId
-     *
-     * @param PartnerId new value of PartnerId
-     */
-    public void setPartnerId(long PartnerId) {
-        this.PartnerId = PartnerId;
-    }
-
 
     /**
      * Get the value of FormId
