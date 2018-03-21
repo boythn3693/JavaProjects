@@ -287,9 +287,10 @@ public abstract class InfoFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        int rs = JOptionPane.showConfirmDialog(this, "Warning", "Bạn có chắc muốn hủy phiếu lập", JOptionPane.YES_NO_OPTION);
+        int rs = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn hủy phiếu lập", "Warning", JOptionPane.YES_NO_OPTION);
         if (rs == JOptionPane.YES_OPTION) {
             deleteForm(Long.parseLong(txtFormId.getText()));
+            _listFrame.refresh();
             this.setVisible(false);
             this.dispose();
         }
@@ -301,9 +302,10 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         model.setProduct(_commonService.getProductById(cbbProducts.getSelectedValue()));
         model.setQuantity((int) numQty.getValue());
         if (deleteProduct(model) == true) {
-            JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+            JOptionPane.showMessageDialog(this, "Xóa thành công");
+            refresh();
         } else {
-            JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
+            JOptionPane.showMessageDialog(this, "Xóa thất bại");
         }
     }//GEN-LAST:event_btnDelProActionPerformed
 
@@ -313,9 +315,10 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         model.setProduct(_commonService.getProductById(cbbProducts.getSelectedValue()));
         model.setQuantity((int) numQty.getValue());
         if (updateOrAddProduct(model) == true) {
-            JOptionPane.showMessageDialog(this, "Xóa thành công");
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+            refresh();
         } else {
-            JOptionPane.showMessageDialog(this, "Xóa thất bại");
+            JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
         }
     }//GEN-LAST:event_btnUpdateProActionPerformed
 
@@ -323,6 +326,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         FormModel model = getInfoForm();
         if (saveForm(model) == true) {
             JOptionPane.showMessageDialog(this, "Lập phiếu thành công");
+            _listFrame.refresh();
             this.setVisible(false);
             this.dispose();
         } else {
@@ -398,6 +402,10 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         }
     }
 
+    public void setListFrame(ListFrame listFrame) {
+        _listFrame = listFrame;
+    }
+
     public FormModel getInfoForm() {
         FormModel model = new FormModel();
         try {
@@ -413,28 +421,38 @@ public abstract class InfoFrame extends javax.swing.JFrame {
 
     public void setTitleForm(String title) {
         lblTitle.setText(title);
+        this.setTitle(title);
     }
 
     public void setFormDetail(List<ItemFormDetailModel> details) {
-        DefaultTableModel model = (DefaultTableModel) tblDetails.getModel();
-        while (model.getRowCount() > 0) {
-            model.removeRow(0);
-        }
-
-        for (int i = 0; i < details.size(); i++) {
-            long ProductId = 0;
-            String ProductName = "";
-            if (details.get(i).getProduct() != null) {
-                ProductId = details.get(i).getProduct().getProductId();
-                ProductName = details.get(i).getProduct().getProductName();
+        try {
+            DefaultTableModel model = (DefaultTableModel) tblDetails.getModel();
+            while (model.getRowCount() > 0) {
+                model.removeRow(0);
             }
-            Object[] objs = new Object[]{
-                details.get(i).getFormId(),
-                ProductId,
-                ProductName,
-                details.get(i).getQuantity(),};
-            model.addRow(objs);
+
+            for (int i = 0; i < details.size(); i++) {
+                long ProductId = 0;
+                String ProductName = "";
+                if (details.get(i).getProduct() != null) {
+                    ProductId = details.get(i).getProduct().getProductId();
+                    ProductName = details.get(i).getProduct().getProductName();
+                }
+                Object[] objs = new Object[]{
+                    details.get(i).getFormId(),
+                    ProductId,
+                    ProductName,
+                    details.get(i).getQuantity(),};
+                model.addRow(objs);
+            }
+        } catch (Exception e) {
+            System.out.println("components.interfaces.Template.InfoFrame.setFormDetail()");
+            System.out.println(e);
         }
+    }
+
+    public void refresh() {
+        setFormDetail(getDetails(getInfoForm().getFormId()));
     }
 
     protected abstract boolean updateOrAddProduct(ItemFormDetailModel model);
@@ -445,6 +463,8 @@ public abstract class InfoFrame extends javax.swing.JFrame {
 
     protected abstract void deleteForm(long formid);
 
+    protected abstract List<ItemFormDetailModel> getDetails(long formid);
+
     protected abstract FormModel getNewForm();
 
     private List<ItemComboBoxModel> _statusItems;
@@ -453,5 +473,5 @@ public abstract class InfoFrame extends javax.swing.JFrame {
     private CommonService _commonService;
     protected ReceiptService _receiptService;
     protected DeliveryBillService _deliveryBillService;
-
+    protected ListFrame _listFrame;
 }

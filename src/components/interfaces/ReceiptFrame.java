@@ -23,18 +23,29 @@ public class ReceiptFrame extends ListFrame {
 
     @Override
     protected List<ItemFormDetailModel> getDetailByFormId(long id) {
-        List<ReceiptDetail> lst = _receiptService.getDetailsById(id);
-        List<ItemFormDetailModel> rs = Arrays.asList();
-        for (int i = 0; i < lst.size(); i++) {
-            ItemFormDetailModel item = new ItemFormDetailModel();
-            item.setFormId(id);
-            item.setQuantity(lst.get(i).getQuantity());
-            if (lst.get(i).getProduct() != null) {
-                item.setProduct(lst.get(i).getProduct());
+        try {
+            List<ItemFormDetailModel> rs = new ArrayList();
+
+            List<ReceiptDetail> lst = _receiptService.getDetailsById(id);
+            if (lst == null || lst.size() <= 0) {
+                return rs;
             }
-            rs.add(item);
+
+            for (int i = 0; i < lst.size(); i++) {
+                ItemFormDetailModel item = new ItemFormDetailModel();
+                item.setFormId(id);
+                item.setQuantity(lst.get(i).getQuantity());
+                if (lst.get(i).getProduct() != null) {
+                    item.setProduct(lst.get(i).getProduct());
+                }
+                rs.add(item);
+            }
+            return rs;
+        } catch (Exception e) {
+            System.out.println("components.interfaces.ReceiptFrame.getDetailByFormId()");
+            System.out.println(e);
+            return new ArrayList();
         }
-        return rs;
     }
 
     @Override
@@ -55,7 +66,7 @@ public class ReceiptFrame extends ListFrame {
             return rs;
 
         } catch (Exception e) {
-            System.out.println("--------------------components.interfaces.ReceiptFrame.getForms()");
+            System.out.println("components.interfaces.ReceiptFrame.getForms()");
             System.out.println(e.getMessage());
             return new ArrayList();
         }
@@ -63,12 +74,16 @@ public class ReceiptFrame extends ListFrame {
 
     @Override
     protected boolean CancelForm(long id) {
-        return _receiptService.delete(id);
+        Receipt obj = _receiptService.getById(id);
+        obj.setStatus(2);
+        return _receiptService.update(obj);
     }
 
     @Override
     protected InfoFrame GetInfoForm() {
-        return new InfoReceiptFrame();
+        InfoReceiptFrame info = new InfoReceiptFrame();
+        info.setTitleForm("LẬP PHIẾU NHẬP KHO");
+        return info;
     }
 
 }

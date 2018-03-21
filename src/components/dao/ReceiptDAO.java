@@ -22,23 +22,24 @@ public class ReceiptDAO {
     final String QUERY_GET_ALL_RECEIPT
             = "SELECT r "
             + "FROM Receipt r "
-            + "JOIN r.partner p "
+            + "JOIN FETCH r.partner p "
             + "WHERE r.status > 0";
     final String QUERY_GET_NEW_RECEIPT
             = "SELECT r "
             + "FROM Receipt r "
-            //+ "JOIN r.partner p "
+            //+ "JOIN FETCH r.partner p "
             + "WHERE r.status = 0";
     final String QUERY_GET_RECEIPT_DETAI_BY_ID
             = "SELECT rd "
             + "FROM ReceiptDetail rd "
-            + "JOIN rd.receipt r "
+            + "JOIN FETCH rd.receipt r "
+            + "JOIN FETCH rd.product p "
             + "WHERE r.receiptId = '%s'";
     final String QUERY_GET_RECEIPT_DETAI_BY_PRODUCT_ID
             = "SELECT rd "
             + "FROM ReceiptDetail rd "
-            + "JOIN rd.receipt r "
-            + "JOIN rd.product p "
+            + "JOIN FETCH rd.receipt r "
+            + "JOIN FETCH rd.product p "
             + "WHERE r.receiptId = '%s' AND p.productId = '%s'";
 
     public Receipt getById(long id) {
@@ -85,6 +86,7 @@ public class ReceiptDAO {
     public List<Receipt> getAll() {
 
         List<Receipt> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_ALL_RECEIPT);
+        //List<Receipt> rs = QueryDB.GetInstance().executeQueryWithType(QUERY_GET_ALL_RECEIPT, Receipt.class);
         return rs;
     }
 

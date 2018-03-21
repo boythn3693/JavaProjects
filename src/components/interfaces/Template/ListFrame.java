@@ -5,6 +5,7 @@
  */
 package components.interfaces.Template;
 
+import components.entity.Partner;
 import components.models.*;
 import components.services.*;
 import java.text.*;
@@ -67,14 +68,12 @@ public abstract class ListFrame extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        tblForm.setColumnSelectionAllowed(true);
         tblForm.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblFormMouseClicked(evt);
             }
         });
         jScrollPane2.setViewportView(tblForm);
-        tblForm.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         jSplitPane1.setLeftComponent(jScrollPane2);
 
@@ -97,14 +96,14 @@ public abstract class ListFrame extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã phiếu", "ProductId", "Sản phẩm", "Số lượng"
+                "Mã phiếu", "ProductId", "Sản phẩm", "Số lượng", "_"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -126,12 +125,12 @@ public abstract class ListFrame extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnCreateForm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancel)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 124, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -173,6 +172,7 @@ public abstract class ListFrame extends javax.swing.JPanel {
             long id = Long.valueOf(tblForm.getValueAt(index, 0).toString());
             if (CancelForm(id) == true) {
                 JOptionPane.showMessageDialog(this, "Hủy phiếu thành công");
+                refresh();
             } else {
                 JOptionPane.showMessageDialog(this, "Hủy phiếu thất bại");
             }
@@ -182,10 +182,9 @@ public abstract class ListFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnCreateFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFormActionPerformed
-        if (_infoFrame == null) {
-            _infoFrame = GetInfoForm();
-        }
-        _infoFrame.setVisible(true);
+        InfoFrame infoFrame = GetInfoForm();
+        infoFrame.setListFrame(this);
+        infoFrame.setVisible(true);
     }//GEN-LAST:event_btnCreateFormActionPerformed
 
 
@@ -200,7 +199,7 @@ public abstract class ListFrame extends javax.swing.JPanel {
     private org.jdesktop.swingx.JXTable tblFormDetail;
     // End of variables declaration//GEN-END:variables
 
-    protected InfoFrame _infoFrame;
+    //protected InfoFrame _infoFrame;
     private List<ItemComboBoxModel> _statusItems;
     protected DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     protected ReceiptService _receiptService;
@@ -223,7 +222,7 @@ public abstract class ListFrame extends javax.swing.JPanel {
                 new ItemComboBoxModel(2, "Đã hủy"));
         tblFormDetail.getColumnExt(1).setVisible(false);
 
-        setFormList(getForms());
+        refresh();
         //_infoFrame = GetInfoForm();
     }
 
@@ -236,8 +235,9 @@ public abstract class ListFrame extends javax.swing.JPanel {
 
             for (int i = 0; i < list.size(); i++) {
                 String partnerName = "";
-                if (list.get(i).getPartner() != null) {
-                    partnerName = list.get(i).getPartner().getPartnerName();
+                Partner partner = list.get(i).getPartner();
+                if (partner != null) {
+                    partnerName = partner.getPartnerName();
                 }
 
                 Object[] objs = new Object[]{
@@ -250,7 +250,7 @@ public abstract class ListFrame extends javax.swing.JPanel {
             return true;
         } catch (Exception e) {
             System.out.println("components.interfaces.Template.ListFrame.setFormList()");
-            System.out.println(e.getMessage());
+            System.out.println(e);
             return false;
         }
     }
@@ -280,6 +280,11 @@ public abstract class ListFrame extends javax.swing.JPanel {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public void refresh() {
+        setFormList(getForms());
+        setDetail(new ArrayList());
     }
 
 }
