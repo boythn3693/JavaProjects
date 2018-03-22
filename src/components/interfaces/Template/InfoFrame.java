@@ -10,7 +10,7 @@ import components.models.*;
 import components.services.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 
 /**
  *
@@ -57,6 +57,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         btnDelPro = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblDetails = new org.jdesktop.swingx.JXTable();
+        jXCollapsiblePane1 = new org.jdesktop.swingx.JXCollapsiblePane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -209,14 +210,14 @@ public abstract class InfoFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Mã phiếu", "ProId", "Sản phẩm", "Số lượng"
+                "Mã phiếu", "ProId", "Sản phẩm", "Số lượng", "Tồn", "_"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Long.class, java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -255,28 +256,37 @@ public abstract class InfoFrame extends javax.swing.JFrame {
                                 .addComponent(btnSave)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnCancel))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jXCollapsiblePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(lblTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnUpdatePro)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDelPro)
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnUpdatePro)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnDelPro)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addComponent(jXCollapsiblePane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
                     .addComponent(btnSave))
@@ -301,11 +311,17 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         model.setFormId(Long.parseLong(txtFormId.getText()));
         model.setProduct(_commonService.getProductById(cbbProducts.getSelectedValue()));
         model.setQuantity((int) numQty.getValue());
-        if (deleteProduct(model) == true) {
+        ResultFunc rs = deleteDetail(model);
+
+        if (rs.isResult()) {
             JOptionPane.showMessageDialog(this, "Xóa thành công");
             refresh();
         } else {
-            JOptionPane.showMessageDialog(this, "Xóa thất bại");
+            if (rs.getMessage() == "") {
+                JOptionPane.showMessageDialog(this, "Xóa thất bại");
+            } else {
+                JOptionPane.showMessageDialog(this, rs.getMessage());
+            }
         }
     }//GEN-LAST:event_btnDelProActionPerformed
 
@@ -314,23 +330,33 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         model.setFormId(Long.parseLong(txtFormId.getText()));
         model.setProduct(_commonService.getProductById(cbbProducts.getSelectedValue()));
         model.setQuantity((int) numQty.getValue());
-        if (updateOrAddProduct(model) == true) {
-            JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+        ResultFunc rs = updateOrAddProduct(model);
+        if (rs.isResult()) {
+            JOptionPane.showMessageDialog(this, "Lập phiếu thành công");
             refresh();
         } else {
-            JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
+            if (rs.getMessage() == "") {
+                JOptionPane.showMessageDialog(this, "Lập phiếu thất bại");
+            } else {
+                JOptionPane.showMessageDialog(this, rs.getMessage());
+            }
         }
     }//GEN-LAST:event_btnUpdateProActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         FormModel model = getInfoForm();
-        if (saveForm(model) == true) {
+        ResultFunc rs = saveForm(model);
+        if (rs.isResult()) {
             JOptionPane.showMessageDialog(this, "Lập phiếu thành công");
             _listFrame.refresh();
             this.setVisible(false);
             this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Lập phiếu thất bại");
+            if (rs.getMessage() == "") {
+                JOptionPane.showMessageDialog(this, "Lập phiếu thất bại");
+            } else {
+                JOptionPane.showMessageDialog(this, rs.getMessage());
+            }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -352,6 +378,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private org.jdesktop.swingx.JXCollapsiblePane jXCollapsiblePane1;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JSpinner numQty;
     private org.jdesktop.swingx.JXTable tblDetails;
@@ -434,15 +461,18 @@ public abstract class InfoFrame extends javax.swing.JFrame {
             for (int i = 0; i < details.size(); i++) {
                 long ProductId = 0;
                 String ProductName = "";
+                int ProductNStock = 0;
                 if (details.get(i).getProduct() != null) {
                     ProductId = details.get(i).getProduct().getProductId();
                     ProductName = details.get(i).getProduct().getProductName();
+                    ProductNStock = details.get(i).getProduct().getQuantity();
                 }
                 Object[] objs = new Object[]{
                     details.get(i).getFormId(),
                     ProductId,
                     ProductName,
-                    details.get(i).getQuantity(),};
+                    details.get(i).getQuantity(),
+                    ProductNStock};
                 model.addRow(objs);
             }
         } catch (Exception e) {
@@ -455,22 +485,22 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         setFormDetail(getDetails(getInfoForm().getFormId()));
     }
 
-    protected abstract boolean updateOrAddProduct(ItemFormDetailModel model);
+    protected abstract ResultFunc updateOrAddProduct(ItemFormDetailModel model);
 
-    protected abstract boolean deleteProduct(ItemFormDetailModel model);
+    protected abstract ResultFunc deleteDetail(ItemFormDetailModel model);
 
-    protected abstract boolean saveForm(FormModel model);
+    protected abstract ResultFunc saveForm(FormModel model);
 
-    protected abstract void deleteForm(long formid);
+    protected abstract ResultFunc deleteForm(long formid);
 
     protected abstract List<ItemFormDetailModel> getDetails(long formid);
 
     protected abstract FormModel getNewForm();
 
     private List<ItemComboBoxModel> _statusItems;
-    private ProductService _productService;
-    private PartnerService _partnerService;
-    private CommonService _commonService;
+    protected ProductService _productService;
+    protected PartnerService _partnerService;
+    protected CommonService _commonService;
     protected ReceiptService _receiptService;
     protected DeliveryBillService _deliveryBillService;
     protected ListFrame _listFrame;

@@ -5,13 +5,10 @@
  */
 package components.interfaces;
 
-import components.entity.Receipt;
-import components.entity.ReceiptDetail;
-import components.interfaces.Template.InfoFrame;
-import components.models.FormModel;
-import components.models.ItemFormDetailModel;
-import java.util.ArrayList;
-import java.util.List;
+import components.entity.*;
+import components.interfaces.Template.*;
+import components.models.*;
+import java.util.*;
 
 /**
  *
@@ -24,63 +21,85 @@ public class InfoReceiptFrame extends InfoFrame {
     }
 
     @Override
-    protected boolean updateOrAddProduct(ItemFormDetailModel model) {
+    protected ResultFunc updateOrAddProduct(ItemFormDetailModel model) {
         try {
             ReceiptDetail rd = _receiptService.getDetailByProductId(model.getFormId(), model.getProduct().getProductId());
+            ResultFunc rs = new ResultFunc();
+
             if (rd == null) {
                 rd = new ReceiptDetail();
                 rd.setProduct(model.getProduct());
                 rd.setQuantity(model.getQuantity());
                 rd.setReceipt(_receiptService.getById(model.getFormId()));
-                return _receiptService.insertDetail(rd);
+                rs.setResult(_receiptService.insertDetail(rd));
             } else {
                 rd.setProduct(model.getProduct());
                 rd.setQuantity(model.getQuantity());
-                return _receiptService.updateDetail(rd);
+                rs.setResult(_receiptService.updateDetail(rd));
             }
+            return rs;
         } catch (Exception e) {
             System.out.println("components.interfaces.InfoReceiptFrame.UpdateOrAddProduct()");
-            System.out.println(e.getMessage());
-            return false;
+            System.out.println(e);
+            ResultFunc rs = new ResultFunc();
+            rs.setResult(false);
+            rs.setMessage(e.getMessage());
+            return rs;
         }
     }
 
     @Override
-    protected boolean deleteProduct(ItemFormDetailModel model) {
+    protected ResultFunc deleteDetail(ItemFormDetailModel model) {
         try {
-            return _receiptService.deleteDetailByProductId(model.getFormId(), model.getProduct().getProductId());
+            ResultFunc rs = new ResultFunc();
+
+            rs.setResult(_receiptService.deleteDetailByProductId(model.getFormId(), model.getProduct().getProductId()));
+
+            return rs;
         } catch (Exception e) {
             System.out.println("components.interfaces.InfoReceiptFrame.DeleteProduct()");
-            System.out.println(e.getMessage());
-            return false;
+            System.out.println(e);
+            ResultFunc rs = new ResultFunc();
+            rs.setResult(false);
+            rs.setMessage(e.getMessage());
+            return rs;
         }
     }
 
     @Override
-    protected boolean saveForm(FormModel model) {
+    protected ResultFunc saveForm(FormModel model) {
         try {
-            Receipt receipt = _receiptService.getById(model.getFormId());
-            if (receipt != null) {
-                receipt.setDatetime(model.getDateTime());
-                receipt.setPartner(model.getPartner());
-                receipt.setStatus(1);
-                return _receiptService.update(receipt);
-            }
-            return false;
-        } catch (Exception e) {
+            ResultFunc rs = new ResultFunc();
+            Receipt receipt = new Receipt();
+            
+            receipt.setReceiptId(model.getFormId());
+            receipt.setDatetime(model.getDateTime());
+            receipt.setPartner(model.getPartner());
+            rs.setResult(_receiptService.saveForm(receipt));
+        return rs;
+    }
+    catch (Exception e
+
+    
+        ) {
             System.out.println("components.interfaces.InfoReceiptFrame.SaveForm()");
-            System.out.println(e.getMessage());
-            return false;
-        }
+        System.out.println(e);
+        ResultFunc rs = new ResultFunc();
+        rs.setResult(false);
+        rs.setMessage(e.getMessage());
+        return rs;
+    }
+}
+
+@Override
+        protected ResultFunc deleteForm(long formid) {
+        ResultFunc rs = new ResultFunc();
+        rs.setResult(_receiptService.delete(formid));
+        return rs;
     }
 
     @Override
-    protected void deleteForm(long formid) {
-        _receiptService.delete(formid);
-    }
-
-    @Override
-    protected FormModel getNewForm() {
+        protected FormModel getNewForm() {
         try {
             Receipt receipt = _receiptService.getNew();
             FormModel form = new FormModel();
@@ -91,13 +110,13 @@ public class InfoReceiptFrame extends InfoFrame {
             return form;
         } catch (Exception e) {
             System.out.println("components.interfaces.InfoReceiptFrame.getNewForm()");
-            System.out.println(e.getMessage());
+            System.out.println(e);
             return new FormModel();
         }
     }
 
     @Override
-    protected List<ItemFormDetailModel> getDetails(long id) {
+        protected List<ItemFormDetailModel> getDetails(long id) {
         try {
             List<ItemFormDetailModel> rs = new ArrayList();
 

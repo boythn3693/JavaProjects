@@ -6,7 +6,7 @@
     <class name="components.entity.ReceiptDetail" table="ReceiptDetail" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
         <id name="receiptDetailId" type="long">
             <column name="ReceiptDetailId" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="product" class="components.entity.Product" fetch="select">
             <column name="ProductId" />

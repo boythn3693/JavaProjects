@@ -5,13 +5,10 @@
  */
 package components.interfaces;
 
-import components.entity.DeliveryBill;
-import components.entity.DeliveryBillDetail;
-import components.interfaces.Template.InfoFrame;
-import components.models.FormModel;
-import components.models.ItemFormDetailModel;
-import java.util.ArrayList;
-import java.util.List;
+import components.entity.*;
+import components.interfaces.Template.*;
+import components.models.*;
+import java.util.*;
 
 /**
  *
@@ -24,63 +21,101 @@ public class InfoDeliveryBillFrame extends InfoFrame {
     }
 
     @Override
-    protected boolean updateOrAddProduct(ItemFormDetailModel model) {
+    protected ResultFunc updateOrAddProduct(ItemFormDetailModel model) {
         try {
             DeliveryBillDetail rd = _deliveryBillService.getDetailByProductId(model.getFormId(), model.getProduct().getProductId());
+            ResultFunc rs = new ResultFunc();
+            int nStock = 0;
+            if (model.getProduct() != null) {
+                nStock = model.getProduct().getQuantity();
+            }
+
             if (rd == null) {
+                if (nStock - model.getQuantity() < 0) {
+                    rs.setResult(false);
+                    rs.setMessage("Vượt quá số lượng sản phẩm trong kho");
+                    return rs;
+                }
+
                 rd = new DeliveryBillDetail();
                 rd.setProduct(model.getProduct());
                 rd.setQuantity(model.getQuantity());
                 rd.setDeliveryBill(_deliveryBillService.getById(model.getFormId()));
-                return _deliveryBillService.insertDetail(rd);
+                rs.setResult(_deliveryBillService.insertDetail(rd));
             } else {
+                if (nStock - rd.getQuantity() + model.getQuantity() < 0) {
+                    rs.setResult(false);
+                    rs.setMessage("Vượt quá số lượng sản phẩm trong kho");
+                    return rs;
+                }
+
                 rd.setProduct(model.getProduct());
                 rd.setQuantity(model.getQuantity());
-                return _deliveryBillService.updateDetail(rd);
+                rs.setResult(_deliveryBillService.updateDetail(rd));
             }
+            return rs;
         } catch (Exception e) {
             System.out.println("components.interfaces.InfoDeliveryBillFrame.UpdateOrAddProduct()");
-            System.out.println(e.getMessage());
-            return false;
+            System.out.println(e);
+            ResultFunc rs = new ResultFunc();
+            rs.setResult(false);
+            rs.setMessage(e.getMessage());
+            return rs;
         }
     }
 
     @Override
-    protected boolean deleteProduct(ItemFormDetailModel model) {
+    protected ResultFunc deleteDetail(ItemFormDetailModel model) {
         try {
-            return _deliveryBillService.deleteDetailByProductId(model.getFormId(), model.getProduct().getProductId());
+            ResultFunc rs = new ResultFunc();
+
+            rs.setResult(_deliveryBillService.deleteDetailByProductId(model.getFormId(), model.getProduct().getProductId()));
+
+            return rs;
         } catch (Exception e) {
             System.out.println("components.interfaces.InfoDeliveryBillFrame.DeleteProduct()");
-            System.out.println(e.getMessage());
-            return false;
+            System.out.println(e);
+            ResultFunc rs = new ResultFunc();
+            rs.setResult(false);
+            rs.setMessage(e.getMessage());
+            return rs;
         }
     }
 
     @Override
-    protected boolean saveForm(FormModel model) {
+    protected ResultFunc saveForm(FormModel model) {
         try {
-            DeliveryBill deliveryBill = _deliveryBillService.getById(model.getFormId());
-            if (deliveryBill != null) {
-                deliveryBill.setDatetime(model.getDateTime());
-                deliveryBill.setPartner(model.getPartner());
-                deliveryBill.setStatus(1);
-                return _deliveryBillService.update(deliveryBill);
-            }
-            return false;
-        } catch (Exception e) {
+            ResultFunc rs = new ResultFunc();
+            DeliveryBill deliveryBill = new DeliveryBill();
+            
+            deliveryBill.setDeliveryBillId(model.getFormId());
+            deliveryBill.setDatetime(model.getDateTime());
+            deliveryBill.setPartner(model.getPartner());
+            rs.setResult(_deliveryBillService.saveForm(deliveryBill));
+        return rs;
+    }
+    catch (Exception e
+
+    
+        ) {
             System.out.println("components.interfaces.InfoDeliveryBillFrame.SaveForm()");
-            System.out.println(e.getMessage());
-            return false;
-        }
+        System.out.println(e);
+        ResultFunc rs = new ResultFunc();
+        rs.setResult(false);
+        rs.setMessage(e.getMessage());
+        return rs;
+    }
+}
+
+@Override
+        protected ResultFunc deleteForm(long formid) {
+        ResultFunc rs = new ResultFunc();
+        rs.setResult(_deliveryBillService.delete(formid));
+        return rs;
     }
 
     @Override
-    protected void deleteForm(long formid) {
-        _deliveryBillService.delete(formid);
-    }
-
-    @Override
-    protected FormModel getNewForm() {
+        protected FormModel getNewForm() {
         try {
             DeliveryBill deliveryBill = _deliveryBillService.getNew();
             FormModel form = new FormModel();
@@ -91,13 +126,13 @@ public class InfoDeliveryBillFrame extends InfoFrame {
             return form;
         } catch (Exception e) {
             System.out.println("components.interfaces.InfoDeliveryBillFrame.getNewForm()");
-            System.out.println(e.getMessage());
+            System.out.println(e);
             return new FormModel();
         }
     }
 
     @Override
-    protected List<ItemFormDetailModel> getDetails(long id) {
+        protected List<ItemFormDetailModel> getDetails(long id) {
         try {
             List<ItemFormDetailModel> rs = new ArrayList();
 

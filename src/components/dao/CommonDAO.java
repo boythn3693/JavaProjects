@@ -25,4 +25,8 @@ public class CommonDAO {
         }
         return null;
     }
+
+    public boolean updateObject(Object obj) {
+        return QueryDB.GetInstance().update(obj);
+    }
 }

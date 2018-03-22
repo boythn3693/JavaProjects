@@ -8,7 +8,6 @@ package components.interfaces;
 import components.entity.*;
 import components.interfaces.Template.*;
 import components.models.*;
-import components.services.*;
 import java.util.*;
 
 /**
@@ -74,9 +73,7 @@ public class DeliveryBillFrame extends ListFrame {
 
     @Override
     protected boolean CancelForm(long id) {
-        DeliveryBill obj = _deliveryBillService.getById(id);
-        obj.setStatus(2);
-        return _deliveryBillService.update(obj);
+        return _deliveryBillService.cancelForm(id);
     }
 
     @Override
@@ -86,4 +83,12 @@ public class DeliveryBillFrame extends ListFrame {
         return info;
     }
 
+    private static DeliveryBillFrame _frame;
+
+    public static DeliveryBillFrame getInstance() {
+        if (_frame == null) {
+            _frame = new DeliveryBillFrame();
+        }
+        return _frame;
+    }
 }

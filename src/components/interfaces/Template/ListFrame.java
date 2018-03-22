@@ -50,14 +50,14 @@ public abstract class ListFrame extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã phiếu", "Đối tác", "Ngày lập phiếu", "Status"
+                "Mã phiếu", "Đối tác", "Ngày lập phiếu", "Status", "_"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -160,10 +160,15 @@ public abstract class ListFrame extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFormMouseClicked
-        int index = tblForm.getSelectedRow();
-        long id = Long.valueOf(tblForm.getValueAt(index, 0).toString());
-        List<ItemFormDetailModel> details = getDetailByFormId(id);
-        boolean rs = setDetail(details);
+        try {
+            int index = tblForm.getSelectedRow();
+            long id = Long.valueOf(tblForm.getValueAt(index, 0).toString());
+            List<ItemFormDetailModel> details = getDetailByFormId(id);
+            boolean rs = setDetail(details);
+        } catch (Exception e) {
+            System.out.println("components.interfaces.Template.ListFrame.tblFormMouseClicked()");
+            System.out.println(e);
+        }
     }//GEN-LAST:event_tblFormMouseClicked
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -182,9 +187,14 @@ public abstract class ListFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnCreateFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateFormActionPerformed
-        InfoFrame infoFrame = GetInfoForm();
-        infoFrame.setListFrame(this);
-        infoFrame.setVisible(true);
+        try {
+            InfoFrame infoFrame = GetInfoForm();
+            infoFrame.setListFrame(this);
+            infoFrame.setVisible(true);
+        } catch (Exception e) {
+            System.out.println("components.interfaces.Template.ListFrame.btnCreateFormActionPerformed()");
+            System.out.println(e);
+        }
     }//GEN-LAST:event_btnCreateFormActionPerformed
 
 
@@ -286,5 +296,4 @@ public abstract class ListFrame extends javax.swing.JPanel {
         setFormList(getForms());
         setDetail(new ArrayList());
     }
-
 }
