@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package components.interfaces;
+import components.entity.Partner;
 import components.services.PartnerService;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,6 +16,7 @@ import components.services.PartnerService;
 public class frmTabExportExcelPartner extends javax.swing.JPanel {
     
     PartnerService partnerService;
+    DefaultTableModel tableModel;
 
     /**
      * Creates new form frmTabExportExcelPartner
@@ -71,17 +75,17 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
 
         tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null}
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Tên đối tác", "Địa chỉ", "Số điện thoại", "Người đại diện"
+                "STT", "Mã đối tác", "Tên đối tác", "Địa chỉ", "Số điện thoại", "Người đại diện"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -185,6 +189,12 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void getHeaderTable() {
+        Object[] obj = new Object[]{"STT", "Mã đối tác", "Tên đối tác", "Địa chỉ", "Số điện thoại", "Tên người đại diện"};
+        tableModel = new DefaultTableModel(obj, 0);
+        tblData.setModel(tableModel);
+    }
+    
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
         String maDoiTac = txtMaDoiTac.getText();
@@ -193,8 +203,18 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
         String diaChi = txtDiaChi.getText();
         String soDienThoai = txtSoDienThoai.getText();
         
-        long count = partnerService.countTableFilter2(maDoiTac, tenDoiTac, nguoiDaiDien, diaChi, soDienThoai);
-        System.out.println(count);
+        List<Partner> listPartner = partnerService.getDataPartnerFilter2(maDoiTac, tenDoiTac, nguoiDaiDien, diaChi, soDienThoai);
+        getHeaderTable();
+        for (int i = 0; i < listPartner.size(); i++) {
+            Object[] item = new Object[6];
+            item[0] = i+1;
+            item[1] = listPartner.get(i).getPartnerId();
+            item[2] = listPartner.get(i).getPartnerName();
+            item[3] = listPartner.get(i).getAddress();
+            item[4] = listPartner.get(i).getNumPhone();
+            item[5] = listPartner.get(i).getRepresentFullname();
+            tableModel.addRow(item);
+        }
     }//GEN-LAST:event_btnFilterActionPerformed
 
 

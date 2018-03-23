@@ -65,10 +65,10 @@ public class PartnerModel {
     }
     
     public Long countTableFilter2(String maDoiTac, String tenDoiTac, String nguoiDaiDien, String diaChi, String soDienThoai) {
-        List<Partner> dsPartner = QueryDB.GetInstance().executeHQLQuery("from Partner");
+        /*List<Partner> dsPartner = QueryDB.GetInstance().executeHQLQuery("from Partner");
         for (int i = 0; i < dsPartner.size(); i++) {
             System.out.println("Họ tên: " + dsPartner.get(i).getPartnerName());
-        }
+        }*/
         
         //return (long)QueryDB.GetInstance().executeHQLQuery("select count (*) as soluong from Partner p where p.partnerName = 'Samsung'").getSingleResult();
         //String where = "";
@@ -123,6 +123,31 @@ public class PartnerModel {
         final String QUERY_GET_PARTNER = "from Partner p " + where;
 
         List<Partner> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_PARTNER);
+        return rs;
+    }
+    
+    public List<Partner> getListPartnerFilter2(String maDoiTac, String tenDoiTac, String nguoiDaiDien, String diaChi, String soDienThoai) {
+        String where = "where 1=1";
+        if (!maDoiTac.equals("")) {
+            where += " and p.partnerId =" + maDoiTac;
+        }
+        if (!tenDoiTac.equals("")) {
+            where += " and p.partnerName LIKE '%" + tenDoiTac + "%'";
+        }
+        if (!nguoiDaiDien.equals("")) {
+            where += " and p.representFullname LIKE '%" + nguoiDaiDien + "%'";
+        }
+        if (!diaChi.equals("")) {
+            where += " and p.address LIKE '%" + diaChi + "%'";
+        }
+        if (!soDienThoai.equals("")) {
+            where += " and p.numPhone LIKE '%" + soDienThoai + "%'";
+        }
+        
+        List<Partner> dsPartner = QueryDB.GetInstance().executeHQLQuery("from Partner");
+        final String QUERY_GET_PARTNER = "from Partner p " + where;
+        List<Partner> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_PARTNER);
+        
         return rs;
     }
 

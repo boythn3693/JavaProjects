@@ -60,6 +60,12 @@ public class PartnerService {
         List<Partner> rs = model.getListPartnerFilter( filter, isName, isDescription, isAddress, isPhone, isNDD);
         return rs;
     }
+    
+    public List<Partner> getDataPartnerFilter2(String maDoiTac, String tenDoiTac, String nguoiDaiDien, String diaChi, String soDienThoai){
+        List<Partner> rs = model.getListPartnerFilter2(maDoiTac, tenDoiTac, nguoiDaiDien, diaChi, soDienThoai);
+        return rs;
+    }
+    
       public Partner getById(long id) {
       return model.getById(id);
   }
