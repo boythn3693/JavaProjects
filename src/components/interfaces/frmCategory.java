@@ -5,18 +5,75 @@
  */
 package components.interfaces;
 
+import components.entity.Category;
+import components.services.CategoryService;
+import components.utils.StringHelpers;
+import java.util.Iterator;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author MitsuyoRai
  */
 public class frmCategory extends javax.swing.JPanel {
+    private int _categoryId = -1;
 
+    DefaultTableModel tableModel;
+    CategoryService categoryService;
+    List<Category> listAll;
     /**
      * Creates new form frmCategory
      */
     public frmCategory() {
         initComponents();
+        categoryService = new CategoryService();
+        onLoad();
+        getHeaderTable();
+        getDataCategory();
     }
+    
+    private void onLoad() {
+        listAll = categoryService.getListCategory();
+    }
+    
+    private void getHeaderTable() {
+        Object[] obj = new Object[]{"ID", "STT", "Tên danh mục"};
+        tableModel = new DefaultTableModel(obj, 0);
+        jTableDanhMuc.setModel(tableModel);
+    }
+
+    private void getDataCategory() {
+        int c = 0;
+        try {
+            List<Category> listCategory = listAll;
+            
+            Iterator iter = listCategory.iterator();
+            while (iter.hasNext()) {
+                Category category = (Category) iter.next();
+                Object[] item = new Object[10];
+                item[0] = category.getCategoryId();
+                item[1] = ++c;
+                item[2] = category.getName();
+                tableModel.addRow(item);
+            }
+            //Ẩn ID
+            jTableDanhMuc.getColumnModel().getColumn(0).setMinWidth(0);
+            jTableDanhMuc.getColumnModel().getColumn(0).setMaxWidth(0);
+            
+            jTableDanhMuc.getColumnModel().getColumn(1).setMinWidth(100);
+            jTableDanhMuc.getColumnModel().getColumn(1).setMaxWidth(100);
+        } catch (Exception ex) {
+            System.out.println("123");
+            System.out.println(ex.toString());
+        }
+    }
+
+    private void resetInputCategory() {
+        txtCategoryName.setText("");
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,19 +84,247 @@ public class frmCategory extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanelDanhSachDanhMuc = new javax.swing.JPanel();
+        jScrollPaneDanhSachDanhMuc = new javax.swing.JScrollPane();
+        jTableDanhMuc = new javax.swing.JTable();
+        jPanelItemDanhMuc = new javax.swing.JPanel();
+        jLabelCategoryName = new javax.swing.JLabel();
+        txtCategoryName = new javax.swing.JTextField();
+        btnInsert = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnReset = new javax.swing.JButton();
+
+        setMinimumSize(new java.awt.Dimension(780, 611));
+
+        jTableDanhMuc.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "STT", "Tên Danh mục"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Integer.class, java.lang.Object.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jTableDanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableDanhMucMouseClicked(evt);
+            }
+        });
+        jScrollPaneDanhSachDanhMuc.setViewportView(jTableDanhMuc);
+
+        jLabelCategoryName.setText("Tên Danh mục:");
+
+        btnInsert.setText("Thêm");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
+
+        btnUpdate.setText("Chỉnh sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
+
+        btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnReset.setText("Reset");
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelItemDanhMucLayout = new javax.swing.GroupLayout(jPanelItemDanhMuc);
+        jPanelItemDanhMuc.setLayout(jPanelItemDanhMucLayout);
+        jPanelItemDanhMucLayout.setHorizontalGroup(
+            jPanelItemDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelItemDanhMucLayout.createSequentialGroup()
+                .addGroup(jPanelItemDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelItemDanhMucLayout.createSequentialGroup()
+                        .addGap(171, 171, 171)
+                        .addComponent(jLabelCategoryName)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelItemDanhMucLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(243, Short.MAX_VALUE))
+        );
+        jPanelItemDanhMucLayout.setVerticalGroup(
+            jPanelItemDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelItemDanhMucLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelItemDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelCategoryName)
+                    .addComponent(txtCategoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelItemDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnInsert)
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete)
+                    .addComponent(btnReset))
+                .addGap(117, 117, 117))
+        );
+
+        javax.swing.GroupLayout jPanelDanhSachDanhMucLayout = new javax.swing.GroupLayout(jPanelDanhSachDanhMuc);
+        jPanelDanhSachDanhMuc.setLayout(jPanelDanhSachDanhMucLayout);
+        jPanelDanhSachDanhMucLayout.setHorizontalGroup(
+            jPanelDanhSachDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPaneDanhSachDanhMuc)
+            .addComponent(jPanelItemDanhMuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanelDanhSachDanhMucLayout.setVerticalGroup(
+            jPanelDanhSachDanhMucLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelDanhSachDanhMucLayout.createSequentialGroup()
+                .addComponent(jPanelItemDanhMuc, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPaneDanhSachDanhMuc, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanelDanhSachDanhMuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(jPanelDanhSachDanhMuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jTableDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDanhMucMouseClicked
+        // TODO add your handling code here:
+        int index = jTableDanhMuc.getSelectedRow();
+        this._categoryId = Integer.valueOf(jTableDanhMuc.getValueAt(index, 0).toString());
+        txtCategoryName.setText(jTableDanhMuc.getValueAt(index, 2).toString());
+    }//GEN-LAST:event_jTableDanhMucMouseClicked
+
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        // TODO add your handling code here:
+        String TenDanhMuc;
+
+        if (txtCategoryName.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Tên Danh mục", "Thông báo", 2);
+            txtCategoryName.requestFocus();
+            return;
+        }
+
+        TenDanhMuc = txtCategoryName.getText();
+
+        Category dto = new Category(-1, TenDanhMuc);
+
+        if (categoryService.insert(dto)) {
+            StringHelpers.Message("Danh mục đã được thêm vào csdl", "Thành công", 1);
+        } else {
+            StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
+        }
+        onLoad();
+
+        getHeaderTable();
+        getDataCategory();
+        resetInputCategory();
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        if( _categoryId == -1 )
+        {
+            StringHelpers.Message("Vui lòng chọn danh mục cần sửa", "Thông báo", 2);
+            return;
+        }
+        String TenDanhMuc;
+
+        if (txtCategoryName.getText().equals("")) {
+            StringHelpers.Message("Vui lòng nhập Tên danh mục", "Thông báo", 2);
+            txtCategoryName.requestFocus();
+            return;
+        } 
+
+        TenDanhMuc = txtCategoryName.getText();
+
+        Category dto = new Category(this._categoryId, TenDanhMuc);
+
+        if (categoryService.update(dto)) {
+            StringHelpers.Message("Danh mục đã được cập nhật thành công", "Thành công", 1);
+        } else {
+            StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
+        }
+        onLoad();
+
+        getHeaderTable();
+        getDataCategory();
+        resetInputCategory();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        if( _categoryId == -1 ){
+            StringHelpers.Message("Vui lòng chọn danh mục cần Xóa", "Thông báo", 2);
+            return;
+        }
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Bạn chắc chắn muốn xóa sản phẩm này?", "Warning", JOptionPane.YES_NO_OPTION);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            Category dto = new Category();
+            dto.setCategoryId(this._categoryId);
+            if (categoryService.delete(dto, this._categoryId)) {
+                StringHelpers.Message("Danh mục đã được Xóa thành công", "Thành công", 1);
+            } else {
+                StringHelpers.Message("Danh mục chứa sản phẩm, không thể xóa danh mục này!", "Cảnh báo", 2);
+            }
+
+            onLoad();
+            getHeaderTable();
+            getDataCategory();
+            resetInputCategory();
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+        onLoad();
+        getHeaderTable();
+        getDataCategory();
+        resetInputCategory();
+        _categoryId = -1;
+    }//GEN-LAST:event_btnResetActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnInsert;
+    private javax.swing.JButton btnReset;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JLabel jLabelCategoryName;
+    private javax.swing.JPanel jPanelDanhSachDanhMuc;
+    private javax.swing.JPanel jPanelItemDanhMuc;
+    private javax.swing.JScrollPane jScrollPaneDanhSachDanhMuc;
+    private javax.swing.JTable jTableDanhMuc;
+    private javax.swing.JTextField txtCategoryName;
     // End of variables declaration//GEN-END:variables
 }

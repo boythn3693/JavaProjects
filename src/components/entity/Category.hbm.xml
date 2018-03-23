@@ -4,11 +4,12 @@
 <!-- Generated Mar 16, 2018 2:40:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.Category" table="Category" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
-        <id name="categoryId" type="long">
-            <column name="CategoryId" />
-            <generator class="assigned" />
+        <id name="categoryId" type="long" column="CategoryId">
+             <!--<column name="CategoryId" />
+            <generator class="assigned" />-->
+            <generator class="identity" />
         </id>
-        <property name="name" type="serializable">
+        <property name="name" type="string">
             <column name="Name" not-null="true" />
         </property>
         <set name="products" table="Product" inverse="true" lazy="true" fetch="select">

@@ -277,7 +277,7 @@ public abstract class ListFrame extends javax.swing.JPanel {
                 String ProductName = "";
                 if (list.get(i).getProduct() != null) {
                     ProductId = list.get(i).getProduct().getProductId();
-                    ProductName = list.get(i).getProduct().getProductName();
+                    ProductName = (String) list.get(i).getProduct().getProductName();
                 }
                 Object[] objs = new Object[]{
                     list.get(i).getFormId(),

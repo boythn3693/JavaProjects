@@ -40,7 +40,8 @@ public class QueryDB {
              System.out.println(he);
             session.getTransaction().rollback();
             return false;
-        }  finally {
+        }  
+        finally {
             session.close();
         }
     }
@@ -113,9 +114,10 @@ public class QueryDB {
         } catch (HibernateException he) {
             System.out.println(he);
             return null;
-        } finally {
-            session.close();
-        }
+        } 
+//        finally {
+//            session.close();
+//        }
     }
     
     public List executeHQLQueryPaging(String hql, int lastPageNumber, int pageSize){
@@ -132,8 +134,9 @@ public class QueryDB {
         } catch (HibernateException he) {
             System.out.println(he);
             return null;
-        } finally {
-            session.close();
-        }
+        } 
+//        finally {
+//            session.close();
+//        }
     }
 }

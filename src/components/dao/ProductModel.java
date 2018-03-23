@@ -51,6 +51,13 @@ public class ProductModel {
         return QueryDB.GetInstance().delete(obj);
     }
     
+    public List<Product> getAllDataProduct(){
+        final String QUERY_GET_ALL_PRODUCT = "from Product p order by p.productId desc";
+        
+        List<Product> rs = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_ALL_PRODUCT));
+        return rs;
+    }
+    
     public Long countTable(){
         return QueryDB.GetInstance().countTable("select count (*) from Product");
     }
@@ -124,6 +131,23 @@ public class ProductModel {
 //            where += (where.equals("") == true) ? "where p.productType like '%"+filter+"%' " : "or p.productType like '%"+filter+"%' ";
 //        }
         final String QUERY_GET_PRODUCT = "from Product p "+where;
+        
+        List<Product> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_PRODUCT);
+        return rs;
+    }
+    
+    public List<Product> getDataProductFilter2(long productType, int status){
+        String where = "";
+        if( productType == 0 ) {
+            where += "";
+        } else {
+            where += "where categoryId = "+ productType;
+        }
+        
+        if( status != -1  ) {
+            where += (where.equals("") == true) ? "where status = "+status : " and status = "+status;
+        }
+        final String QUERY_GET_PRODUCT = "from Product "+where;
         
         List<Product> rs = QueryDB.GetInstance().executeHQLQuery(QUERY_GET_PRODUCT);
         return rs;

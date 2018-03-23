@@ -13,18 +13,18 @@ public class Category  implements java.io.Serializable {
 
 
      private long categoryId;
-     private Serializable name;
+     private String name;
      private Set products = new HashSet(0);
 
     public Category() {
     }
 
 	
-    public Category(long categoryId, Serializable name) {
+    public Category(long categoryId, String name) {
         this.categoryId = categoryId;
         this.name = name;
     }
-    public Category(long categoryId, Serializable name, Set products) {
+    public Category(long categoryId, String name, Set products) {
        this.categoryId = categoryId;
        this.name = name;
        this.products = products;
@@ -37,11 +37,11 @@ public class Category  implements java.io.Serializable {
     public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
     }
-    public Serializable getName() {
+    public String getName() {
         return this.name;
     }
     
-    public void setName(Serializable name) {
+    public void setName(String name) {
         this.name = name;
     }
     public Set getProducts() {

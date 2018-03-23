@@ -184,7 +184,8 @@ public class frmMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(!jTabbedPaneImport.hasFocus()) {
             jTabbedPaneImport.removeAll();
-            jTabbedPaneImport.addTab("Quản lý Nhập kho", ReceiptFrame.getInstance());
+//            frmImport frm = new frmImport();
+//            jTabbedPaneImport.addTab("Quản lý Nhập kho", frm);
         }
     }//GEN-LAST:event_jTabbedPaneImportComponentShown
 
@@ -192,7 +193,8 @@ public class frmMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(!jTabbedPaneExport.hasFocus()) {
             jTabbedPaneExport.removeAll();
-            jTabbedPaneExport.addTab("Quản lý Xuất kho", DeliveryBillFrame.getInstance());
+//            frmExport frm = new frmExport();
+//            jTabbedPaneExport.addTab("Quản lý Xuất kho", frm);
         }
     }//GEN-LAST:event_jTabbedPaneExportComponentShown
 

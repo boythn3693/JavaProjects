@@ -5,8 +5,10 @@
  */
 package components.interfaces;
 
+import components.entity.Category;
 import components.entity.Product;
 import components.models.displayvalueModel;
+import components.services.CategoryService;
 import components.services.ProductService;
 import components.utils.StringHelpers;
 import java.util.ArrayList;
@@ -30,6 +32,8 @@ public class frmProduct extends javax.swing.JPanel {
     int start = 0;
     int end;
     DefaultTableModel tableModel;
+    CategoryService categoryService;
+    List<Category> listCat;
     ProductService productService;
     List<Product> listAll;
     /**
@@ -37,6 +41,7 @@ public class frmProduct extends javax.swing.JPanel {
      */
     public frmProduct() {
         initComponents();
+        categoryService = new CategoryService();
         productService = new ProductService();
         onLoad();
     }
@@ -44,6 +49,7 @@ public class frmProduct extends javax.swing.JPanel {
     private void onLoad() {
         count = productService.countTable();
         totalPage = (int)(Math.ceil((float)count/pageSize));
+        listCat = categoryService.getListCategory();
         listAll = productService.getDataProduct(1);
     }
 
@@ -78,11 +84,11 @@ public class frmProduct extends javax.swing.JPanel {
         _status.add(1, "Hiện");
         _status.add(2, "Ẩn");
 
-        ArrayList _productType = new ArrayList();
-        _productType.add(0, "None");
-        _productType.add(1, "Văn phòng phẩm");
-        _productType.add(2, "Đồ gia dụng");
-        _productType.add(3, "Đồ điện");
+//        ArrayList _productType = new ArrayList();
+//        _productType.add(0, "None");
+//        _productType.add(1, "Văn phòng phẩm");
+//        _productType.add(2, "Đồ gia dụng");
+//        _productType.add(3, "Đồ điện");
         int c = 0;
         try {
             start = (page-1)*pageSize;
@@ -104,8 +110,8 @@ public class frmProduct extends javax.swing.JPanel {
                 item[5] = product.getQuantity();
                 item[6] = product.getStatus();
                 item[7] = _status.get(product.getStatus());
-                item[8] = product.getProductType();
-                item[9] = _productType.get(product.getProductType());
+                item[8] = product.getCategory().getCategoryId();
+                item[9] = product.getCategory().getName();//_productType.get(product.getProductType());
                 tableModel.addRow(item);
             }
             //Ẩn ID
@@ -139,15 +145,28 @@ public class frmProduct extends javax.swing.JPanel {
         displayvalueModel valueModel2 = new displayvalueModel("Ẩn", 2);
         cbbmodel.addElement(valueModel2);
         cboStatus.setModel(cbbmodel);
-
-        DefaultComboBoxModel cbbmodel2 = new DefaultComboBoxModel();
-        displayvalueModel valueModel3 = new displayvalueModel("Văn phòng phẩm", 1);
-        cbbmodel2.addElement(valueModel3);
-        displayvalueModel valueModel4 = new displayvalueModel("Đồ gia dụng", 2);
-        cbbmodel2.addElement(valueModel4);
-        displayvalueModel valueModel5 = new displayvalueModel("Đồ điện", 3);
-        cbbmodel2.addElement(valueModel5);
-        cboCategory.setModel(cbbmodel2);
+//
+//        DefaultComboBoxModel cbbmodel2 = new DefaultComboBoxModel();
+//        displayvalueModel valueModel3 = new displayvalueModel("Văn phòng phẩm", 1);
+//        cbbmodel2.addElement(valueModel3);
+//        displayvalueModel valueModel4 = new displayvalueModel("Đồ gia dụng", 2);
+//        cbbmodel2.addElement(valueModel4);
+//        displayvalueModel valueModel5 = new displayvalueModel("Đồ điện", 3);
+//        cbbmodel2.addElement(valueModel5);
+//        cboCategory.setModel(cbbmodel2);
+        try {
+            DefaultComboBoxModel cbbmodel2 = new DefaultComboBoxModel();
+            Iterator iter = listCat.iterator();
+            while (iter.hasNext()) {
+                Category category = (Category) iter.next();
+                displayvalueModel valueModel = new displayvalueModel(category.getName(), category.getCategoryId());
+                cbbmodel2.addElement(valueModel);
+            }
+            
+            cboCategory.setModel(cbbmodel2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     //------------------------------------------------------------------------------=-/
     //------------------------------------------------------------------------------=-/
@@ -767,11 +786,11 @@ public class frmProduct extends javax.swing.JPanel {
         _status.add(1, "Hiện");
         _status.add(2, "Ẩn");
 
-        ArrayList _productType = new ArrayList();
-        _productType.add(0, "None");
-        _productType.add(1, "Văn phòng phẩm");
-        _productType.add(2, "Đồ gia dụng");
-        _productType.add(3, "Đồ điện");
+//        ArrayList _productType = new ArrayList();
+//        _productType.add(0, "None");
+//        _productType.add(1, "Văn phòng phẩm");
+//        _productType.add(2, "Đồ gia dụng");
+//        _productType.add(3, "Đồ điện");
         
         count = productService.countTableFilter(filter, isCode, isName, isDescription, isQuantity, isStatus, isProductType);
         totalPage = (int)(Math.ceil((float)count/pageSize));
@@ -797,8 +816,8 @@ public class frmProduct extends javax.swing.JPanel {
                 item[5] = product.getQuantity();
                 item[6] = product.getStatus();
                 item[7] = _status.get(product.getStatus());
-                item[8] = product.getProductType();
-                item[9] = _productType.get(product.getProductType());
+                item[8] = product.getCategory().getCategoryId();//product.getProductType();
+                item[9] = product.getCategory().getName();
                 tableModel.addRow(item);
             }
             //Ẩn ID

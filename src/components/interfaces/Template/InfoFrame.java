@@ -464,7 +464,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
                 int ProductNStock = 0;
                 if (details.get(i).getProduct() != null) {
                     ProductId = details.get(i).getProduct().getProductId();
-                    ProductName = details.get(i).getProduct().getProductName();
+                    ProductName = (String) details.get(i).getProduct().getProductName();
                     ProductNStock = details.get(i).getProduct().getQuantity();
                 }
                 Object[] objs = new Object[]{
