@@ -63,6 +63,35 @@ public class PartnerModel {
 
         return QueryDB.GetInstance().countTable(QUERY_GET_PARTNER);
     }
+    
+    public Long countTableFilter2(String maDoiTac, String tenDoiTac, String nguoiDaiDien, String diaChi, String soDienThoai) {
+        //String where = "where 1=1";
+        
+        //if (!tenDoiTac.equals("")) {
+            //where += " and p.partnerName ='" + tenDoiTac + "'";
+        //}
+        /*String where = "";
+        if (isName) {
+            where += (where.equals("") == true) ? "where p.partnerName like N'%" + filter + "%' " : "or p.partnerName like N'%" + filter + "%' ";
+        }
+        if (isDescription) {
+            where += (where.equals("") == true) ? "where p.description like N'%" + filter + "%' " : "or p.description like N'%" + filter + "%' ";
+        }
+        if (isAddress) {
+            where += (where.equals("") == true) ? "where p.address like '%" + filter + "%' " : "or p.address like '%" + filter + "%' ";
+        }
+        if (isPhone) {
+            where += (where.equals("") == true) ? "where p.numPhone like " + filter + " " : "or p.numPhone like " + filter + " ";
+        }
+        if (isNDD) {
+            where += (where.equals("") == true) ? "where p.representFullname  %" + filter + "%' " : "or p.representFullname like '%" + filter + "%' ";
+        }*/
+        //final String QUERY_GET_PARTNER = "from count (*) Partner p " + where;
+
+        //return QueryDB.GetInstance().countTable("select count(*) as soluong from Partner p where PartnerId = 17");
+        long rs = 10;
+        return rs;
+    }
 
     public List<Partner> getListByPagination(List<Partner> list, int start, int end) {
         List<Partner> result = new ArrayList<Partner>();

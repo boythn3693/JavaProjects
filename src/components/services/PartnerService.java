@@ -48,6 +48,10 @@ public class PartnerService {
         return model.countTableFilter(filter, isName, isDescription, isAddress, isPhone, isNDD);
     }
     
+    public Long countTableFilter2(String maDoiTac, String tenDoiTac, String nguoiDaiDien, String diaChi, String soDienThoai){
+        return model.countTableFilter2(maDoiTac, tenDoiTac, nguoiDaiDien, diaChi, soDienThoai);
+    }
+    
     public List<Partner> getListByPagination(List<Partner> list, int start, int end){
         return model.getListByPagination(list, start, end);
     }
