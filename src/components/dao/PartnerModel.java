@@ -65,6 +65,14 @@ public class PartnerModel {
     }
     
     public Long countTableFilter2(String maDoiTac, String tenDoiTac, String nguoiDaiDien, String diaChi, String soDienThoai) {
+        //return (long)QueryDB.GetInstance().executeHQLQuery("select count (*) as soluong from Partner p where p.partnerName = 'Samsung'").getSingleResult();
+        //List listPartner =  QueryDB.GetInstance().runQuery("select count (*) as soluong from Partner p where p.partnerName = 'Samsung'");
+        //for(int i=0;i<listPartner.size();i++){
+            //System.out.println(listPartner.get(i));
+        //}
+        long rs = 10;
+        return rs;
+        
         //String where = "where 1=1";
         
         //if (!tenDoiTac.equals("")) {
@@ -88,9 +96,9 @@ public class PartnerModel {
         }*/
         //final String QUERY_GET_PARTNER = "from count (*) Partner p " + where;
 
-        //return QueryDB.GetInstance().countTable("select count(*) as soluong from Partner p where PartnerId = 17");
-        long rs = 10;
-        return rs;
+        //return QueryDB.GetInstance().countTable("from count (*) Partner p where PartnerName = 'Samsung'");
+        //long rs = 10;
+        //return rs;
     }
 
     public List<Partner> getListByPagination(List<Partner> list, int start, int end) {
