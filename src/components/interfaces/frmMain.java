@@ -185,7 +185,7 @@ public class frmMain extends javax.swing.JFrame {
         if(!jTabbedPaneImport.hasFocus()) {
             jTabbedPaneImport.removeAll();
 //            frmImport frm = new frmImport();
-//            jTabbedPaneImport.addTab("Quản lý Nhập kho", frm);
+            jTabbedPaneImport.addTab("Quản lý Nhập kho", ReceiptFrame.getInstance());
         }
     }//GEN-LAST:event_jTabbedPaneImportComponentShown
 
@@ -194,7 +194,7 @@ public class frmMain extends javax.swing.JFrame {
         if(!jTabbedPaneExport.hasFocus()) {
             jTabbedPaneExport.removeAll();
 //            frmExport frm = new frmExport();
-//            jTabbedPaneExport.addTab("Quản lý Xuất kho", frm);
+            jTabbedPaneExport.addTab("Quản lý Xuất kho", DeliveryBillFrame.getInstance());
         }
     }//GEN-LAST:event_jTabbedPaneExportComponentShown
 

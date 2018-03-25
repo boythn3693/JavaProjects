@@ -30,7 +30,7 @@ public class QueryDB {
     }
     
     public Boolean save(Object obj){
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             session.save(obj);
@@ -42,12 +42,12 @@ public class QueryDB {
             return false;
         }  
         finally {
-            session.close();
+            //session.close();
         }
     }
     
     public Boolean update(Object obj){
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             session.update(obj);
@@ -58,12 +58,12 @@ public class QueryDB {
             session.getTransaction().rollback();
             return false;
         }  finally {
-            session.close();
+            //session.close();
         }
     }
     
     public Boolean delete(Object obj){
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             session.delete(obj);
@@ -78,7 +78,7 @@ public class QueryDB {
     }
     
     public Long countTable(String hql){//(Class c){
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             Query q = session.createQuery(hql);
@@ -88,7 +88,7 @@ public class QueryDB {
             System.out.println(he);
             return (long)0;
         } finally {
-            session.close();
+            //session.close();
         }
 //        try {
 //            Criteria criteriaCount = session.createCriteria(c);
@@ -104,7 +104,7 @@ public class QueryDB {
     }
 
     public List executeHQLQuery(String hql) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             Query q = session.createQuery(hql);
@@ -121,7 +121,7 @@ public class QueryDB {
     }
     
     public List executeHQLQueryPaging(String hql, int lastPageNumber, int pageSize){
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
             session.beginTransaction();
             //Criteria criteria = session.createCriteria(c);

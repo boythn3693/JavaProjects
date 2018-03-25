@@ -4,9 +4,8 @@
 <!-- Generated Mar 16, 2018 2:40:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="components.entity.Account" table="Account" schema="dbo" catalog="InventoryDb" optimistic-lock="version">
-        <id name="accountId" type="long">
-            <column name="AccountId" />
-            <generator class="assigned" />
+        <id name="accountId" type="long" colum="AccountId">
+            <generator class="identity" />
         </id>
         <property name="username" type="string">
             <column name="Username" not-null="true" />

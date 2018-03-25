@@ -80,14 +80,14 @@ public class Product  implements java.io.Serializable {
     public void setCode(String code) {
         this.code = code;
     }
-    public Serializable getProductName() {
+    public String getProductName() {
         return this.productName;
     }
     
     public void setProductName(String productName) {
         this.productName = productName;
     }
-    public Serializable getDescription() {
+    public String getDescription() {
         return this.description;
     }
     

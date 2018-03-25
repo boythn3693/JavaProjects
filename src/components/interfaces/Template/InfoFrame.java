@@ -317,7 +317,7 @@ public abstract class InfoFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Xóa thành công");
             refresh();
         } else {
-            if (rs.getMessage() == "") {
+            if (rs.getMessage() != "") {
                 JOptionPane.showMessageDialog(this, "Xóa thất bại");
             } else {
                 JOptionPane.showMessageDialog(this, rs.getMessage());
@@ -332,13 +332,13 @@ public abstract class InfoFrame extends javax.swing.JFrame {
         model.setQuantity((int) numQty.getValue());
         ResultFunc rs = updateOrAddProduct(model);
         if (rs.isResult()) {
-            JOptionPane.showMessageDialog(this, "Lập phiếu thành công");
+            JOptionPane.showMessageDialog(this, "Cập nhật thành công");
             refresh();
         } else {
-            if (rs.getMessage() == "") {
-                JOptionPane.showMessageDialog(this, "Lập phiếu thất bại");
+            if (rs.getMessage() != "") {
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại");
             } else {
-                JOptionPane.showMessageDialog(this, rs.getMessage());
+                JOptionPane.showMessageDialog(this, "Cập nhật thất bại: " + rs.getMessage());
             }
         }
     }//GEN-LAST:event_btnUpdateProActionPerformed
@@ -352,10 +352,10 @@ public abstract class InfoFrame extends javax.swing.JFrame {
             this.setVisible(false);
             this.dispose();
         } else {
-            if (rs.getMessage() == "") {
+            if (rs.getMessage() != "") {
                 JOptionPane.showMessageDialog(this, "Lập phiếu thất bại");
             } else {
-                JOptionPane.showMessageDialog(this, rs.getMessage());
+                JOptionPane.showMessageDialog(this, "Lập phiếu thất bại:" + rs.getMessage());
             }
         }
     }//GEN-LAST:event_btnSaveActionPerformed
