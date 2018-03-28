@@ -7,6 +7,7 @@ package components.dao;
 
 import components.entity.Product;
 import components.utils.HibernateUtil;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -17,126 +18,111 @@ import org.hibernate.Session;
  * @author MitsuyoRai
  */
 public class QueryDB {
+
     private static QueryDB _instance = null;
+
     public static QueryDB GetInstance() {
-        if (_instance == null){
+        if (_instance == null) {
             _instance = new QueryDB();
         }
         return _instance;
     }
-    
+
     public List runQuery(String Query) {
-        return executeHQLQuery(Query);
+        try {
+            return executeHQLQuery(Query);
+        } catch (Exception e) {
+            System.out.println(e);
+            return new ArrayList();
+        }
     }
-    
-    public Boolean save(Object obj){
+
+    public Boolean save(Object obj) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
-            session.beginTransaction();
+            session.getTransaction().begin();
             session.save(obj);
             session.getTransaction().commit();
             return true;
         } catch (HibernateException he) {
-             System.out.println(he);
+            System.out.println(he);
             session.getTransaction().rollback();
             return false;
-        }  
-        finally {
-            //session.close();
         }
     }
-    
-    public Boolean update(Object obj){
+
+    public Boolean update(Object obj) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
-            session.beginTransaction();
+            session.getTransaction().begin();
             session.update(obj);
             session.getTransaction().commit();
             return true;
         } catch (HibernateException he) {
-             System.out.println(he);
+            System.out.println(he);
             session.getTransaction().rollback();
             return false;
-        }  finally {
-            //session.close();
         }
     }
-    
-    public Boolean delete(Object obj){
+
+    public Boolean delete(Object obj) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
-            session.beginTransaction();
+            session.getTransaction().begin();
             session.delete(obj);
             session.getTransaction().commit();
             return true;
         } catch (HibernateException he) {
             System.out.println(he);
+            session.getTransaction().rollback();
             return false;
-        } finally {
-            //session.close();
         }
     }
-    
-    public Long countTable(String hql){//(Class c){
+
+    public Long countTable(String hql) {//(Class c){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
-            session.beginTransaction();
+            session.getTransaction().begin();
             Query q = session.createQuery(hql);
-            long count = (Long)q.uniqueResult();
+            long count = (Long) q.uniqueResult();
+            session.getTransaction().commit();
             return count;
         } catch (HibernateException he) {
             System.out.println(he);
-            return (long)0;
-        } finally {
-            //session.close();
+            session.getTransaction().rollback();
+            return (long) 0;
         }
-//        try {
-//            Criteria criteriaCount = session.createCriteria(c);
-//            criteriaCount.setProjection(Projections.rowCount());
-//            Long count = (Long) criteriaCount.uniqueResult();
-//            return count;
-//        } catch (HibernateException he) {
-//            System.out.println(he);
-//            return (long)0;
-//        } finally {
-//            session.close();
-//        }
     }
 
     public List executeHQLQuery(String hql) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
-            session.beginTransaction();
+            session.getTransaction().begin();
             Query q = session.createQuery(hql);
             List resultList = q.list();
             session.getTransaction().commit();
             return resultList;
         } catch (HibernateException he) {
             System.out.println(he);
-            return null;
-        } 
-//        finally {
-//            session.close();
-//        }
+            session.getTransaction().rollback();
+            return new ArrayList();
+        }
     }
-    
-    public List executeHQLQueryPaging(String hql, int lastPageNumber, int pageSize){
+
+    public List executeHQLQueryPaging(String hql, int lastPageNumber, int pageSize) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         try {
-            session.beginTransaction();
-            //Criteria criteria = session.createCriteria(c);
+            session.getTransaction().begin();
             Query q = session.createQuery(hql);
-            q.setFirstResult((lastPageNumber-1)*pageSize);//
+            q.setFirstResult((lastPageNumber - 1) * pageSize);//
             q.setMaxResults(pageSize);//
             List<Product> resultList = q.list();
             session.getTransaction().commit();
             return resultList;
         } catch (HibernateException he) {
             System.out.println(he);
-            return null;
-        } 
-//        finally {
-//            session.close();
-//        }
+            session.getTransaction().rollback();
+            return new ArrayList();
+        }
     }
 }
