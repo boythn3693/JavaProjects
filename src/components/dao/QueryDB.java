@@ -73,7 +73,7 @@ public class QueryDB {
             System.out.println(he);
             return false;
         } finally {
-            session.close();
+            //session.close();
         }
     }
     
