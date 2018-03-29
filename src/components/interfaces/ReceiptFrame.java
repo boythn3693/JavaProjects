@@ -9,6 +9,7 @@ import components.entity.*;
 import components.interfaces.Template.*;
 import components.models.*;
 import java.util.*;
+import net.sf.jasperreports.engine.*;
 
 /**
  *
@@ -18,6 +19,14 @@ public class ReceiptFrame extends ListFrame {
 
     public ReceiptFrame() {
         super();
+        try {
+            JasperReport jasperReport = JasperCompileManager.compileReport("D:\\Project\\git\\JavaProjects\\src\\components\\Reports\\RptReceipt.jrxml");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), new JREmptyDataSource());
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "d:\\sample.pdf");
+        } catch (JRException e) {
+            System.out.println("components.interfaces.ReceiptFrame.<init>()");
+        }
+
     }
 
     @Override
