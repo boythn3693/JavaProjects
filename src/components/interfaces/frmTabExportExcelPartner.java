@@ -32,6 +32,7 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
     DefaultTableModel tableModel;
     List<Partner> listFilter;
     List<Partner> listAll;
+    String s_maDoiTac="", s_tenDoiTac="", s_nguoiDaiDien="", s_diaChi="", s_soDienThoai="";
 
     /**
      * Creates new form frmTabExportExcelPartner
@@ -245,6 +246,12 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
 
             List<Partner> listPartner = partnerService.getDataPartnerFilter2(maDoiTac, tenDoiTac, nguoiDaiDien, diaChi, soDienThoai);
             listFilter = listPartner;
+            s_maDoiTac = maDoiTac;
+            s_tenDoiTac = tenDoiTac;
+            s_nguoiDaiDien = nguoiDaiDien;
+            s_diaChi = diaChi;
+            s_soDienThoai = soDienThoai;
+            
             getHeaderTable();
             for (int i = 0; i < listPartner.size(); i++) {
                 Object[] item = new Object[6];
@@ -286,6 +293,8 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
                 XSSFCell cellD;
                 XSSFCell cellE;
                 XSSFCell cellF;
+                XSSFCell cellG;
+                XSSFCell cellH;
 
                 Iterator iter;
                 if( listFilter != null ) {
@@ -293,15 +302,46 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
                 } else {
                     iter = listAll.iterator();
                 }
-
-                row = workSheet.createRow((short)3);
                 
                 XSSFFont font = workbook.createFont();
                 font.setBold(true);
                 font.setColor(IndexedColors.BLUE.index);
                 XSSFCellStyle style = workbook.createCellStyle();
                 style.setFont(font);
+
+                row = workSheet.createRow((short)0); // ROW 1
+                cellA = row.createCell((short)0);
+                cellA.setCellValue("DANH SÁCH ĐỐI TÁC");
+                cellA.setCellStyle(style);
                 
+                row = workSheet.createRow((short)1); // ROW 2
+                cellA = row.createCell((short)0);
+                cellA.setCellValue("Mã đối tác");
+                cellB = row.createCell((short)1);
+                cellB.setCellValue(s_maDoiTac);
+                
+                cellD = row.createCell((short)3);
+                cellD.setCellValue("Tên đối tác");
+                cellE = row.createCell((short)4);
+                cellE.setCellValue(s_tenDoiTac);
+                
+                cellG = row.createCell((short)6);
+                cellG.setCellValue("Người đại diện");
+                cellH = row.createCell((short)7);
+                cellH.setCellValue(s_nguoiDaiDien);
+                
+                row = workSheet.createRow((short)2); // ROW 3
+                cellA = row.createCell((short)0);
+                cellA.setCellValue("Số điện thoại");
+                cellB = row.createCell((short)1);
+                cellB.setCellValue(s_soDienThoai);
+                
+                cellD = row.createCell((short)3);
+                cellD.setCellValue("Địa chỉ");
+                cellE = row.createCell((short)4);
+                cellE.setCellValue(s_diaChi);
+                
+                row = workSheet.createRow((short)3); // ROW 4
                 cellA = row.createCell((short)0);
                 cellA.setCellValue("STT");
                 cellA.setCellStyle(style);
