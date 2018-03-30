@@ -224,6 +224,7 @@ public class frmLogin extends javax.swing.JFrame {
     
     public static int role=0;
     public static String name="", user="";
+    public static int accountId = 0;
     
     private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
         frmRegister frmRegister = new frmRegister();
@@ -267,6 +268,11 @@ public class frmLogin extends javax.swing.JFrame {
             role = Integer.parseInt(rs.get(4).toString()); 
             name = rs.get(3) + " " + rs.get(2);
             user = rs.get(1).toString();
+            
+            accountId = Integer.parseInt(rs.get(0).toString());
+            application.accountId = accountId;
+            application.role = role;
+            application.frmMain = new frmMain();
             application.frmMain.setVisible(true);
             this.dispose(); 
         } else {

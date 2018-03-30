@@ -20,6 +20,24 @@ public class AccountService {
         model = new AccountModel();
     }
     
+    public Boolean insert(Object obj){
+        return model.insert(obj);
+    }
+    
+    public Boolean update(Object obj){
+        return model.update(obj);
+    }
+    
+    public Boolean delete(Object obj){
+        return model.delete(obj);
+    }
+    
+    public List<Account> getList(){
+        List<Account> rs = model.getListAccount();
+        
+        return rs;
+    }
+    
     public boolean checkLogin(String _username, String _password)
     {
         List<Account> rs = model.getAccountByUsernamePassword(_username, _password);
@@ -33,7 +51,7 @@ public class AccountService {
     {
         ArrayList list = new ArrayList();
         List<Account> rs = model.getAccountByUsernamePassword(_username, _password);
-        System.out.print(rs.get(0).getFirstName());
+        //System.out.print(rs.get(0).getAccountId());
         if( rs != null ) {
             list.add(rs.get(0).getAccountId());
             list.add(rs.get(0).getUsername());
@@ -42,5 +60,21 @@ public class AccountService {
             list.add(rs.get(0).getRole());            
         }        
         return list;
+    }
+    
+    public boolean hasUsername(String username){
+        return model.hasUsername(username);
+    }
+    
+    public boolean hasUsername2(String newUsername, int id){
+        return model.hasUsername2(newUsername, id);
+    }
+    
+    public boolean hasEmail(String email){
+        return model.hasEmail(email);
+    }
+    
+    public boolean hasEmail2(String newEmail, int id){
+        return model.hasEmail2(newEmail, id);
     }
 }

@@ -5,10 +5,13 @@
  */
 package components.interfaces;
 
+import components.applications.application;
+import components.utils.StringHelpers;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,6 +38,10 @@ public class frmMain extends javax.swing.JFrame {
     public frmMain() {
         initComponents();
         setInitForm();
+        if(application.role!=1){
+            jtabPanel.remove(jTabbedPaneReport);
+            jtabPanel.remove(jTabbedAccount);
+        }
     }
     
     private void setInitForm() {
@@ -66,6 +73,17 @@ public class frmMain extends javax.swing.JFrame {
         setTitle("Phần mềm Quản lý Kho");
         setMinimumSize(new java.awt.Dimension(1200, 700));
         setPreferredSize(new java.awt.Dimension(1200, 700));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setRequestFocusEnabled(false);
 
@@ -240,6 +258,32 @@ public class frmMain extends javax.swing.JFrame {
         frmLogin.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jTabbedPaneExitComponentShown
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+         int dialogResult = JOptionPane.showConfirmDialog (null, "Bạn chắc chắn muốn thoát?", "Warning", JOptionPane.YES_NO_OPTION);
+        if(dialogResult == JOptionPane.YES_OPTION){
+            frmLogin frmLogin = new frmLogin();
+            frmLogin.setVisible(true);
+            this.dispose();
+            this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        } else {
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);//no
+        }
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        if(application.role==1){
+            StringHelpers.Message("Bạn đăng nhập với quyền Admin", "Thông báo", 1);
+        } else {
+            StringHelpers.Message("Bạn đăng nhập với quyền Nhân viên", "Thông báo", 1);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

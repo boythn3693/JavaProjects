@@ -12,7 +12,10 @@ import components.interfaces.*;
  * @author MitsuyoRai
  */
 public class application {
-    public static frmMain frmMain = new frmMain();
+    public static frmMain frmMain;
+    public static int accountId = 0;
+    public static int role = 0;
+    public static String user;
     /**
      * @param args the command line arguments
      */
