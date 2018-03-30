@@ -1,22 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * 
+ * @author LuuDV
  */
+
 package components.interfaces;
+
 import components.entity.Partner;
 import components.services.PartnerService;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import components.utils.StringHelpers;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import org.apache.commons.io.FilenameUtils;
+import java.util.Iterator;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+//import org.apache.poi.ss.usermodel.CellStyle;
+//import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 
-/**
- *
- * @author LuuDV
- */
 public class frmTabExportExcelPartner extends javax.swing.JPanel {
     
     PartnerService partnerService;
     DefaultTableModel tableModel;
+    List<Partner> listFilter;
+    List<Partner> listAll;
 
     /**
      * Creates new form frmTabExportExcelPartner
@@ -24,6 +39,25 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
     public frmTabExportExcelPartner() {
         initComponents();
         partnerService = new PartnerService();
+        
+        try {
+            List<Partner> listPartner = partnerService.getDataPartnerFilter2("", "", "", "", "");
+            listAll = listPartner;
+
+            getHeaderTable();
+            for (int i = 0; i < listPartner.size(); i++) {
+                Object[] item = new Object[6];
+                item[0] = i+1;
+                item[1] = listPartner.get(i).getPartnerId();
+                item[2] = listPartner.get(i).getPartnerName();
+                item[3] = listPartner.get(i).getAddress();
+                item[4] = listPartner.get(i).getNumPhone();
+                item[5] = listPartner.get(i).getRepresentFullname();
+                tableModel.addRow(item);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
     }
 
     /**
@@ -72,6 +106,11 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
         jLabel6.setText("Địa chỉ");
 
         btnExport.setText("Export Excel");
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
+            }
+        });
 
         tblData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -160,8 +199,8 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
                 .addGap(17, 17, 17)
                 .addComponent(btnFilter)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addComponent(btnExport)
                 .addContainerGap())
         );
@@ -197,25 +236,131 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
     
     private void btnFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFilterActionPerformed
         // TODO add your handling code here:
-        String maDoiTac = txtMaDoiTac.getText();
-        String tenDoiTac = txtTenDoiTac.getText();
-        String nguoiDaiDien = txtNguoiDaiDien.getText();
-        String diaChi = txtDiaChi.getText();
-        String soDienThoai = txtSoDienThoai.getText();
-        
-        List<Partner> listPartner = partnerService.getDataPartnerFilter2(maDoiTac, tenDoiTac, nguoiDaiDien, diaChi, soDienThoai);
-        getHeaderTable();
-        for (int i = 0; i < listPartner.size(); i++) {
-            Object[] item = new Object[6];
-            item[0] = i+1;
-            item[1] = listPartner.get(i).getPartnerId();
-            item[2] = listPartner.get(i).getPartnerName();
-            item[3] = listPartner.get(i).getAddress();
-            item[4] = listPartner.get(i).getNumPhone();
-            item[5] = listPartner.get(i).getRepresentFullname();
-            tableModel.addRow(item);
+        try {
+            String maDoiTac = txtMaDoiTac.getText();
+            String tenDoiTac = txtTenDoiTac.getText();
+            String nguoiDaiDien = txtNguoiDaiDien.getText();
+            String diaChi = txtDiaChi.getText();
+            String soDienThoai = txtSoDienThoai.getText();
+
+            List<Partner> listPartner = partnerService.getDataPartnerFilter2(maDoiTac, tenDoiTac, nguoiDaiDien, diaChi, soDienThoai);
+            listFilter = listPartner;
+            getHeaderTable();
+            for (int i = 0; i < listPartner.size(); i++) {
+                Object[] item = new Object[6];
+                item[0] = i+1;
+                item[1] = listPartner.get(i).getPartnerId();
+                item[2] = listPartner.get(i).getPartnerName();
+                item[3] = listPartner.get(i).getAddress();
+                item[4] = listPartner.get(i).getNumPhone();
+                item[5] = listPartner.get(i).getRepresentFullname();
+                tableModel.addRow(item);
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
         }
     }//GEN-LAST:event_btnFilterActionPerformed
+
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        // TODO add your handling code here:
+        try {
+            String filename, dir;
+            JFileChooser c = new JFileChooser();
+            c.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("excel (.xlsx)", "xlsx");
+            c.setFileFilter(filter);
+            int rVal = c.showSaveDialog(frmTabExportExcelPartner.this);
+            if (rVal == JFileChooser.APPROVE_OPTION) {
+                filename = c.getSelectedFile().getName();
+                if (!FilenameUtils.getExtension(filename).equalsIgnoreCase("xlsx")) {
+                    filename = filename + ".xlsx";
+                }
+                dir = c.getCurrentDirectory().toString();
+                FileOutputStream file = new FileOutputStream(dir + "/" +filename);
+                XSSFWorkbook workbook = new XSSFWorkbook();
+                XSSFSheet workSheet = workbook.createSheet("Sheet1");
+                XSSFRow row;
+                XSSFCell cellA;
+                XSSFCell cellB;
+                XSSFCell cellC;
+                XSSFCell cellD;
+                XSSFCell cellE;
+                XSSFCell cellF;
+
+                Iterator iter;
+                if( listFilter != null ) {
+                    iter = listFilter.iterator();
+                } else {
+                    iter = listAll.iterator();
+                }
+
+                row = workSheet.createRow((short)3);
+                
+                XSSFFont font = workbook.createFont();
+                font.setBold(true);
+                font.setColor(IndexedColors.BLUE.index);
+                XSSFCellStyle style = workbook.createCellStyle();
+                style.setFont(font);
+                
+                cellA = row.createCell((short)0);
+                cellA.setCellValue("STT");
+                cellA.setCellStyle(style);
+                
+                cellB = row.createCell((short)1);
+                cellB.setCellValue("Mã Đối tác");
+                cellB.setCellStyle(style);
+
+                cellC = row.createCell((short)2);
+                cellC.setCellValue("Tên Đối tác");
+                cellC.setCellStyle(style);
+
+                cellD = row.createCell((short)3);
+                cellD.setCellValue("Địa chỉ");
+                cellD.setCellStyle(style);
+
+                cellE = row.createCell((short)4);
+                cellE.setCellValue("Số điện thoại");
+                cellE.setCellStyle(style);
+
+                cellF = row.createCell((short)5);
+                cellF.setCellValue("Tên người đại diện");
+                cellF.setCellStyle(style);
+
+                int i = 4;
+                while (iter.hasNext()) {
+                    row = workSheet.createRow((short)i);
+                    Partner partner = (Partner) iter.next();
+                    
+                    cellA = row.createCell((short)0);
+                    cellA.setCellValue(i);
+
+                    cellB = row.createCell((short)1);
+                    cellB.setCellValue(partner.getPartnerId());
+
+                    cellC = row.createCell((short)2);
+                    cellC.setCellValue(partner.getPartnerName());
+
+                    cellD = row.createCell((short)3);
+                    cellD.setCellValue(partner.getAddress());
+
+                    cellE = row.createCell((short)4);
+                    cellE.setCellValue(partner.getNumPhone());
+                    
+                    cellE = row.createCell((short)5);
+                    cellE.setCellValue(partner.getRepresentFullname());
+
+                    i++;
+                }
+                workbook.write(file);
+                workbook.close();
+                file.close();
+
+                StringHelpers.Message("Xuất file thành công!", "Thành công!", 1);
+            }
+        } catch( IOException ex) {
+            StringHelpers.Message(ex.getMessage(), ex.getLocalizedMessage(), 2);
+        }
+    }//GEN-LAST:event_btnExportActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
