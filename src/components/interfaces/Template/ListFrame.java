@@ -5,11 +5,14 @@
  */
 package components.interfaces.Template;
 
+import components.Reports.*;
 import components.entity.Partner;
 import components.models.*;
 import components.services.*;
+import java.awt.Dimension;
 import java.text.*;
 import java.util.*;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -44,6 +47,7 @@ public abstract class ListFrame extends javax.swing.JPanel {
         btnCancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblFormDetail = new org.jdesktop.swingx.JXTable();
+        btnReport = new javax.swing.JButton();
 
         tblForm.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -118,6 +122,13 @@ public abstract class ListFrame extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblFormDetail);
         tblFormDetail.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        btnReport.setText("Thống kê");
+        btnReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -130,7 +141,9 @@ public abstract class ListFrame extends javax.swing.JPanel {
                         .addComponent(btnCreateForm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancel)
-                        .addGap(0, 124, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(btnReport)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -139,7 +152,8 @@ public abstract class ListFrame extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel)
-                    .addComponent(btnCreateForm))
+                    .addComponent(btnCreateForm)
+                    .addComponent(btnReport))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addContainerGap())
@@ -197,10 +211,19 @@ public abstract class ListFrame extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnCreateFormActionPerformed
 
+    private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
+        // TODO add your handling code here:
+        ReportViewer report = GetReport();
+        report.setSize(900, 700);
+        report.setModal(true);
+        report.setVisible(true);
+    }//GEN-LAST:event_btnReportActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCreateForm;
+    private javax.swing.JButton btnReport;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -222,6 +245,8 @@ public abstract class ListFrame extends javax.swing.JPanel {
     protected abstract boolean CancelForm(long id);
 
     protected abstract InfoFrame GetInfoForm();
+
+    protected abstract ReportViewer GetReport();
 
     private void initDataComponets() {
         _receiptService = new ReceiptService();

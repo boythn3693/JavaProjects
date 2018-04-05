@@ -9,3 +9,4 @@ FROM
      "receipt" r INNER JOIN "partner" p ON r."PartnerId" = p."PartnerId"
      INNER JOIN "receiptdetail" rd ON r."ReceiptId" = rd."ReceiptId"
      INNER JOIN "product" pro ON rd."ProductId" = pro."ProductId"
+WHERE r.status = 1

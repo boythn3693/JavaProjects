@@ -1,0 +1,12 @@
+<?xml version="1.0"?><!-- iReport connections -->
+<iReportConnectionSet>
+	<iReportConnection name="InventoryDbCString" connectionClass="com.jaspersoft.ireport.designer.connection.JDBCConnection">
+		<connectionParameter name="Username"><![CDATA[sa]]></connectionParameter>
+		<connectionParameter name="SavePassword"><![CDATA[true]]></connectionParameter>
+		<connectionParameter name="Database"><![CDATA[]]></connectionParameter>
+		<connectionParameter name="ServerAddress"><![CDATA[]]></connectionParameter>
+		<connectionParameter name="JDBCDriver"><![CDATA[com.microsoft.sqlserver.jdbc.SQLServerDriver]]></connectionParameter>
+		<connectionParameter name="Url"><![CDATA[jdbc:sqlserver://localhost\DESKTOP-BOKFNT7:1433;databaseName=InventoryDb]]></connectionParameter>
+		<connectionParameter name="Password"><![CDATA[@Abcd1234]]></connectionParameter>
+	</iReportConnection>
+</iReportConnectionSet>

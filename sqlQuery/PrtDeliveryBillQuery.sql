@@ -9,3 +9,4 @@ FROM
      "deliverybill" r INNER JOIN "partner" p ON r."PartnerId" = p."PartnerId"
      INNER JOIN "deliverybilldetail" rd ON r."deliverybillId" = rd."deliverybillId"
      INNER JOIN "product" pro ON rd."ProductId" = pro."ProductId"
+WHERE r.Status = 1

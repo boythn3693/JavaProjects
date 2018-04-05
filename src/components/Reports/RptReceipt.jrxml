@@ -1,216 +1,230 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cd5abd3b-1d8d-4c78-bba8-bdbda6f7f0c7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="71796a13-08b3-4787-8fc4-1cf0e2f686c5">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<queryString language="SQL">
+	<style name="Title" fontName="Times New Roman" fontSize="50" isBold="true" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#736343" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<style name="Row" mode="Transparent">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#E6DAC3"/>
+		</conditionalStyle>
+	</style>
+	<style name="Heading 1" fontSize="16" isBold="true"/>
+	<queryString>
 		<![CDATA[SELECT
-     r."ReceiptId" AS r_ReceiptId,
-     r."Datetime" AS r_Datetime,
-     r."Status" AS r_Status,
-     p."PartnerName" AS p_PartnerName,
-     rd."Quantity" AS rd_Quantity,
-     pro."ProductName" AS pro_ProductName
+     CASE WHEN r."Status"=1THEN 'Thanh Cong'WHEN r."Status"=2THEN 'Da Huy'ELSE 'UNKWON'END AS "Trang_Thai",
+     r."ReceiptId" AS Ma_Phieu,
+     r."Datetime" AS Ngay,
+     p."PartnerName" AS Doi_Tac,
+     rd."Quantity" AS So_Luong,
+     pro."ProductName" AS San_Pham
 FROM
      "receipt" r INNER JOIN "partner" p ON r."PartnerId" = p."PartnerId"
      INNER JOIN "receiptdetail" rd ON r."ReceiptId" = rd."ReceiptId"
-     INNER JOIN "product" pro ON rd."ProductId" = pro."ProductId"]]>
+     INNER JOIN "product" pro ON rd."ProductId" = pro."ProductId"
+WHERE r.status = 1]]>
 	</queryString>
-	<field name="r_ReceiptId" class="java.lang.Long"/>
-	<field name="r_Datetime" class="java.sql.Timestamp"/>
-	<field name="r_Status" class="java.lang.Integer"/>
-	<field name="p_PartnerName" class="java.lang.String"/>
-	<field name="rd_Quantity" class="java.lang.Integer"/>
-	<field name="pro_ProductName" class="java.lang.String"/>
-	<group name="r_ReceiptId">
-		<groupExpression><![CDATA[$F{r_ReceiptId}]]></groupExpression>
+	<field name="Trang_Thai" class="java.lang.String"/>
+	<field name="Ma_Phieu" class="java.lang.Long"/>
+	<field name="Ngay" class="java.sql.Timestamp"/>
+	<field name="Doi_Tac" class="java.lang.String"/>
+	<field name="So_Luong" class="java.lang.Integer"/>
+	<field name="San_Pham" class="java.lang.String"/>
+	<variable name="TotalQty" class="java.lang.Number" resetType="Group" resetGroup="Ma_Phieu" calculation="Sum">
+		<variableExpression><![CDATA[$F{So_Luong}]]></variableExpression>
+	</variable>
+	<group name="Ma_Phieu">
+		<groupExpression><![CDATA[$F{Ma_Phieu}]]></groupExpression>
 		<groupHeader>
-			<band height="33">
-				<staticText>
-					<reportElement mode="Opaque" x="0" y="0" width="100" height="32" forecolor="#666666" backcolor="#E6E6E6" uuid="e0aeb2c8-394e-478b-8f97-0c1653046686"/>
+			<band height="25">
+				<textField pattern="0000000000">
+					<reportElement x="17" y="0" width="100" height="20" uuid="cd6624df-ee90-460b-bbf0-32720abad503"/>
 					<textElement>
-						<font size="12"/>
+						<font fontName="Times New Roman" size="14"/>
 					</textElement>
-					<text><![CDATA[Mã Phiếu]]></text>
-				</staticText>
+					<textFieldExpression><![CDATA[$F{Ma_Phieu}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="130" y="0" width="158" height="20" uuid="8516077d-5549-4c6b-80f2-d6e7f0b28765"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Doi_Tac}]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd-MM-yyyy hh:mm">
+					<reportElement x="314" y="0" width="155" height="20" uuid="31ad08de-d326-42aa-adbe-981a48f453bf"/>
+					<textElement>
+						<font fontName="Times New Roman" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Ngay}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="60">
 				<line>
-					<reportElement x="-20" y="32" width="595" height="1" forecolor="#666666" uuid="9fdb80ea-b5ea-49de-8dd5-45a411653157"/>
+					<reportElement x="408" y="6" width="100" height="1" uuid="8ebdd716-5a1e-4ad4-92b2-78f4fbd2a4a9"/>
 				</line>
-				<textField>
-					<reportElement x="99" y="31" width="455" height="32" forecolor="#006699" uuid="83fb97d1-6dd9-4f62-a97a-175592254a66"/>
-					<textElement>
-						<font size="22" isBold="true"/>
+				<staticText>
+					<reportElement x="286" y="11" width="120" height="20" uuid="5f4a7617-cef8-4574-8078-52e59749b77e"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="14" isBold="false"/>
 					</textElement>
-					<textFieldExpression><![CDATA[$F{r_Datetime}]]></textFieldExpression>
+					<text><![CDATA[Tổng:]]></text>
+				</staticText>
+				<textField pattern="#,##0">
+					<reportElement x="415" y="11" width="97" height="20" uuid="74de7d24-c9b6-4a63-8740-1ae6a7a05b32"/>
+					<textElement textAlignment="Right">
+						<font fontName="Times New Roman" size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TotalQty}]]></textFieldExpression>
 				</textField>
 			</band>
-		</groupHeader>
-		<groupFooter>
-			<band/>
 		</groupFooter>
 	</group>
-	<group name="r_Datetime">
-		<groupExpression><![CDATA[$F{r_Datetime}]]></groupExpression>
-		<groupHeader>
-			<band height="32">
-				<staticText>
-					<reportElement x="0" y="10" width="100" height="20" forecolor="#666666" uuid="f9784fd1-03f6-4e0b-9017-b28fd53b57e9"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-					<text><![CDATA[Ngày]]></text>
-				</staticText>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band/>
-		</groupFooter>
+	<group name="Ngay">
+		<groupExpression><![CDATA[$F{Ngay}]]></groupExpression>
 	</group>
-	<group name="r_Status">
-		<groupExpression><![CDATA[$F{r_Status}]]></groupExpression>
+	<group name="Doi_Tac">
+		<groupExpression><![CDATA[$F{Doi_Tac}]]></groupExpression>
 		<groupHeader>
-			<band height="32">
-				<staticText>
-					<reportElement x="0" y="0" width="100" height="20" forecolor="#666666" uuid="ffd5769f-be14-4c1c-9eb2-24819f233441"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-					<text><![CDATA[Trạng thái]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="100" y="0" width="455" height="32" forecolor="#006699" uuid="d92ad7ae-0bd2-4b3d-914e-988bf151f72f"/>
-					<textElement>
-						<font size="20" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{r_Status}]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupHeader>
-		<groupFooter>
 			<band/>
-		</groupFooter>
+		</groupHeader>
 	</group>
-	<group name="p_PartnerName">
-		<groupExpression><![CDATA[$F{p_PartnerName}]]></groupExpression>
-		<groupHeader>
-			<band height="68">
-				<staticText>
-					<reportElement x="0" y="0" width="100" height="20" forecolor="#666666" uuid="e7af11d3-6c53-41b6-b5a2-82e8c31ad652"/>
-					<textElement>
-						<font size="12"/>
-					</textElement>
-					<text><![CDATA[Đối tác]]></text>
-				</staticText>
-				<textField>
-					<reportElement x="100" y="0" width="455" height="32" forecolor="#006699" uuid="f9e8e512-b5d7-4ee6-80ee-0b944c11b34d"/>
-					<textElement>
-						<font size="16" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA[$F{p_PartnerName}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement mode="Opaque" x="0" y="48" width="277" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="0dc96701-b949-4164-86e7-f21186ea04ca"/>
-					<textElement textAlignment="Center">
-						<font size="14" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Sản phẩm]]></text>
-				</staticText>
-				<staticText>
-					<reportElement mode="Opaque" x="278" y="48" width="277" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="e14a9c12-d699-448b-9c8f-e10f3c87863f"/>
-					<textElement textAlignment="Center">
-						<font size="14" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Số lượng]]></text>
-				</staticText>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band/>
-		</groupFooter>
+	<group name="Trang_Thai">
+		<groupExpression><![CDATA[$F{Trang_Thai}]]></groupExpression>
 	</group>
 	<background>
-		<band/>
+		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="72">
-			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="a35f7bdf-f580-48b8-bba7-f939a05da332"/>
-				<staticText>
-					<reportElement x="20" y="20" width="300" height="43" forecolor="#FFFFFF" uuid="ece4e7c2-2be5-4bc5-b160-100c8774301b"/>
-					<textElement>
-						<font size="34" isBold="true"/>
-					</textElement>
-					<text><![CDATA[Phiếu Nhập Kho]]></text>
-				</staticText>
-				<staticText>
-					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="e2ea4250-7c9c-4e8a-860a-c115f05b0695"/>
-					<textElement textAlignment="Right">
-						<font size="14" isBold="false"/>
-					</textElement>
-					<text><![CDATA[Add a description here]]></text>
-				</staticText>
-			</frame>
+		<band height="136" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="164" height="126" uuid="3c36abb1-9eb1-423f-8425-301ec8541ae9"/>
+				<imageExpression><![CDATA["coffee.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="170" y="0" width="263" height="62" uuid="90ccb429-ce2f-4e51-8a92-a0929b44e529"/>
+				<textElement verticalAlignment="Middle">
+					<font size="22" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[THỐNG KẾ NHẬP KHO]]></text>
+			</staticText>
+			<image>
+				<reportElement x="433" y="-115" width="267" height="209" uuid="42a1d840-204c-4d0f-8588-603ac06e774d"/>
+				<imageExpression><![CDATA["coffee_stain.png"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="13"/>
+		<band splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="21">
+		<band height="68" splitType="Stretch">
 			<line>
-				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="0ff46ec6-d4ea-4316-9e9a-260bec6ec635"/>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="29f5d79f-25e8-4745-91c4-83f6681d789a"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
 			</line>
-			<textField>
-				<reportElement mode="Opaque" x="100" y="20" width="455" height="32" forecolor="#006699" backcolor="#E6E6E6" uuid="a91fd61d-d66e-4f34-9354-b34939132d2e"/>
+			<staticText>
+				<reportElement x="288" y="44" width="120" height="20" uuid="e1b6d94a-a136-44b9-9801-d5ccd5570434"/>
 				<textElement>
-					<font size="24" isBold="true"/>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{r_ReceiptId}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Mã sản phẩm]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="17" y="16" width="100" height="20" uuid="0653b337-29d0-44b4-b94e-f6d426258d83"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Mã phiếu]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="314" y="16" width="155" height="20" uuid="fa838999-71ac-4637-b3c8-6a202aa2a57d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ngày nhập]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="16" width="158" height="20" uuid="e055c915-6974-486a-a746-a6b52c097af6"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Đối tác]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="415" y="44" width="97" height="20" uuid="2716595c-ee6d-4c4e-a02f-79c6f17eb705"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Số lượng]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20">
-			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="1dba652c-63a9-461f-bcf6-d53c07da09fb"/>
-			</line>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="0" y="0" width="262" height="20" uuid="ef92b9f2-efaf-4c17-a3af-6ecbd11c68a4"/>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="288" y="0" width="120" height="20" uuid="84a959c0-8c8d-4cc6-9cf9-49010e092c8c"/>
 				<textElement>
-					<font size="14"/>
+					<font fontName="Times New Roman" size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{pro_ProductName}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{San_Pham}]]></textFieldExpression>
 			</textField>
-			<textField isStretchWithOverflow="true">
-				<reportElement x="277" y="0" width="277" height="20" uuid="c038d331-63a9-42ee-98db-348d394d93f2"/>
-				<textElement>
-					<font size="14"/>
+			<textField pattern="#,##0">
+				<reportElement x="415" y="0" width="93" height="20" uuid="7c6b2f50-7362-44c0-906a-aaf791254b85"/>
+				<textElement textAlignment="Right">
+					<font fontName="Times New Roman" size="13"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{rd_Quantity}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{So_Luong}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band/>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="b696d840-69ea-4bee-8805-92832385f59a"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
 	</columnFooter>
 	<pageFooter>
-		<band height="17">
-			<textField>
-				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="b8476cd5-e688-4da1-88d2-724fc9e91565"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="b9c31c81-98cc-4ae4-a4b6-b599b0a975ad"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="4" width="100" height="13" uuid="597b1a23-776c-4c43-831c-60788654df66"/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="-21" y="1" width="597" height="24" forecolor="#D0B48E" backcolor="#F2EBDF" uuid="59f17a83-0dfd-49e4-b2da-0a62f3c4a4c5"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="533" y="0" width="40" height="20" forecolor="#736343" uuid="b6986a7e-f46d-43d3-b90e-fd2f004888c8"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="453" y="0" width="80" height="20" forecolor="#736343" uuid="17596d52-882e-4e2e-9c42-a842b624aea4"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="f2be2e24-35bd-4c48-8a8e-24df0a9df9b3"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
 		</band>
 	</pageFooter>
 	<summary>
-		<band/>
+		<band splitType="Stretch"/>
 	</summary>
 </jasperReport>

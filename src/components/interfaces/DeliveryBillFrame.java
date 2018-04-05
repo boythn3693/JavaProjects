@@ -5,6 +5,7 @@
  */
 package components.interfaces;
 
+import components.Reports.ReportViewer;
 import components.entity.*;
 import components.interfaces.Template.*;
 import components.models.*;
@@ -90,5 +91,10 @@ public class DeliveryBillFrame extends ListFrame {
             _frame = new DeliveryBillFrame();
         }
         return _frame;
+    }
+
+    @Override
+    protected ReportViewer GetReport() {
+        return new ReportViewer(null, "RptDeliveryBill.jasper", null);
     }
 }

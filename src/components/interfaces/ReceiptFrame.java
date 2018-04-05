@@ -5,6 +5,7 @@
  */
 package components.interfaces;
 
+import components.Reports.ReportViewer;
 import components.entity.*;
 import components.interfaces.Template.*;
 import components.models.*;
@@ -19,14 +20,6 @@ public class ReceiptFrame extends ListFrame {
 
     public ReceiptFrame() {
         super();
-        try {
-            JasperReport jasperReport = JasperCompileManager.compileReport("D:\\Project\\git\\JavaProjects\\src\\components\\Reports\\RptReceipt.jrxml");
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, new HashMap(), new JREmptyDataSource());
-            JasperExportManager.exportReportToPdfFile(jasperPrint, "d:\\sample.pdf");
-        } catch (JRException e) {
-            System.out.println("components.interfaces.ReceiptFrame.<init>()");
-        }
-
     }
 
     @Override
@@ -99,5 +92,10 @@ public class ReceiptFrame extends ListFrame {
             _frame = new ReceiptFrame();
         }
         return _frame;
+    }
+
+    @Override
+    protected ReportViewer GetReport() {
+        return new ReportViewer(null, "RptReceipt.jasper", null);
     }
 }
