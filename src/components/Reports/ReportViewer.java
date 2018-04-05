@@ -5,6 +5,7 @@
  */
 package components.Reports;
 
+import components.utils.HibernateUtil;
 import java.awt.*;
 import java.sql.*;
 import java.util.*;
@@ -18,14 +19,13 @@ import net.sf.jasperreports.view.*;
  */
 public class ReportViewer extends JDialog {
 
-    private String _folder = "D:\\Project\\git\\JavaProjects\\src\\components\\Reports\\";
+    private String _folder = System.getProperty("user.dir") + "\\src\\components\\Reports\\";
 
     public ReportViewer(JFrame parent, String fileName, HashMap param) {
         super(parent, "Thống kê", true);
 
         // Create a variable for the connection string.  
-        String connectionUrl = "jdbc:sqlserver://localhost\\DESKTOP-BOKFNT7:1433;databaseName=InventoryDb;"
-                + "user=sa;password=@Abcd1234";
+        String connectionUrl = HibernateUtil.getUrl();
         // Declare the JDBC objects.  
         Connection con = null;
 
