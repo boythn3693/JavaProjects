@@ -40,7 +40,7 @@ public class frmMain extends javax.swing.JFrame {
         setInitForm();
         if(application.role!=1){
             jtabPanel.remove(jTabbedPaneReport);
-            jtabPanel.remove(jTabbedAccount);
+            //jtabPanel.remove(jTabbedAccount);
         }
     }
     
@@ -245,11 +245,18 @@ public class frmMain extends javax.swing.JFrame {
 
     private void jTabbedAccountComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedAccountComponentShown
         // TODO add your handling code here:
-        if(!jTabbedAccount.hasFocus()) {
-            jTabbedAccount.removeAll();
+//        if(!jTabbedAccount.hasFocus()) {
+//           
+//            frmAccount frm = new frmAccount();
+//            jTabbedAccount.addTab("Quản lý Tài khoản", frm);
+//        }
+        jTabbedAccount.removeAll();
+        if(application.role==1){
             frmAccount frm = new frmAccount();
             jTabbedAccount.addTab("Quản lý Tài khoản", frm);
-        }
+        } 
+        frmChangePass frm2 = new frmChangePass();
+        jTabbedAccount.addTab("Đổi mật khẩu", frm2);
     }//GEN-LAST:event_jTabbedAccountComponentShown
 
     private void jTabbedPaneExitComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jTabbedPaneExitComponentShown

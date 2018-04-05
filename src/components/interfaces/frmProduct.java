@@ -11,13 +11,32 @@ import components.models.displayvalueModel;
 import components.services.CategoryService;
 import components.services.ProductService;
 import components.utils.StringHelpers;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -201,6 +220,7 @@ public class frmProduct extends javax.swing.JPanel {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
+        btnImport = new javax.swing.JButton();
         jPanelSearchProduct = new javax.swing.JPanel();
         jLabelSearchProduct = new javax.swing.JLabel();
         jLabelKeyProduct = new javax.swing.JLabel();
@@ -292,6 +312,13 @@ public class frmProduct extends javax.swing.JPanel {
             }
         });
 
+        btnImport.setText("Import");
+        btnImport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelButtonProductLayout = new javax.swing.GroupLayout(jPanelButtonProduct);
         jPanelButtonProduct.setLayout(jPanelButtonProductLayout);
         jPanelButtonProductLayout.setHorizontalGroup(
@@ -300,17 +327,20 @@ public class frmProduct extends javax.swing.JPanel {
             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
             .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnImport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanelButtonProductLayout.setVerticalGroup(
             jPanelButtonProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelButtonProductLayout.createSequentialGroup()
-                .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnImport, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -601,8 +631,11 @@ public class frmProduct extends javax.swing.JPanel {
         Quantity = Integer.parseInt(txtQuantity.getValue().toString());
         Status = GetCbbSelected(cboStatus);
         productType = GetCbbSelected(cboCategory);
+        
+        Category category = new Category();
+        category.setCategoryId(productType);
 
-        Product dto = new Product(-1, Code, productName, Description, Quantity, Status, productType);
+        Product dto = new Product(-1, category, Code, productName, Description, Quantity, Status, productType);
 
         if (productService.insert(dto)) {
             StringHelpers.Message("Sản phẩm đã được thêm vào csdl", "Thành công", 1);
@@ -658,8 +691,11 @@ public class frmProduct extends javax.swing.JPanel {
         Quantity = Integer.parseInt(txtQuantity.getValue().toString());
         Status = GetCbbSelected(cboStatus);
         productType = GetCbbSelected(cboCategory);
+        
+        Category category = new Category();
+        category.setCategoryId(productType);
 
-        Product dto = new Product(this._productId, Code, productName, Description, Quantity, Status, productType);
+        Product dto = new Product(this._productId, category, Code, productName, Description, Quantity, Status, productType);
 
         if (productService.update(dto)) {
             StringHelpers.Message("Sản phẩm đã được cập nhật thành công", "Thành công", 1);
@@ -873,10 +909,77 @@ public class frmProduct extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnNextAllActionPerformed
 
+    private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
+        // TODO add your handling code here:
+        String filename = "", dir ="";
+        JFileChooser c = new JFileChooser();
+        int rVal = c.showOpenDialog(frmProduct.this);
+        if (rVal == JFileChooser.APPROVE_OPTION) {
+            filename = c.getSelectedFile().getName();
+            dir = c.getCurrentDirectory().toString();
+            try {
+                FileInputStream excelFile = new FileInputStream(new File(dir + "/" + filename));
+                Workbook workbook = new XSSFWorkbook(excelFile);
+                Sheet datatypeSheet = workbook.getSheetAt(0);
+                DataFormatter fmt = new DataFormatter();
+                Iterator<Row> iterator = datatypeSheet.iterator();
+                Row firstRow = iterator.next();
+                Cell firstCell = firstRow.getCell(0);
+                System.out.println(firstCell.getStringCellValue());
+                Iterator iter = listCat.iterator();
+                while (iterator.hasNext()) {
+                    boolean check = false;
+                    Row currentRow = iterator.next();
+                    Product product = new Product();
+                    product.setCode(fmt.formatCellValue(currentRow.getCell(0)));
+                    product.setProductName(fmt.formatCellValue(currentRow.getCell(1)));
+                    product.setDescription(fmt.formatCellValue(currentRow.getCell(2)));
+                    product.setQuantity(Integer.parseInt(fmt.formatCellValue(currentRow.getCell(3))));
+                    System.out.print(fmt.formatCellValue(currentRow.getCell(4)));
+                    if( fmt.formatCellValue(currentRow.getCell(4)).equals("Hiện") ) {
+                        product.setStatus(1);
+                    } else {
+                        product.setStatus(0);
+                    }
+                    
+                    product.setProductType(1);
+                    
+                    while (iter.hasNext()) {
+                        Category category = (Category) iter.next();
+                        if( fmt.formatCellValue(currentRow.getCell(6)).equals(category.getName()) ){
+                            product.setCategory(category);
+                            check = true;
+                            break;
+                        }
+                    }
+                    if(check) {
+                        productService.insert(product);
+                    } else {
+                        continue;
+                    }                   
+                }
+                workbook.close();
+                StringHelpers.Message("Import dữ liệu thành công", "Thành công", 1);
+                onLoad();
+
+                getHeaderTable();
+                getDataProduct(1);
+                resetInputProduct();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                StringHelpers.Message("Import dữ liệu không thành công", "Thành công", 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                StringHelpers.Message("Import dữ liệu không thành công", "Thành công", 1);
+            }
+        }
+    }//GEN-LAST:event_btnImportActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnFilter;
+    private javax.swing.JButton btnImport;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnNextAll;

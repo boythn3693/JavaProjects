@@ -78,7 +78,7 @@ public class frmAccount extends javax.swing.JPanel {
                 item[7] = account.isInActive();
                 item[8] = ( account.isInActive() == true ) ? "Kích hoạt" : "Khóa";
                 item[9] = account.getRole();
-                item[10] = (account.getRole() == 1) ? "Quản lý" : "Nhân viên kho";
+                item[10] = (account.getAccountId() == 1) ? "Super Admin" : (account.getRole() == 1) ? "Quản lý" : "Nhân viên kho";
                 item[11] = account.getPassword();
                 tableModel.addRow(item);
             });
@@ -543,7 +543,7 @@ public class frmAccount extends javax.swing.JPanel {
         //System.out.println(application.accountId);
         if( application.accountId != 1 && this._accountId == 1) {
             StringHelpers.Message("Bạn không thể chỉnh sửa tài khoản này", "Cảnh báo", 1);
-        } else if( application.role == 1 && this._role == 1 && application.accountId != 1 ){
+        } else if( application.role == 1 && this._role == 1 && application.accountId != this._accountId ){
             StringHelpers.Message("Bạn không thể chỉnh sửa tài khoản này", "Cảnh báo", 1);
         } else {
             Account dto = new Account();

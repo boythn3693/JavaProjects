@@ -72,4 +72,13 @@ public class AccountModel {
         else
             return false;
     }
+    
+    public boolean hasUsernamePassword(String username, String pass){
+        String QUERY_CHECK= "select count(*) from Account where username='"+username+"' and password = '"+pass+"'";
+        Long rs = QueryDB.GetInstance().countTable(QUERY_CHECK);
+        if(rs > 0)
+            return true;
+        else
+            return false;
+    }
 }

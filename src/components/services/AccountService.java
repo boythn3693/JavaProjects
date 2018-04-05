@@ -57,7 +57,9 @@ public class AccountService {
             list.add(rs.get(0).getUsername());
             list.add(rs.get(0).getFirstName());
             list.add(rs.get(0).getLastName());
-            list.add(rs.get(0).getRole());            
+            list.add(rs.get(0).getRole());  
+            list.add(rs.get(0).getNumPhone());
+            list.add(rs.get(0).getEmail()); 
         }        
         return list;
     }
@@ -76,5 +78,9 @@ public class AccountService {
     
     public boolean hasEmail2(String newEmail, int id){
         return model.hasEmail2(newEmail, id);
+    }
+    
+    public boolean hasUsernamePassword(String username, String pass){
+        return model.hasUsernamePassword(username, pass);
     }
 }

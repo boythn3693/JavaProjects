@@ -263,19 +263,24 @@ public class frmLogin extends javax.swing.JFrame {
             e.printStackTrace();
         }
         
-        ArrayList rs = bus.getLogin(strUsername, MD5Library.md5(strPassword));
-        if( rs != null ) {
-            role = Integer.parseInt(rs.get(4).toString()); 
-            name = rs.get(3) + " " + rs.get(2);
-            user = rs.get(1).toString();
-            
-            accountId = Integer.parseInt(rs.get(0).toString());
-            application.accountId = accountId;
-            application.role = role;
-            application.frmMain = new frmMain();
-            application.frmMain.setVisible(true);
-            this.dispose(); 
-        } else {
+        try {
+            ArrayList rs = bus.getLogin(strUsername, MD5Library.md5(strPassword));
+            if( rs != null ) {
+                role = Integer.parseInt(rs.get(4).toString()); 
+                name = rs.get(3) + " " + rs.get(2);
+                user = rs.get(1).toString();
+
+                accountId = Integer.parseInt(rs.get(0).toString());
+                application.accountId = accountId;
+                application.role = role;
+                application.user = user;
+                application.frmMain = new frmMain();
+                application.frmMain.setVisible(true);
+                this.dispose(); 
+            } else {
+                StringHelpers.Message("Bạn nhập sai tài khoản hoặc mật khẩu", "Lỗi đăng nhập", 2);
+            }
+        } catch(Exception e) {
             StringHelpers.Message("Bạn nhập sai tài khoản hoặc mật khẩu", "Lỗi đăng nhập", 2);
         }
     }//GEN-LAST:event_btnLoginActionPerformed

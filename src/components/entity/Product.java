@@ -46,6 +46,17 @@ public class Product  implements java.io.Serializable {
         this.productType = productType;
     }
     
+    public Product(long productId, Category category, String code, String productName, String description, int quantity, int status, int productType) {
+        this.productId = productId;
+        this.category = category;
+        this.code = code;
+        this.productName = productName;
+        this.description = description;
+        this.quantity = quantity;
+        this.status = status;
+        this.productType = productType;
+    }
+    
     public Product(long productId, Category category, String code, String productName, String description, int quantity, int status, int productType, Set receiptDetails, Set deliveryBillDetails) {
        this.productId = productId;
        this.category = category;
