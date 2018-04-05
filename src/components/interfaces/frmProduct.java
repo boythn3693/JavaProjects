@@ -927,6 +927,7 @@ public class frmProduct extends javax.swing.JPanel {
                 Cell firstCell = firstRow.getCell(0);
                 System.out.println(firstCell.getStringCellValue());
                 Iterator iter = listCat.iterator();
+                int i=0;
                 while (iterator.hasNext()) {
                     boolean check = false;
                     Row currentRow = iterator.next();
@@ -953,13 +954,14 @@ public class frmProduct extends javax.swing.JPanel {
                         }
                     }
                     if(check) {
+                        i++;
                         productService.insert(product);
                     } else {
                         continue;
                     }                   
                 }
                 workbook.close();
-                StringHelpers.Message("Import dữ liệu thành công", "Thành công", 1);
+                StringHelpers.Message("Import dữ liệu thành công.\n Số dòng Import thành công: " + i + " dòng", "Thành công", 1);
                 onLoad();
 
                 getHeaderTable();
