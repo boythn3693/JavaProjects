@@ -6,7 +6,6 @@
 package components.interfaces;
 
 import components.entity.Partner;
-import components.entity.Product;
 import components.services.PartnerService;
 import components.utils.StringHelpers;
 import java.io.Serializable;
@@ -15,9 +14,21 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import javax.swing.JFileChooser;
+import java.io.FileInputStream;
+import java.io.File;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Cell;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  *
- * @author MitsuyoRai
+ * @author LuuDV
  */
 public class frmPartner extends javax.swing.JPanel {
     private int _partnerId = -1;
@@ -117,6 +128,7 @@ public class frmPartner extends javax.swing.JPanel {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnReset = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         txtDiaChi = new javax.swing.JTextField();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextAreaMoTa = new javax.swing.JTextArea();
@@ -205,6 +217,13 @@ public class frmPartner extends javax.swing.JPanel {
             }
         });
 
+        jButton1.setText("Import Excel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -213,17 +232,21 @@ public class frmPartner extends javax.swing.JPanel {
             .addComponent(btnUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
             .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnReset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(btnInsert, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
+                .addComponent(btnInsert)
                 .addGap(18, 18, 18)
-                .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnUpdate)
                 .addGap(18, 18, 18)
-                .addComponent(btnReset, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDelete)
+                .addGap(18, 18, 18)
+                .addComponent(btnReset)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
                 .addContainerGap())
         );
 
@@ -323,7 +346,7 @@ public class frmPartner extends javax.swing.JPanel {
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
                         .addGap(18, 18, 18)
-                        .addComponent(txtSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtSearchField, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(123, 123, 123)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,10 +358,12 @@ public class frmPartner extends javax.swing.JPanel {
                                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cbMota)
                                     .addComponent(cbPhone)))
-                            .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnFilter)
-                                .addComponent(cbNDD)))))
-                .addContainerGap(59, Short.MAX_VALUE))
+                            .addComponent(cbNDD))))
+                .addContainerGap(50, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(166, 166, 166))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,7 +388,7 @@ public class frmPartner extends javax.swing.JPanel {
                         .addComponent(cbPhone)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cbNDD)
-                .addGap(36, 36, 36)
+                .addGap(18, 18, 18)
                 .addComponent(btnFilter)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -406,8 +431,8 @@ public class frmPartner extends javax.swing.JPanel {
             jPanelDanhSachDoiTacLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDanhSachDoiTacLayout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jScrollPane2)
             .addGroup(jPanelDanhSachDoiTacLayout.createSequentialGroup()
                 .addGap(384, 384, 384)
@@ -422,7 +447,7 @@ public class frmPartner extends javax.swing.JPanel {
                 .addComponent(btnNextAll)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblpaging)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(378, Short.MAX_VALUE))
         );
         jPanelDanhSachDoiTacLayout.setVerticalGroup(
             jPanelDanhSachDoiTacLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -517,7 +542,7 @@ public class frmPartner extends javax.swing.JPanel {
             StringHelpers.Message("Vui lòng thử lại", "Thất bại", 2);
         }
         onLoad();
-         getHeaderTable();
+        getHeaderTable();
         getDataPartner();
         resetTablePartner();
     }//GEN-LAST:event_btnInsertActionPerformed
@@ -703,6 +728,51 @@ public class frmPartner extends javax.swing.JPanel {
         lblPage.setText("" + page);
     }//GEN-LAST:event_btnFilterActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String filename, dir;
+        JFileChooser c = new JFileChooser();
+        int rVal = c.showOpenDialog(frmPartner.this);
+        if (rVal == JFileChooser.APPROVE_OPTION) {
+            filename = c.getSelectedFile().getName();
+            dir = c.getCurrentDirectory().toString();
+            try {
+                FileInputStream excelFile = new FileInputStream(new File(dir + "/" + filename));
+                Workbook workbook = new XSSFWorkbook(excelFile);
+                Sheet datatypeSheet = workbook.getSheetAt(0);
+                DataFormatter fmt = new DataFormatter();
+                Iterator<Row> iterator = datatypeSheet.iterator();
+                Row firstRow = iterator.next(); // title row, no insert
+
+                int i=0;
+                while (iterator.hasNext()) {
+                    Row currentRow = iterator.next();
+                    Partner partner = new Partner();
+                    partner.setPartnerName(fmt.formatCellValue(currentRow.getCell(0)));
+                    partner.setDescription(fmt.formatCellValue(currentRow.getCell(1)));
+                    partner.setAddress(fmt.formatCellValue(currentRow.getCell(2)));
+                    partner.setNumPhone(fmt.formatCellValue(currentRow.getCell(3)));
+                    partner.setRepresentFullname(fmt.formatCellValue(currentRow.getCell(4)));
+
+                    partnerService.insert(partner);
+                    i++;
+                }
+                workbook.close();
+                StringHelpers.Message("Import dữ liệu thành công.\n Số dòng Import thành công: " + i + " dòng", "Thành công", 1);
+                onLoad();
+
+                getHeaderTable();
+                getDataPartner();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                StringHelpers.Message("Import dữ liệu không thành công", "Thành công", 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                StringHelpers.Message("Import dữ liệu không thành công", "Thành công", 1);
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDelete;
@@ -719,6 +789,7 @@ public class frmPartner extends javax.swing.JPanel {
     private javax.swing.JCheckBox cbNDD;
     private javax.swing.JCheckBox cbPhone;
     private javax.swing.JCheckBox cbTen;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
