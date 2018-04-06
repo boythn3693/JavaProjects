@@ -758,17 +758,17 @@ public class frmPartner extends javax.swing.JPanel {
                     i++;
                 }
                 workbook.close();
-                StringHelpers.Message("Import dữ liệu thành công.\n Số dòng Import thành công: " + i + " dòng", "Thành công", 1);
+                StringHelpers.Message("IMPORT DỮ LIỆU THÀNH CÔNG!\n\n File import: " + filename + " .\n Số dòng import thành công: " + i + " dòng", "Thành công", 1);
                 onLoad();
 
                 getHeaderTable();
                 getDataPartner();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
-                StringHelpers.Message("Import dữ liệu không thành công", "Thành công", 1);
+                StringHelpers.Message("Import dữ liệu không thành công", "Không thành công", 2);
             } catch (IOException e) {
                 e.printStackTrace();
-                StringHelpers.Message("Import dữ liệu không thành công", "Thành công", 1);
+                StringHelpers.Message("Import dữ liệu không thành công", "Không thành công", 2);
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
