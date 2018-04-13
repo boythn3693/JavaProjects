@@ -20,6 +20,7 @@ public class ReceiptFrame extends ListFrame {
 
     public ReceiptFrame() {
         super();
+        Name = "XUẤT KHO";
     }
 
     @Override
@@ -81,7 +82,7 @@ public class ReceiptFrame extends ListFrame {
     @Override
     protected InfoFrame GetInfoForm() {
         InfoReceiptFrame info = new InfoReceiptFrame();
-        info.setTitleForm("LẬP PHIẾU NHẬP KHO");
+        info.setTitleForm(Name);
         return info;
     }
 
@@ -95,7 +96,7 @@ public class ReceiptFrame extends ListFrame {
     }
 
     @Override
-    protected ReportViewer GetReport() {
-        return new ReportViewer(null, "RptReceipt.jasper", null);
+    protected ReportViewer GetReport(HashMap param) {
+        return new ReportViewer(null, "RptReceipt.jasper", param);
     }
 }

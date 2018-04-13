@@ -14,6 +14,10 @@
 		</conditionalStyle>
 	</style>
 	<style name="Heading 1" fontSize="16" isBold="true"/>
+	<parameter name="DateTimeTo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DateTimeFrom" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT
      CASE WHEN r."Status"=1THEN 'Thanh Cong'WHEN r."Status"=2THEN 'Da Huy'ELSE 'UNKWON'END AS "Trang_Thai",
@@ -26,7 +30,7 @@ FROM
      "deliverybill" r INNER JOIN "partner" p ON r."PartnerId" = p."PartnerId"
      INNER JOIN "deliverybilldetail" rd ON r."deliverybillId" = rd."deliverybillId"
      INNER JOIN "product" pro ON rd."ProductId" = pro."ProductId"
-WHERE r.Status = 1]]>
+WHERE r.Status = 1 AND r.Datetime <= $P{DateTimeTo} AND r.Datetime >= $P{DateTimeFrom}]]>
 	</queryString>
 	<field name="Trang_Thai" class="java.lang.String"/>
 	<field name="Ma_Phieu" class="java.lang.Long"/>
@@ -118,6 +122,34 @@ WHERE r.Status = 1]]>
 				<reportElement x="433" y="-115" width="267" height="209" uuid="42a1d840-204c-4d0f-8588-603ac06e774d"/>
 				<imageExpression><![CDATA["coffee_stain.png"]]></imageExpression>
 			</image>
+			<textField pattern="dd-MM-yyyy hh:mm">
+				<reportElement x="235" y="106" width="130" height="20" uuid="b25ca8df-641c-435a-8cba-9c163ef41f6b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateTimeTo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="365" y="106" width="21" height="20" uuid="35f58eee-fe36-446e-83e3-5442e286d755"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ -]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="164" y="106" width="71" height="20" uuid="87c52190-87b7-4656-bc07-64209f03ba3d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Thời gian:]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy hh:mm">
+				<reportElement x="386" y="106" width="130" height="20" uuid="053666c7-aaa4-4154-8634-9448e5f54bdd"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DateTimeFrom}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>

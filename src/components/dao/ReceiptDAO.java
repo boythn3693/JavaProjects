@@ -95,7 +95,7 @@ public class ReceiptDAO {
     }
 
     public ReceiptDetail getDetailByProductId(long receiptId, long productId) {
-        List<ReceiptDetail> list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_RECEIPT_DETAI_BY_ID, receiptId, productId));
+        List<ReceiptDetail> list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_RECEIPT_DETAI_BY_PRODUCT_ID, receiptId, productId));
         if (list != null && list.size() > 0) {
             return list.get(0);
         }
@@ -103,7 +103,7 @@ public class ReceiptDAO {
     }
 
     public boolean deleteDetailByProductId(long receiptId, long productId) {
-        List<ReceiptDetail> list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_RECEIPT_DETAI_BY_ID, receiptId, productId));
+        List<ReceiptDetail> list = QueryDB.GetInstance().executeHQLQuery(String.format(QUERY_GET_RECEIPT_DETAI_BY_PRODUCT_ID, receiptId, productId));
         if (list != null && list.size() > 0) {
             return QueryDB.GetInstance().delete(list.get(0));
         }

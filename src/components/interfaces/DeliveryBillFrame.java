@@ -19,6 +19,7 @@ public class DeliveryBillFrame extends ListFrame {
 
     public DeliveryBillFrame() {
         super();
+        Name = "NHẬP KHO";
     }
 
     @Override
@@ -80,7 +81,7 @@ public class DeliveryBillFrame extends ListFrame {
     @Override
     protected InfoFrame GetInfoForm() {
         InfoDeliveryBillFrame info = new InfoDeliveryBillFrame();
-        info.setTitleForm("LẬP PHIẾU XUẤT KHO");
+        info.setTitleForm(Name);
         return info;
     }
 
@@ -94,7 +95,7 @@ public class DeliveryBillFrame extends ListFrame {
     }
 
     @Override
-    protected ReportViewer GetReport() {
-        return new ReportViewer(null, "RptDeliveryBill.jasper", null);
+    protected ReportViewer GetReport(HashMap param) {
+        return new ReportViewer(null, "RptDeliveryBill.jasper", param);
     }
 }

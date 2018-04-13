@@ -7,7 +7,9 @@ package components.interfaces.Template;
 
 import components.Reports.*;
 import components.entity.Partner;
+import components.interfaces.PopupReport;
 import components.models.*;
+import components.providers.IListener;
 import components.services.*;
 import java.awt.Dimension;
 import java.text.*;
@@ -212,11 +214,17 @@ public abstract class ListFrame extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCreateFormActionPerformed
 
     private void btnReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportActionPerformed
-        // TODO add your handling code here:
-        ReportViewer report = GetReport();
-        report.setSize(900, 700);
-        report.setModal(true);
-        report.setVisible(true);
+        PopupReport popup = new PopupReport(null, true, "THỐNG KÊ " + Name);
+        popup.setEventReport(new IListener() {
+            @Override
+            public void InvokeEvent(Object param) {
+                ReportViewer report = GetReport((HashMap) param);
+                report.setSize(900, 700);
+                report.setModal(true);
+                report.setVisible(true);
+            }
+        });
+        popup.setVisible(true);
     }//GEN-LAST:event_btnReportActionPerformed
 
 
@@ -237,6 +245,7 @@ public abstract class ListFrame extends javax.swing.JPanel {
     protected DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
     protected ReceiptService _receiptService;
     protected DeliveryBillService _deliveryBillService;
+    protected String Name = "";
 
     protected abstract List<ItemFormDetailModel> getDetailByFormId(long id);
 
@@ -246,7 +255,7 @@ public abstract class ListFrame extends javax.swing.JPanel {
 
     protected abstract InfoFrame GetInfoForm();
 
-    protected abstract ReportViewer GetReport();
+    protected abstract ReportViewer GetReport(HashMap param);
 
     private void initDataComponets() {
         _receiptService = new ReceiptService();

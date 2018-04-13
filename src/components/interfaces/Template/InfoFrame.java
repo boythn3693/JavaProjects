@@ -447,8 +447,8 @@ public abstract class InfoFrame extends javax.swing.JFrame {
     }
 
     public void setTitleForm(String title) {
-        lblTitle.setText(title);
-        this.setTitle(title);
+        lblTitle.setText("LẬP PHIẾU " + title);
+        this.setTitle("LẬP PHIẾU " + title);
     }
 
     public void setFormDetail(List<ItemFormDetailModel> details) {
