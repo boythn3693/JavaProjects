@@ -19,7 +19,7 @@ public class DeliveryBillFrame extends ListFrame {
 
     public DeliveryBillFrame() {
         super();
-        Name = "NHẬP KHO";
+        Name = "XUÁT KHO";
     }
 
     @Override
