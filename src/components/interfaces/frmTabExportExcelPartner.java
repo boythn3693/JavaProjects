@@ -8,6 +8,7 @@ package components.interfaces;
 import components.entity.Partner;
 import components.services.PartnerService;
 import java.util.List;
+import java.util.stream.Stream;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,6 +26,27 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
+
+import com.itextpdf.text.Anchor;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chapter;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.ListItem;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Section;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class frmTabExportExcelPartner extends javax.swing.JPanel {
     
@@ -85,6 +107,7 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
         txtDiaChi = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblData = new javax.swing.JTable();
+        btnExportPDF = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(780, 611));
@@ -138,6 +161,13 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(tblData);
 
+        btnExportPDF.setText("Export PDF");
+        btnExportPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportPDFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -174,9 +204,11 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
                         .addGap(426, 426, 426)
                         .addComponent(btnFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(407, 407, 407)
-                        .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(316, 316, 316)
+                        .addComponent(btnExport, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(85, 85, 85)
+                        .addComponent(btnExportPDF, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(318, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,7 +234,9 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(btnExport)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExport)
+                    .addComponent(btnExportPDF))
                 .addContainerGap())
         );
 
@@ -402,9 +436,65 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnExportActionPerformed
 
+    private void btnExportPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportPDFActionPerformed
+        // TODO add your handling code here:
+        try {
+            String filename, dir;
+            JFileChooser c = new JFileChooser();
+            int rVal = c.showSaveDialog(frmTabExportExcelPartner.this);
+            if (rVal == JFileChooser.APPROVE_OPTION) {
+                filename = c.getSelectedFile().getName();
+                filename = filename + ".pdf";
+                dir = c.getCurrentDirectory().toString();
+                FileOutputStream file_export = new FileOutputStream(dir + "/" +filename);
+                
+                Document document = new Document();
+                PdfWriter pdf_writer = PdfWriter.getInstance(document, file_export);
+                document.open();
+                
+                PdfPTable table = new PdfPTable(5);
+                Stream.of("STT", "Ma Doi Tac", "Ten Doi Tac", "Dia Chi", "So Dien Thoai").forEach(columnTitle -> {
+                  PdfPCell header = new PdfPCell();
+                  header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                  header.setBorderWidth(2);
+                  header.setPhrase(new Phrase(columnTitle));
+                  table.addCell(header);
+                });
+                
+                Iterator iter;
+                if( listFilter != null ) {
+                    iter = listFilter.iterator();
+                } else {
+                    iter = listAll.iterator();
+                }
+                
+                int i=1;
+                while (iter.hasNext()) {
+                    Partner partner = (Partner) iter.next();
+                    table.addCell(i+"");
+                    table.addCell(partner.getPartnerId()+"");
+                    table.addCell(partner.getPartnerName());
+                    table.addCell(partner.getAddress());
+                    table.addCell(partner.getNumPhone());
+                    i++;
+                }
+
+                document.add(table);
+                document.close();
+
+                StringHelpers.Message("Xuất file thành công!", "Thành công!", 1);
+            }
+        } catch( IOException ex) {
+            StringHelpers.Message(ex.getMessage(), ex.getLocalizedMessage(), 2);
+        } catch (DocumentException ex) {
+            Logger.getLogger(frmTabExportExcelPartner.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnExportPDFActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExport;
+    private javax.swing.JButton btnExportPDF;
     private javax.swing.JButton btnFilter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
