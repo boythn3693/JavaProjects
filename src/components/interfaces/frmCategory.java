@@ -32,6 +32,13 @@ public class frmCategory extends javax.swing.JPanel {
         onLoad();
         getHeaderTable();
         getDataCategory();
+        enableButton(true);
+    }
+    
+    private void enableButton(boolean enable){
+        btnInsert.setEnabled(enable);
+        btnDelete.setEnabled(!enable);
+        btnUpdate.setEnabled(!enable);
     }
     
     private void onLoad() {
@@ -220,6 +227,7 @@ public class frmCategory extends javax.swing.JPanel {
 
     private void jTableDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableDanhMucMouseClicked
         // TODO add your handling code here:
+        enableButton(false);
         int index = jTableDanhMuc.getSelectedRow();
         this._categoryId = Integer.valueOf(jTableDanhMuc.getValueAt(index, 0).toString());
         txtCategoryName.setText(jTableDanhMuc.getValueAt(index, 2).toString());
@@ -280,6 +288,8 @@ public class frmCategory extends javax.swing.JPanel {
         getHeaderTable();
         getDataCategory();
         resetInputCategory();
+        this._categoryId = -1;
+        enableButton(true);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -302,6 +312,8 @@ public class frmCategory extends javax.swing.JPanel {
             getHeaderTable();
             getDataCategory();
             resetInputCategory();
+            this._categoryId = -1;
+            enableButton(true);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -312,6 +324,7 @@ public class frmCategory extends javax.swing.JPanel {
         getDataCategory();
         resetInputCategory();
         _categoryId = -1;
+        enableButton(true);
     }//GEN-LAST:event_btnResetActionPerformed
 
 

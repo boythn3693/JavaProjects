@@ -63,6 +63,13 @@ public class frmProduct extends javax.swing.JPanel {
         categoryService = new CategoryService();
         productService = new ProductService();
         onLoad();
+        enableButton(true);
+    }
+    
+    private void enableButton(boolean enable){
+        btnInsert.setEnabled(enable);
+        btnDelete.setEnabled(!enable);
+        btnUpdate.setEnabled(!enable);
     }
 
     private void onLoad() {
@@ -584,6 +591,7 @@ public class frmProduct extends javax.swing.JPanel {
 
     private void jTableSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableSanPhamMouseClicked
         // TODO add your handling code here:
+        enableButton(false);
         int index = jTableSanPham.getSelectedRow();
         this._productId = Integer.valueOf(jTableSanPham.getValueAt(index, 0).toString());
         txtCode.setText(jTableSanPham.getValueAt(index, 2).toString());
@@ -707,6 +715,8 @@ public class frmProduct extends javax.swing.JPanel {
         getHeaderTable();
         getDataProduct(1);
         resetInputProduct();
+        this._productId = -1;
+        enableButton(true);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -730,15 +740,19 @@ public class frmProduct extends javax.swing.JPanel {
             getHeaderTable();
             getDataProduct(1);
             resetInputProduct();
+            this._productId = -1;
+            enableButton(true);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
         // TODO add your handling code here:
+        this._productId = -1;
         onLoad();
         resetInputProduct();
         getHeaderTable();
         getDataProduct(1);
+        enableButton(true);
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
