@@ -45,21 +45,22 @@ public class PartnerModel {
     public Long countTableFilter(String filter, boolean isName, boolean isDescription, boolean isAddress, boolean isPhone, boolean isNDD) {
         String where = "";
         if (isName) {
-            where += (where.equals("") == true) ? "where p.partnerName like N'%" + filter + "%' " : "or p.partnerName like N'%" + filter + "%' ";
+            where += (where.equals("") == true) ? "where p.partnerName like '%" + filter + "%' " : "or p.partnerName like '%" + filter + "%' ";
         }
         if (isDescription) {
-            where += (where.equals("") == true) ? "where p.description like N'%" + filter + "%' " : "or p.description like N'%" + filter + "%' ";
+            where += (where.equals("") == true) ? "where p.description like '%" + filter + "%' " : "or p.description like '%" + filter + "%' ";
         }
         if (isAddress) {
             where += (where.equals("") == true) ? "where p.address like '%" + filter + "%' " : "or p.address like '%" + filter + "%' ";
         }
         if (isPhone) {
-            where += (where.equals("") == true) ? "where p.numPhone like " + filter + " " : "or p.numPhone like " + filter + " ";
+            where += (where.equals("") == true) ? "where p.numPhone like '%" + filter + "%' " : "or p.numPhone like '%" + filter + "%' ";
         }
         if (isNDD) {
-            where += (where.equals("") == true) ? "where p.representFullname  %" + filter + "%' " : "or p.representFullname like '%" + filter + "%' ";
+            where += (where.equals("") == true) ? "where p.representFullname like '%" + filter + "%' " : "or p.representFullname like '%" + filter + "%' ";
         }
-        final String QUERY_GET_PARTNER = "from count (*) Partner p " + where;
+        //final String QUERY_GET_PARTNER = "from count (*) Partner p " + where;
+        final String QUERY_GET_PARTNER = "select count (*) from Partner p " + where; //System.out.println(QUERY_GET_PARTNER);
 
         return QueryDB.GetInstance().countTable(QUERY_GET_PARTNER);
     }
@@ -115,10 +116,10 @@ public class PartnerModel {
             where += (where.equals("") == true) ? "where p.address like '%" + filter + "%' " : "or p.address like '%" + filter + "%' ";
         }
         if (isPhone) {
-            where += (where.equals("") == true) ? "where p.numPhone like " + filter + " " : "or p.numPhone like " + filter + " ";
+            where += (where.equals("") == true) ? "where p.numPhone like '%" + filter + "%' " : "or p.numPhone like '%" + filter + "%' ";
         }
         if (isNDD) {
-            where += (where.equals("") == true) ? "where p.representFullname  %" + filter + "%' " : "or p.representFullname like '%" + filter + "%' ";
+            where += (where.equals("") == true) ? "where p.representFullname like '%" + filter + "%' " : "or p.representFullname like '%" + filter + "%' ";
         }
         final String QUERY_GET_PARTNER = "from Partner p " + where;
 

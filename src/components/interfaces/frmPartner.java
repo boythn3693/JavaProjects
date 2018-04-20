@@ -692,7 +692,7 @@ public class frmPartner extends javax.swing.JPanel {
             return;
         }
         
-        count = partnerService.countTableFilter(filter, isName, isDescription, isAddress, isPhone, isNDD);
+        count = partnerService.countTableFilter(filter, isName, isDescription, isAddress, isPhone, isNDD); System.out.println(count);
         totalPage = (int)(Math.ceil((float)count/pageSize));
         getHeaderTable();
         
@@ -705,6 +705,7 @@ public class frmPartner extends javax.swing.JPanel {
                 end = lists.size();
             }
             List<Partner> listProduct = partnerService.getListByPagination(lists, start, end);
+            listAll = listProduct;
             Iterator iter = listProduct.iterator();
             while (iter.hasNext()) {
                 Partner partner = (Partner) iter.next();

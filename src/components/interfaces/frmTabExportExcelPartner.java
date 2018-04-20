@@ -27,24 +27,24 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 
-import com.itextpdf.text.Anchor;
-import com.itextpdf.text.BadElementException;
+//import com.itextpdf.text.Anchor;
+//import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chapter;
-import com.itextpdf.text.Chunk;
+//import com.itextpdf.text.Chapter;
+//import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.FontFactory;
-import com.itextpdf.text.ListItem;
+//import com.itextpdf.text.Element;
+//import com.itextpdf.text.Font;
+//import com.itextpdf.text.FontFactory;
+//import com.itextpdf.text.ListItem;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Section;
+//import com.itextpdf.text.Section;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import java.io.FileNotFoundException;
+//import java.io.FileNotFoundException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -452,6 +452,9 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
                 PdfWriter pdf_writer = PdfWriter.getInstance(document, file_export);
                 document.open();
                 
+                document.add(new Paragraph("DANH SACH DOI TAC"));
+                document.add(new Paragraph(" "));
+                
                 PdfPTable table = new PdfPTable(5);
                 Stream.of("STT", "Ma Doi Tac", "Ten Doi Tac", "Dia Chi", "So Dien Thoai").forEach(columnTitle -> {
                   PdfPCell header = new PdfPCell();
@@ -482,7 +485,7 @@ public class frmTabExportExcelPartner extends javax.swing.JPanel {
                 document.add(table);
                 document.close();
 
-                StringHelpers.Message("Xuất file thành công!", "Thành công!", 1);
+                StringHelpers.Message("Xuất file thành công!\n\nĐường dẫn: "+dir+"/"+filename, "Thành công!", 1);
             }
         } catch( IOException ex) {
             StringHelpers.Message(ex.getMessage(), ex.getLocalizedMessage(), 2);
