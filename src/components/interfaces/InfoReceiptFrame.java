@@ -18,6 +18,7 @@ public class InfoReceiptFrame extends InfoFrame {
 
     public InfoReceiptFrame() {
         super();
+        setTitleForm("NHẬP");
     }
 
     @Override

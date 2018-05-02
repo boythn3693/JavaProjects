@@ -20,7 +20,7 @@ public class ReceiptFrame extends ListFrame {
 
     public ReceiptFrame() {
         super();
-        Name = "XUẤT KHO";
+        Name = "NHẬP KHO";
     }
 
     @Override
